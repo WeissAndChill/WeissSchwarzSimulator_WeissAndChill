@@ -1,0 +1,4 @@
+Series: Danganronpa
+Folder: Danganronpa/CS02
+Prefix: DGR/CS02
+SetName: CS02

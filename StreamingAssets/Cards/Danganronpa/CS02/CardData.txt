@@ -1,0 +1,3548 @@
+﻿//	***INVESTIGATE KEYWORD VARIABLE***
+//	SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+//	AddToXValue MyLevel
+//	If Compare X 5 GreaterThan
+//	{
+//		SetXValue 5
+//	}
+
+//Danganronpa Booster
+
+//Yellow
+
+Character: DGR/CS02-E001
+Name Short Fuse, Mondo Ohwada
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Biker
+
+	Cont: Global
+	{
+		If Not Other
+		{
+			GainSpecialEffect CannotSideAttack
+		}
+		If InLocation Facing
+		{
+			GainSpecialEffect CannotSideAttack
+		}
+	}
+	Text Cont: This card and the character facing it cannot side attack.
+	
+	Cont: GiveSelf
+	{
+		If HasMarker
+		{
+			GainPower 3000
+		}
+	}
+	Text Cont: If this card has a marker underneath it, this card gets +2000 power.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Ultimate
+		{
+			Question Put the revealed card underneath this card as a marker?
+			If Yes
+			{
+				Marker_FaceDown
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an «Ultimate» character, you may put it face down underneath this card as a marker. <i>(Otherwise, return it to its original place)</i>
+
+	*RunInFrontOfCharacter
+	
+EndCard
+
+Character: DGR/CS02-E002
+Name Confused Future, Yasuhiro Hagakure
+Color Y
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Ultimate
+Trait2 Fortune
+
+	Auto: OnPlay
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}
+		TargetTop Deck X
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+	Text Auto: <b>Investigate</b> When this card is placed on the stage from your hand, look at up to X cards from the top of your deck and return them in any order. <i>(X cannot be greater than 5)</i>
+
+	Auto: OnOtherFrontalAttacked 
+	{
+		IfOther HasTrait Ultimate && InLocation Stage
+		{
+			PayCost 1 SendSelf WaitingRoom
+			{
+				TargetOther 
+				IfTarget OnStage
+				{
+					MoveCard Hand
+				}
+			}
+		}
+	}
+	Text Auto: [(1) Put this card into your waiting room] When your other «Ultimate» character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+
+EndCard
+
+Character: DGR/CS02-E003
+Name Ultimate Hope, Makoto Naegi
+Color Y
+Level 3
+Cost 2
+Power 8500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Hope
+Combo The Ultimate Truth Bullet
+
+	Cont: GiveAll
+	{
+		If Other && HasTrait Ultimate
+		{
+			GainTrait Hope
+		}
+	}
+	Text Cont: All of your other «Ultimate» characters get «Hope».
+	
+	Cont: GiveSelf
+	{
+		If MyTurn
+		{
+			SetXToNumberOfCharacters Other && HasTrait Hope
+			MultiplyXValue 1000
+			GainPower X
+		}
+	}
+	Text Cont: During your turn, this card gets +X power. X is equal to the number of other «Hope» characters × 1000.
+
+	Auto: OnPlay|PlacedBy Salvaging for Hope, Kyoko Kirigiri
+	{
+		SearchWaitingRoom HasTrait Ultimate
+	}
+	Text Auto: When this card is placed on the stage from your hand or by the AUTO effect of "Salvaging for Hope, Kyoko Kirigiri", you may choose 1 «Ultimate» character in your waiting room, and return it to your hand.
+	
+	Auto: OnAttack
+	{
+		If Climax The Ultimate Truth Bullet &&& StageContains 4 Other && HasTrait Hope
+		{
+			PayCost 2 Discard 2 Any
+			{
+				Burn 1
+				Burn 2
+			}
+		}
+	}
+	Text Auto: <b>CXCombo</b> [(1) Put 2 cards from your hand into your waiting room] When this card attacks, if you have a card named <b>"The Ultimate Truth Bullet"</b> in your climax area, if you have 4 or more other «Hope» characters, you may pay the cost. If you do, deal 1 damage to your opponent, and then deal 2 damage to your opponent. <i>(Damage may be canceled)</i>
+	
+EndCard
+
+Character: DGR/CS02-E004
+Name Guilty (?), Makoto Naegi
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Luck
+
+	Cont: GiveSelf
+	{
+		GainTrait Despair
+	}
+	Text Cont: This card gets «Despair».
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			TargetTop Deck 1
+			Reveal
+			SetXValue TargetCardsLevel
+			SearchWaitingRoom IsCharacter && HasTrait Ultimate && Compare ThatCardsLevel X OrLess
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower «Ultimate» character in your waiting room, and return it to your hand. X is equal to the level of the revealed card. <i>(Climax are regarded as level 0. Return the revealed card to its original place)</i>
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		If LocationContainsOrLess Memory 2 IsCharacter
+		{
+			If LocationContains WaitingRoom 1 NameEquals Ultimate Hope, Makoto Naegi
+			{
+				Question Put 1 "Ultimate Hope, Makoto Naegi" from your waiting room into your memory?
+				If Yes
+				{
+					TargetLocation WaitingRoom
+					NarrowTargets NameEquals Ultimate Hope, Makoto Naegi
+					FirstTarget
+					MoveCard Memory
+				}
+			}	
+		}
+	}
+	Text Auto: When this card is put into your waiting room from your stage, if you have 2 or less characters in your memory, choose up to 1 "Ultimate Hope, Makoto Naegi" in your waiting room, and put it into your memory.
+
+EndCard
+
+Character: DGR/CS02-E005
+Name False Lead, Hifumi Yamada
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Fan
+
+	Auto: OnClimaxPlay
+	{
+		*GiveCharacterPower(2000,Any)
+	}
+	Text Auto: When a climax is placed on your climax area, choose 1 of your characters, and that character gets +2000 power until end of turn.
+
+	Act: 1 RestSelf Resonate Celestia Ludenberg
+	{
+		RevealUpTo Deck 3
+		ChooseCardsFromTargets 0 1 HasTrait Ultimate
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+	Text Auto: <b>Resonate</b> [(1) Reveal 1 "Celestia Ludenberg" in your hand & rest this card] Look at up to 3 cards from the top of your deck, choose up to 1 «Ultimate» character from among them, reveal it to your opponent, put it to your hand, and put the rest into your waiting room.
+
+EndCard
+
+Character: DGR/CS02-E006
+Name Mistaken Fortune, Yasuhiro Hagakure
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Fortune
+
+	*OnPlayScry
+	
+	*ClimaxExchange
+
+EndCard
+
+Character: DGR/CS02-E007
+Name Guilty, Mondo Ohwada
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Biker
+Combo Protecting Their Pride
+
+	Cont: GiveSelf
+	{
+		GainTrait Despair
+	}
+	Text Cont: This card gets «Despair».
+	
+	Cont: GiveSelf
+	{
+		If MyTurn
+		{
+			GainPower 3000
+		}
+	}
+	Text Cont: During your turn, this card gets +3000 power.
+	
+	Auto: OnAttack
+	{
+		If Climax Protecting Their Pride &&& LocationContains Memory 1 NameEquals Body Found!
+		{
+			SearchWaitingRoom HasTrait Ultimate && IsCharacter
+		}
+	}
+	Text Auto: <b>CXCombo Memory</b> When this card attacks, if <b>"Protecting Their Pride"</b> is in your climax area and "Body Found!" is in your memory, choose up to 1 «Ultimate» character in your waiting room, and return it to your hand.
+
+EndCard
+
+Character: DGR/CS02-E008
+Name Hangman's Gambit, Makoto Naegi
+Color Y
+Level 1
+Cost 1
+Power 3000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Luck
+
+	Auto: OnReversed
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget Compare ThatCardsLevel 2 OrMore
+		{
+			Rest
+		}
+	}
+	Text Auto: This ability activates up to 1 time per turn. When this card becomes reversed, reveal the top card of your deck. If that card is level 2 or higher, rest this card. <i>(The revealed card is returned to its original place)</i>
+	TimesPerTurn 1
+	
+	*YellowEarlyPlayBomb
+
+EndCard
+
+Character: DGR/CS02-E009
+Name Robo Justice, Yasuhiro Hagakure
+Color Y
+Level 3
+Cost 2
+Power 9000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fortune
+
+	Cont: GiveSelf
+	{
+		If AllYourCharacters HasTrait Ultimate &&& MyTurn
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: During your turn, if all your characters are «Ultimate», this card gets +2000 power.
+		
+	Auto: OnPlay
+	{
+		Message Choose a character to place on stage.
+		SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+		PlaceOnStage False True True False
+		GainPower 2000
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it on any position of your stage, and that character gets +2000 power until end of turn.
+
+EndCard
+
+Character: DGR/CS02-E010
+Name Embodiment of Hope, Makoto Naegi
+Color Y
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Hope
+	Combo The Ultimate Truth Bullet
+	ConditionalTrigger Choice Climax The Ultimate Truth Bullet
+	Text Cont: <b>CXCombo</b> If <b>"The Ultimate Truth Bullet"</b> is in your climax area, this card in all of your zones get the trigger icon CHOICE.
+
+	Cont: GiveSelf
+	{
+		OverrideTriggerIconEffect Choice
+		{
+			Effect:
+			{
+				If LocationContains WaitingRoom 1 Any
+				{
+					Message Choose a card with a soul trigger icon or an event.
+					SearchLocationForTargets WaitingRoom 0 1 HasTrigger Soul && IsCharacter ||| IsEvent
+					RevealTargets
+					If HasTarget
+					{
+						MultipleChoiceQuestion Put this card into your hand or your stock?|Hand|Stock
+						If Answer 0
+						{
+							MoveCard Hand
+						}
+						Else
+						{
+							MoveCard Stock
+						}
+					}
+				}
+			}
+		}
+	}
+	Text Cont: You may choose an event in your waiting room with the effect of CHOICE.
+
+	*Act1RestSelfSearchBrainstorm(Ultimate)
+	
+EndCard
+
+Character: DGR/CS02-E011
+Name Mondo Ohwada
+Color Y
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Ultimate
+Trait2 Biker
+
+	*CannotSideAttack
+	
+	Auto: OnPlay
+	{
+		PayCost Send 1 WaitingRoom Other && HasTrait Ultimate
+		{
+			Message Choose up to 1 climax in your deck and return it to your hand
+			SearchLocationForTargets Deck 0 1 IsClimax
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard Hand
+				SearchLocationForTargets Hand 1 1 IsClimax
+				Reveal
+				MoveCard Deck
+				ShuffleLocation Deck
+			}
+			Else
+			{
+				ShuffleLocation Deck
+			}
+		}
+	}		
+
+	Text Auto: [Put 1 other «Ultimate» character into your waiting room] When this card is placed on the stage from your hand, you may the cost. If you do, search your deck for up to 1 climax and put it into your hand. If you added a climax to your hand this way, choose 1 climax in your hand, put it on the bottom of your deck and shuffle your deck.
+
+EndCard
+
+Character: DGR/CS02-E012
+Name Makoto Naegi
+Color Y
+Level 1
+Cost 0
+Power 6000
+Soul 1
+Trait1 Ultimate
+Trait2 Luck
+
+	Cont: GiveSelf
+	{
+		If StageContainsOrLess 1 Other && HasTrait Ultimate
+		{
+			GainSpecialEffect CannotStand
+		}
+	}
+	Text Cont: If you have 1 or less other «Ultimate» characters, this card cannot stand during your stand phase.
+
+	Auto: OnAttack
+	{
+		If LocationContains Climax 1 HasTrigger Choice
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 1 OrMore
+			{
+				MoveCard Stock
+			}
+		}
+	}
+	Text Auto: When this card attacks, if you have a climax with CHOICE in its trigger icon in your climax area, reveal the top card of your deck. If that card is a level 1 or higher, put that card into your stock.
+	
+EndCard
+
+Character: DGR/CS02-E013
+Name Yasuhiro Hagakure
+Color Y
+Level 1
+Cost 1
+Power 3000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fortune
+
+	Cont: Assist
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}		
+		
+		If HasTrait Ultimate
+		{
+			MultiplyXValue 500
+			GainPower X
+		}
+	}
+	Tag Backstage
+	Text Cont: <b>Assist Investigate</b> Your other «Ultimate» characters in front of this card get +X power. X is equal to your level × 500. <i>(X cannot be greater than 5</i>
+
+	Act: Discard 1 Any RestSelf
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}
+		
+		SearchWaitingRoom HasTrait Ultimate && Compare ThatCardsLevel X OrLower
+	}
+	Text Act: <b>Investigate</b> [Put 1 card from your hand into your waiting room & rest this card] Choose up to 1 level X or lower «Ultimate» character in your waiting room, and return it to your hand. <i>(X cannot be greater than 5)</i>
+
+EndCard
+
+Character: DGR/CS02-E014
+Name Hifumi Yamada
+Color Y
+Level 2
+Cost 1
+Power 7000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fan
+
+	Cont: GiveSelf
+	{
+		If StageContains 1 NameEquals Celestia Ludenberg
+		{
+			GainPower 4000
+			GainEffect
+			{
+				*GreatPerformance
+			}
+		}
+	}
+	Text Cont: If you have another "Celestia Ludenberg", this card get +4000 power and "CONT <b>Great Performance"</b>.
+	
+	Auto: OnStand
+	{
+		PayCost 1 Discard 1 Any
+		{
+		}
+		Else
+		{
+			TargetSelf
+			MoveCard WaitingRoom
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card becomes standing, you may pay the cost. If you do not, put this card into your waiting room.
+	
+EndCard
+
+Character: DGR/CS02-E015
+Name Explosive Truth, Yasuhiro Hagakure
+Color Y
+Level 2
+Cost 1
+Power 10000
+Soul 0
+Trait1 Ultimate
+Trait2 Fortune
+Combo Hidden Destruction
+
+	Auto: OnClimaxPlay
+	{
+		If Climax Hidden Destruction
+		{
+			TargetLocation Stage
+			NarrowTargets Other
+			MoveCard WaitingRoom
+			TargetLocation OpponentStage
+			MoveCard OpponentWaitingRoom
+			SearchWaitingRoom HasTrait Ultimate
+		}
+	}
+	Text Auto: <b>CXCombo</b> When <b>'Hidden Destruction"</b> is placed on your climax area, put all players' characters except this card into their waiting rooms, and choose up to 1 «Ultimate» character in your waiting room, and return it to your hand.
+	
+EndCard
+
+Character: DGR/CS02-E016
+Name Climbing Towards Hope, Makoto Naegi
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Luck
+Combo The Ultimate Truth
+
+	
+	Auto: StartDrawPhase
+	{
+		PayCost SendFromMemoryToWaitingRoom 1 NameEquals Climbing Towards Hope, Makato Naegi Discard 1 Any
+		{
+			SearchLocationForTargets Deck 0 1 NameEquals The Ultimate Truth Bullet
+			RevealTargets
+			MoveCard Climax
+			ShuffleLocation Deck
+		}
+	}
+	InMemory
+	Text Auto: <b>CXCombo Memory</b> [Put this card from your memory into your waiting room & put 1 card from your hand into your waiting room] At the beginning of your draw phase, if this card is in your memory, you may pay the cost. If you do, search your deck for up to 1 <b>"The Ultimate Truth Bullet"</b>, reveal it to your opponent, put it into your climax area and shuffle your deck.
+	
+	Requirement CardPosition Stand
+	Act: 1 SendSelf Memory
+	{
+		SearchWaitingRoom NameEquals Ultimate Hope, Makato Naegi|Ultimate Detective, Kyoko Kirigiri
+	}
+	Text Act: [1 Put this standing card into your memory] Choose 1 "Ultimate Hope, Makato Naegi" or "Ultimate Detective, Kyoko Kirigiri" in your waiting room, and return it to your hand.
+
+EndCard
+
+Character: DGR/CS02-E017
+Name Sudden Movement, Yasuhiro Hagakure
+Color Y
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Fortune
+
+	*OnPlayReorderTop2
+	
+	*OnAttackCheck2ChooseTrigger
+
+EndCard
+
+Character: DGR/CS02-E018
+Name Biggest Fan, Hifumi Yamada
+Color Y
+Level 1
+Cost 0
+Power 500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fan
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			Message Choose a character to place on stage
+			SearchLocationForTargets WaitingRoom 0 1 Compare ThatCardsCost 0 OrLess && IsCharacter
+			RevealTargets
+			PlaceOnStage False True True False
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 «Ultimate» character in your waiting room, and put it in any position of your stage.
+	
+	Act: RestSelf
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharacterFromTargets Choose a character to give -2000 power.
+        LosePower 2000		
+	}
+	Text Act: [Rest this card] Choose 1 character in your opponent's center stage, and that character gets -2000 power until end of turn.
+	
+EndCard
+
+Character: DGR/CS02-E019
+Name Fiery Bond, Mondo Ohwada
+Color Y
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Biker
+
+	Cont: GiveSelf
+	{
+		If StageContains 1 NameEquals Fiery Bond, Kiyotaka Ishimaru
+		{
+			GainPower 2500
+			GainSoul 1
+		}
+	}
+	
+	*BondDiscard(Fiery Bond\, Kiyotaka Ishimaru)
+
+EndCard
+
+Character: DGR/CS02-E020
+Name Trying to Comfort, Makoto Naegi
+Color Y
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Luck
+
+	Cont: GiveSelf
+	{
+		If LocationContainsOrLess CenterStage 1 Other && HasTrait Ultimate
+		{
+			GainPower 4000
+		}
+	}
+	Text Auto: If you have 1 or fewer other «Ultimate» characters on your center stage, this card gets +4000.
+	
+	Auto: StartAttackPhase
+	{
+		If CardPosition Stand && LocationContainsOrLess CenterStage 1 Other && HasTrait Ultimate
+		{
+			PayCost Discard 1 Any
+			{
+				TargetLocation Stage
+				NarrowTargets HasTrait Ultimate
+				ChooseCharacterFromTargets Choose an «Ultimate» character to gain 2000 power and the following ability until end of turn: "AUTO [Put 1 card from your hand into your waiting room] At the beginning of your encore step, if the character facing this card is reversed or there is no character facing this card, you may pay the cost. If you do, choose up to 3 «Ultimate» characters in your waiting room, and put them into your stock in any order."
+				GainEffect
+				{
+					Auto: StartMyEncoreStep
+					{
+						If FacingIsEmptyOrReversed
+						{
+							SearchLocationForTargets WaitingRoom 0 3 HasTrait Ultimate
+							RevealTargets
+							Reorder
+							MoveCard Stock
+						}
+					}
+				}
+			}
+		}
+	}
+	Text Auto: At the beginning of your attack phase, if this card is standing and you have 1 or fewer other «Ultimate» characters on your center stage, choose 1 of your «Ultimate» characters and it gets +2000 power and the following ability until end of turn. "AUTO [Put 1 card from your hand into your waiting room] At the beginning of your encore step, if the character facing this card is reversed or there is no character facing this card, you may pay the cost. If you do, choose up to 3 «Ultimate» characters in your waiting room, and put them into your stock in any order."
+
+EndCard
+
+Character: DGR/CS02-E021
+Name Surprise Return, Makoto Naegi
+Color Y
+Level 2
+Cost 1
+Power 7500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Luck
+
+	Auto: OnAttack
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		TargetSelf
+		GainPower X
+	}
+	Quick
+	Text Auto: When this card attacks, this card gets +X power. X is equal to the number of your opponent's characters × 1000.
+
+	Auto: OnReverseOpponent
+	{
+		TargetSelf
+		MoveCard Memory
+		ScheduleEffect StartDrawPhase
+		{
+			Effect:
+			{
+				Message Choose a character to place on the stage.
+				SearchLocationForTargets Memory 1 1 NameEquals Surprise Return, Makoto Naegi
+				PlaceOnStage False True True False
+			}
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed in battle, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Surprise Return, Makoto Naegi" in your memory, and put it on any position of your stage.
+	
+EndCard
+
+Character: DGR/CS02-E022
+Name Past Horrors, Mondo Ohwada
+Color Y
+Level 3
+Cost 2
+Power 500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Biker
+
+	*OnPlayStockSwap(1)
+
+EndCard
+
+Event: DGR/CS02-E023
+Name Body Found!
+Color Y
+Level 1
+Cost 1
+Requirement StageContains 2 HasTrait Ultimate
+
+	Effect:
+	{
+		PayCost Rest 1 IsCharacter
+		{
+			SearchWaitingRoom HasTrait Ultimate
+			TargetTop Deck 1 
+			Reveal 
+			IfTarget Compare ThatCardsLevel 1 OrLess
+			{
+				MoveCard Stock
+			}
+			If LocationContainsOrLess Memory 2
+			{
+				TargetSelf
+				MoveCard Memory
+			}
+		}
+	}
+	Text If you do not have 2 or more «Ultimate» characters, you cannot play this card.\nRest 1 of your s characters, return up to 1 «Ultimate» character from your waiting room to your hand.\nReveal the top card of your deck. If that card is level 1 or lower, put that card into your stock. <i>(If it is not, return the revealed card to its original place)</i>\nIf you have 2 or less cards in your memory, put this card into your memory.
+
+EndCard
+
+Climax: DGR/CS02-E024
+Name The Ultimate Truth Bullet
+*ChoiceClimax
+EndCard
+
+Climax: DGR/CS02-E025
+Name Hidden Destruction
+Color Y
+*Draw3SoulClimax
+EndCard
+
+Climax: DGR/CS02-E026
+Name Protecting Their Pride
+*ChoiceClimax
+EndCard
+
+//Green
+
+Character: DGR/CS02-E027
+Name Commanding Force, Kiyotaka Ishimaru
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Ultimate
+Trait2 Moral
+
+	Cont: GiveSelf
+	{
+		If StageContains 1 Other && NameEquals Commanding Force, Kiyotaka Ishimaru
+		{
+			GainEffect
+			{
+				*GainPowerForEachOther(500,Ultimate)
+			}
+			GainEffect
+			{
+				*OnAttackCheck2ChooseTrigger
+			}
+		}
+	}
+	Text Cont: If you have another "Commanding Force, Kiyotaka Ishimaru" in your center stage, this card gets the following 2 abilities. "Cont: This card gets +500 power for each of your other 《Britannia》 characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			SearchLocationForTargets Deck 0 1 NameEquals Commanding Force, Kiyotaka Ishimaru
+			PlaceOnStage False True True False
+			ShuffleLocation Deck
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Commanding Force, Kiyotaka Ishimaru", put it on any position of your stage, and shuffle your deck.
+
+EndCard
+
+Character: DGR/CS02-E028
+Name Parting Gift, Chihiro Fujisaki
+Color G
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Ultimate
+Trait2 Computer
+Combo Don't Forget Me
+
+	Cont: GiveSelf
+	{
+		If MyTurn && StageContains 2 Other && HasTrait Ultimate
+		{
+			GainPower 1500
+		}
+	}
+	Text Cont: During your turn, if you have 2 or more other «Ultimate» characters, this card gets +1500 power.
+
+	Auto: OnAttack
+	{
+		If Climax Don't Forget Me
+		{
+			MultipleChoiceQuestion Search your waiting room or memory for "ALTER EGO"?|Waiting Room|Memory
+			If Answer 0
+			{
+				SearchWaitingRoom NameEquals ALTER EGO
+			}
+			If Answer 1
+			{
+				SearchLocationForTargets Memory 1 1 NameEquals ALTER EGO
+				MoveCard Hand
+				TargetSelf
+				GainEffect
+				{
+					Auto: OnEndOfAttack
+					{
+						MoveCard Memory
+					}
+					Text Auto: At the end of this card's attack, put this card into your memory.
+				}
+			}
+		}
+	}
+	Text Auto: <b>CXCombo</b> When this card attacks, if a card named <b>"Don't Forget Me"</b> is in your climax area, perform one of the following actions. "Choose 1 "ALTER EGO" in your waiting room, and return it to your hand." "Choose 1 "ALTER EGO" in your memory, return it to your hand, and this card gets the following ability. "AUTO At the end of this card's attack, put this card into your memory.""
+	
+EndCard
+
+Character: DGR/CS02-E029
+Name Assertive Accusation, Byakuga Togami
+Color G
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Money
+Combo I've Made My Choice
+
+	*Healer
+	
+	Auto: OnAttack
+	{
+		If Climax I've Made My Choice
+		{
+			PayCost 1 Discard 1 Any
+			{
+				TargetLocation Memory
+				NarrowTargets NameEquals ALTER EGO
+				If Compare TargetCount 2 OrLess
+				{
+					SetXValue 2
+				}
+				Else
+				{
+					SetXValue 3
+				}
+				Peek OpponentDeck X
+				If HasTarget
+				{
+					Message Choose the cards to put back on top. 
+					AIChoice If Not IsClimax
+					ChooseCardsFromTargets 0 X Any
+					MoveCard OpponentDeck
+					Reorder
+					PutTheRestIntoTheWaitingRoom
+				}
+				Peek Deck X
+				If HasTarget
+				{
+					Message Choose the cards to put back on top. 
+					AIChoice If Not IsClimax
+					ChooseCardsFromTargets 0 X Any
+					MoveCard Deck
+					Reorder
+					PutTheRestIntoTheWaitingRoom
+				}
+			}
+		}
+	}
+	Text Auto: <b>CXCombo Memory</b> [(1) Put 1 card from your hand into your waiting room] When this card attacks, if a card named <b>"I've Made My Choice"</b> is in your climax area, look at up to X cards from the top of your opponent's deck, choose up to X cards from among them, put them into your opponent's waiting room, put the rest on the top of your opponent's deck in any order, look at up to X cards from the top of your deck, choose up to X cards from among them, put them into your waiting room, and put the rest on the top of your deck in any order. X is equal to 2 if there are 2 or less "ALTER EGO" in your memory, or 3 if there are 3 or more "ALTER EGO" in your memory.
+
+EndCard
+
+Character: DGR/CS02-E030
+Name Hidden Archives, Byakuga Togami
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Money
+
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Ultimate
+		{
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 3000
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an «Ultimate» character, this card gets +3000 power until the end of your opponent's next turn.
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Ultimate
+		{
+			RevealUpTo Deck 2
+			NarrowTargets HasTrait Ultimate
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+	Text Auto: [(1) Put 1 «Ultimate» character from your waiting room to the bottom of your clock] When this card put into your waiting room from the stage, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 «Ultimate» characters from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: DGR/CS02-E031
+Name Worried, Chihiro Fujisaki
+Color G
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Computer
+
+	Auto: OnPlay
+	{
+		If LocationContainsOrLess Memory 2 Any
+		{
+			Question Send 1 "ALTER EGO" from your waiting room to memory?
+			If Yes
+			{
+				SearchLocationForTargets WaitingRoom 0 1 NameEquals ALTER EGO
+				MoveCard Memory
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 2 or less cards in your memory, you may choose 1 "ALTER EGO" in your waiting room, and put it into your memory.
+
+	Auto: StartMainPhase
+	{
+		PeekTop Deck
+		MoveCard Deck
+	}
+	Text Auto: At the beginning of your main phase, look at the top card of your deck, and put it on the top of your deck.
+
+	*Act1RestSelfSearchBrainstorm(Ultimate)
+
+EndCard
+
+Character: DGR/CS02-E032
+Name Guilty, Celestia Ludenberg
+Color G
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Gambler
+
+	Cont: GiveSelf
+	{
+		GainTrait Despair
+	}
+	Text Cont: This card gets «Despair».
+	
+	Auto: OnPlay
+	{
+		Mill 3
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetSelf
+			MoveCard WaitingRoom
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, put the top 3 cards from your deck into your waiting room. If there is a climax revealed among those cards, put this card into your waiting room.
+	
+	Auto: StartOpponentDrawPhase
+	{
+		TargetTop Deck 1 
+		Reveal 
+		IfTarget Compare ThatCardsLevel 2 OrMore
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+	Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 2 or higher, you may return this card to your hand.
+	
+	Auto: OnReversed
+	{
+		If AllYourCharacters HasTrait Ultimate
+		{
+			Mill 1
+			IfThatCard IsCharacter && HasTrait Ultimate && Compare TargetCardsLevel 0 OrLess
+			{
+				TargetSelf
+				MoveCard Hand
+			}
+		}
+	}
+	Text Auto: When this card becomes reversed, if all your characters are «Ultimate»,  put the top card of your deck into your waiting room. If that card is level 0 or lower «Ultimate» character, you may return this card to your hand.
+
+EndCard
+
+Character: DGR/CS02-E033
+Name Self Survival, Byakuga Togami
+Color G
+Level 2
+Cost 1
+Power 3000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Money
+Combo I've Made My Choice
+
+	*Level3Assist
+	
+	Auto: StartAttackPhase
+	{
+		If Climax I've Made My Choice
+		{
+			TargetLocation Stage
+			NarrowTargets NameEquals Assertive Accusation, Byakuga Togami
+			ChooseCharacterFromTargets Choose a  character named "Assertive Accusation, Byakuga Togami" to get the following ability until end of turn. "CONT This card cannot be chosen by your opponent's abilities."
+			GainEffect
+			{
+				*HexProof
+			}
+		}
+	}
+	Text Auto: <b>CXCombo</b> At the beginning of your attack phase, if <b>"I've Made My Choice"</b> is in your climax area, choose up to 1 "Assertive Accusation, Byakuga Togami" and it gets the following ability until end of turn. "CONT This card cannot be chosen by your opponent's abilities."
+	
+	Act: RestSelf
+	{
+		DrawCard
+		Discard 1 Any
+	}
+	Text Act: [Rest this card] Draw 1 card, put 1 card from your hand into your waiting room.
+	
+EndCard
+
+Character: DGR/CS02-E034
+Name Overcoming Grief, Kiyotaka Ishimaru
+Color G
+Level 2
+Cost 1
+Power 6000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Moral
+
+	Auto: OnOtherSentFromStageToWaitingRoom
+	{
+		If OpponentsTurn && LocationContains WaitingRoom 1 NameEquals Overcoming Grief, Kiyotaka Ishimaru
+		{
+			IfOther NameEquals Fiery Bonds, Mondo Ohwada
+			{
+				TargetOther
+				Revive
+				RememberSlot
+				TargetSelf
+				PlaceOnRememberedSlot
+			}
+		}
+	}
+	InWaitingRoom
+	Text Auto: During your opponent's turn, if this card is in your waiting room, and "Fiery Bonds, Mondo Ohwada" is sent from the stage to the waiting room, you may put this card in the stage position that card was on.
+	
+	Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+	{
+		If MyTurn
+		{
+			If LocationContains WaitingRoom 1 NameEquals Fiery Bonds, Mondo Ohwada
+			{
+				UntilEndOfOpponentsTurn
+				GainEffect
+				{
+					GainPower 4000
+					GainSoul 1
+				}
+				Text Cont: This card gets +4000 power and +1 soul.
+			}
+		}
+		Else
+		{
+			GainEffectUntil EndOfOpponentsTurn
+			{
+				Cont: GiveSelf
+				{
+					GainPower 4000
+					GainSoul 1
+				}
+				Text Cont: This card gets +4000 power and +1 soul.
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand or your waiting room, if "Fiery Bond, Mondo Ohwada" is in your waiting room, this card gets the following ability until the end of the next turn. "CONT This card gets +4000 power and +1 soul."
+
+EndCard
+
+Character: DGR/CS02-E035
+Name Chihiro Fujisaki
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Computer
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom NameEquals ALTER EGO
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "ALTER EGO" in your waiting room, and return it to your hand.
+	
+	Auto: OnPlay
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Ultimate
+		SetXValue TargetCount
+		MultiplyXValue 500
+		AIChoice GainPower X
+		ChooseCharacterFromTargets Choose a character to give +X power.
+		GainPower X
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your other «Ultimate» characters, and that card gets +X power until end of turn. X is equal to the number of other «Ultimate» characters you have × 500.
+
+EndCard
+
+Character: DGR/CS02-E036
+Name Kiyotaka Ishimaru
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Moral
+
+	*OnPlayCheckTopAddDiscard(Ultimate)
+	
+	Auto: OnPlay
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to make unable to move.
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotMove
+			}
+			Text Cont: This card cannot move to another position of your stage.
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, and that character gets the following ability until the end of the next turn. "CONT This card cannot be returned to hand,  move to another stage position, or be put into memory." 
+
+EndCard
+
+Character: DGR/CS02-E037
+Name Byakuga Togami
+Color G
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Money
+
+	*GainPowerWhenOtherAttacks(1500,Ultimate)
+	
+	*GainPowerWhenAttackingLevel2(6000)
+
+EndCard
+
+Character: DGR/CS02-E038
+Name Under Surveillance, Byakuga Togami
+Color G
+Level 2
+Cost 1
+Power 8000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Money
+
+	Auto: OnPlay
+{
+	TargetLocation Deck
+	If Compare TargetCount 5 OrLess
+	{
+		If LocationContainsOrLess Memory 2 Any
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Ultimate
+			If HasTarget
+			{
+				RevealTargets
+				MoveCard Memory
+			}
+			TargetSelf
+			GainPower 4000
+		}
+		Refresh
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if there are 5 or less cards in your deck, perform the following 2 effects 1 time each. "If your memory has 2 or less cards, choose up to 1 «Ultimate» character in your waiting room, put it into your memory, and this card gets +4000 power until end of turn." "Return all cards in your waiting room to your deck. If you do, shuffle your deck."
+
+EndCard
+
+Character: DGR/CS02-E039
+Name Celestia Ludenberg
+Color G
+Level 3
+Cost 2
+Power 8500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Gambler
+
+	Cont: InHand
+	{
+		If StageContains 1 NameEquals Hifumi Yamada
+		{
+			LoseLevel 1
+		}
+	}
+	Text Cont: If you have "Hifumi Yamada" on your stage, this card gets -1 level in your hand.
+	
+	Auto: OnPlay
+	{
+		If LocationContains Clock 1 HasTrait Ultimate
+		{
+			Message Choose up to 1 «Ultimate» character in your clock to put on the bottom of your deck.
+			SearchLocationForTargets Clock 0 1 HasTrait Ultimate
+			MoveCardToBottom Deck
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may choose up to 1 «Ultimate» character in your clock, and put it to the bottom of your deck.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1 
+		Reveal 
+		IfTarget Compare ThatCardsLevel 2 OrMore 
+		{
+			MoveCard Stock 
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 2 or higher, put it into your stock.
+
+EndCard
+
+Character: DGR/CS02-E040
+Name Sure Ideals, Byakuga Togami
+Color G
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Money
+
+	*GivePowerOnAct(1500,1)
+	
+	Act: 1
+	{
+		Brainstorm 4
+		SetXValue BrainstormedClimax
+		If Compare X 1 OrMore
+		{
+			Repeat X
+			{
+				TargetLocation Clock
+				If HasTarget
+				{
+					AIChoice AddToHand
+					ChooseCard Choose a card in your clock to add to your hand.
+					MoveCard Hand
+					TargetTop Deck 1
+					MoveCard Clock
+					Discard 1
+				}
+			}
+		}
+	}
+	Text Act: [(1)] Brainstorm Flip over the top 4 cards of your deck, and put them into your waiting room. For each climax revealed among those cards, perform the following action. "Choose 1 card in your clock, return it to your hand, put the top card of your deck into your clock, and put 1 card from your hand into your waiting room"
+
+EndCard
+
+Character: DGR/CS02-E041
+Name Accepted Fate, Celestia Ludenberg
+Color G
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Gambler
+
+EndCard
+
+Character: DGR/CS02-E042
+Name Strong Will, Byakuga Togami
+Color G
+Level 0
+Cost 0
+Power 3500
+Soul 1
+Trait1 Ultimate
+Trait2 Money
+
+	*GiveAllOpponentsEncore2
+	
+	Auto: OnReverseOpponent
+	{
+		IfOther OnStage
+		{
+			TargetTop OpponentClock 1
+			If HasTarget
+			{
+				Question Put the top card of the opponent's clock into the waiting room to put the battle opponent into clock?
+				If Yes
+				{
+					TargetTop OpponentClock 1
+					MoveCard OpponentWaitingRoom
+					TargetBattleOpponent
+					MoveCard OpponentClock
+				}
+			}
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into their waiting room. If you do, put that character into your opponent's clock.
+
+EndCard
+
+Character: DGR/CS02-E043
+Name Hard at Work, Chihiro Fujisaki
+Color G
+Level 1
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Computer
+	
+	Auto: OnUseThisCardsBackup
+	{
+		PayCost Discard 2 Any
+		{
+			TargetTop OpponentClock 1
+			If HasTarget
+			{
+				MoveCard OpponentWaitingRoom
+				TargetLocation OpponentStage
+				SetXValue OpponentsLevel
+				AddToXValue 1
+				NarrowTargets Compare ThatCardsLevel X OrHigher
+				NarrowTargets CanBeChosen
+				ChooseCharacterFromTargets Choose a character to send to your opponent's clock.
+				MoveCardToBottom OpponentClock
+			}
+		}
+	}
+	Text Auto: [Put 2 cards from your hand into your waiting room] When you use this card's <b>"Backup"</b>, you may pay the cost. If you do, you may put the top card of your opponent's clock into their waiting room. If you do, choose 1 of your opponent's characters with level higher than your opponent's level, and put it into their clock.
+
+	Backup 1000
+
+EndCard
+
+Character: DGR/CS02-E044
+Name Fiery Bond, Kiyotaka Ishimaru
+Color G
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Moral
+
+	Cont: GiveSelf
+	{
+		If StageContains 1 NameEquals Fiery Bond, Mondo Ohwada
+		{
+			GainPower 6000
+		}
+	}
+	
+	*BondDiscard(Fiery Bond\, Mondo Ohwada)
+
+EndCard
+
+Character: DGR/CS02-E045
+Name Laughing at Despair, Celestia Ludenberg
+Color G
+Level 1
+Cost 0
+Power 6500
+Soul 1
+Trait1 Ultimate
+Trait2 Gambler
+
+	Auto: OnReversed
+	{
+		TargetTop Deck 1
+		MoveCard Clock
+		Revive
+	}
+	Text Auto: When this card becomes reversed in battle, put the top card of your deck into your clock, and rest this card.
+
+EndCard
+
+Character: DGR/CS02-E046
+Name Convincing Argument, Celestia Ludenberg
+Color G
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Ultimate
+Trait2 Gambler
+
+	Auto: OnOtherCharacterAttacks
+	{
+		SetXToNumberOfCharacters HasTrait Ultimate
+		MultiplyXValue 500
+		GainPower X
+	}
+	Quick
+	Text Auto: When your other «Ultimate» character attacks, this card gets +X power until end of turn. X is equal to the number of other «Ultimate» characters you have ×500.
+	
+	*HandEncore
+
+EndCard
+
+Event: DGR/CS02-E047
+Name ALTER EGO
+Color G
+Level 1
+Cost 0
+
+	Effect:
+	{
+		Question Would you like to send this to memory?
+		If Yes
+		{
+			TargetSelf
+			MoveCard Memory
+		}
+		Brainstorm 3
+		TargetBrainstormed
+		NarrowTargets HasTrait Ultimate
+		SetXValue TargetCount
+		ClearTargets
+		SearchWaitingRoom Compare ThatCardsLevel X OrLower &&& HasTrait Ultimate
+	}
+	Text You may put this card into your memory.\n<b>Brainstorm</b> Flip over 3 cards from the top of your deck, and put them into your waiting room. Choose up to 1 level X or lower «Ultimate» character in your waiting room, and return it to your hand. X is equal to the number of «Ultimate» characters put into your waiting room this way.
+
+EndCard
+
+Climax: DGR/CS02-E048
+Name I've Made My Choice
+*BarClimax
+EndCard
+
+Climax: DGR/CS02-E049
+Name Don't Forget Me
+*BarClimax
+EndCard
+
+//Red
+	
+Character: DGR/CS02-E050
+Name Bear of Despair, Monokuma
+Color R
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Despair
+
+	Cont: GiveSelf
+	{
+		If HasMarker
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: If this card has a marker underneath it, this card gets +2000 power.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Despair
+		{
+			Question Put the revealed card underneath this card as a marker?
+			If Yes
+			{
+				Marker_FaceDown
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an «Ultimate» character, you may put it face down underneath this card as a marker.<i>(Otherwise, return it to its original place)</i>
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost 1
+		{
+			Peek Deck 3
+			Message Choose a card to put into your clock.
+			ChooseCardsFromTargets 1 1 Any
+			If HasTarget
+			{
+				MoveCard Clock
+				PutTheRestIntoTheWaitingRoom
+				SearchWaitingRoom HasTrait Despair
+			}
+		}
+	}
+	Text Auto: [(1)] When this card is put into your waiting room from your stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose 1 among those cards, put it on top of your clock, put the rest to your waiting room. If you put 1 card into your clock, choose 1 «Despair» character in your waiting room, and return it to your hand.
+
+EndCard
+
+Character: DGR/CS02-E051
+Name Accepting Despair, Junko Enoshima
+Color R
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Despair
+Combo Commitment to Despair
+
+	Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 1 Any
+	}
+	Text Auto: When this card is placed on the stage from your hand or from your waiting room, draw up to 2 cards, and put 1 card from your hand into your waiting room.
+	
+	Auto: PlacedByIf NameEquals Commitment to Despair
+	{
+		If MyLevel 3 OrMore
+		{
+			PayCost 1 Discard 1 Any Send 1 WaitingRoom Other && HasTrait Despair
+			{
+				Stand
+			}
+		}
+	}
+	Text Auto: <b>CXCombo</b> [(1) Put 1 card from your hand into your waiting room & put 1 other «Despair» character from your stage into your waiting room] When this card is placed on the stage from your waiting room by the standby effect of <b>"Commitment to Despair"</b>, if you are level 3 or higher, you may pay the cost. If you do, stand this card.
+	
+	Auto: OnAttack
+	{
+		If Climax Commitment To Despair
+		{
+			Burn 1
+		}
+	}
+	Text Auto: <b>CXCombo</b> When this card attacks, if <b>"Commitment to Despair"</b> is in your climax area, deal 1 damage to your opponent.
+	
+EndCard
+
+Character: DGR/CS02-E052
+Name Mastermind of Despair, Junko Enoshima
+Color R
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Despair
+Combo Mutual Killing Game
+
+	Auto: OnSpecificClimaxPlay Mutual Killing Game
+	{
+		If InLocation Backstage
+		{
+			If StageContains 2 Other && HasTrait Despair
+			{
+				PayCost SendSelf Hand
+				{
+					SearchWaitingRoom HasTrait Despair
+					TargetLocation OpponentStage
+					UntilEndOfOpponentsTurn
+					GainTrait Despair
+					ScheduleEffectForTargets StartDrawPhase
+					{
+						Effect:
+						{
+							GainTrait Despair
+						}
+						Quick
+					}
+				}
+			}
+		}
+	}
+	Text Auto: <b>CXCombo</b> [Return this card to your hand] When <b>"Mutual Killing Game"</b> is placed on your climax area, if this card is in your back stage and you have 2 or more other «Despair» characters, you may pay the cost. If you do, choose 1 «Despair» character in your waiting room, return it to your hand, and all of your opponent's characters get «Despair» until the end of your next turn.
+	
+	Act: 1 RestSelf
+	{
+		Brainstorm 5
+		TargetBrainstormed
+		NarrowTargets NameEquals Monokuma
+		If HasTarget
+		{
+			TargetLocation WaitingRoom
+			ChooseCardsFromTargets 0 2 NameEquals Monokuma
+			ForEachTarget
+			{
+				PlaceOnStage False True True False
+			}
+		}
+	}
+	Text Act: <b>Brainstorm</b> [(1) Rest this card] Flip over 5 cards from the top of your deck and put them into your waiting room. If a card named "Monokuma" is among them, choose up to 2 "Monokuma" in your waiting room, and put them on your stage in any position.
+
+EndCard
+
+Character: DGR/CS02-E053
+Name Forced Decision, Monokuma
+Color R
+Level 2
+Cost 2
+DeckLimit 6
+Power 7000
+Soul 2
+Trigger Soul
+Trait1 Despair
+Combo Mutual Killing Game
+
+	Cont: GiveSelf
+	{
+		SetXToNumberOfCharacters InLocation CenterStage && NameEquals Forced Decision, Monokuma && Other
+		MultiplyXValue 2000
+		GainPower X
+	}
+	Text Cont: This card gets +2000 power for every other "Forced Decision, Monokuma" in your center stage.
+	
+	Auto: OnSpecificClimaxPlay Mutual Killing Game
+	{
+		If Compare MyLevel 1 OrMore
+		{
+			PayCost Send 1 WaitingRoom Other && HasTrait Despair &&& SendClimax WaitingRoom
+			{
+				TargetSelf
+				PlaceOnStage False True True False
+				UntilEndOfOpponentsTurn
+				GainPower 3000
+				UntilEndOfOpponentsTurn
+				GainEffect
+				{
+					Auto: Encore Clock
+					{
+					}
+					Text Auto: <b>Encore</b> [Put the top card of your deck into your clock].
+				}					
+			}
+		}
+	}
+	InWaitingRoom
+	Text Auto: <b>CXCombo</b> [Put 1 «Despair» character from your stage into your waiting room & put 1 <b>"Mutual Killing Game"</b> in your climax area into your waiting room] When a card named <b>"Mutual Killing Game"</b> is placed on your climax area, if this card is in your waiting room and your level is 1 or higher, you may pay the cost. If you do, put this card on your stage in any position and this card gets +3000 power and the following ability until the end of your opponent's next turn. "AUTO <b>Encore</b> [Put the top card of your deck into your clock]".
+	
+EndCard
+
+Character: DGR/CS02-E054
+Name Guilty, Leon Kuwata
+Color R
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Baseball
+Combo The Clue in Blood
+
+	Cont: GiveSelf
+	{
+		GainTrait Despair
+	}
+	Text Cont: This card gets «Despair».
+	
+	Auto: OnPlay
+	{
+		SearchDeck HasTrait Ultimate
+	}
+	Text Auto: When this card is placed on the stage from your hand, search your deck for up to 1 «Ultimate» character, put it into your hand, and shuffle your deck.
+	
+	Auto: StartMyEncoreStep
+	{
+		If Climax The Clue In Blood &&& LocationContains Memory 1 NameEquals Body Found!
+		{
+			PayCost Discard 1 SendSelf Memory &&& SendFromMemoryToWaitingRoom 1 NameEquals Body Found!
+			{
+				Burn 2
+			}
+		}
+	}
+	Text Auto: <b>CXCombo</b> [Put 1 card from your hand into your waiting room & put this card into your memory] At the beginning of your encore step, if <b>"The Clue in Blood"</b> is in your climax area and you have "Body Found!" in your memory, you may pay the cost. If you do, put 1 "Body Found!" from your memory in to your waiting room and deal 2 damage.
+
+EndCard
+
+Character: DGR/CS02-E055
+Name Ultimate Murderer, Genocider Sho
+Color R
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Death
+Combo Dual Personalities
+
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Ultimate
+		{
+			Burn 1
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an «Ultimate» character, deal 1 damage to your opponent.
+	
+	Auto: OnAttack
+	{
+		If Climax Dual Personalities &&& StageContains 3 Other && HasTrait Ultimate
+		{
+			SearchWaitingRoom HasTrait Ultimate
+			*PutCardFromWaitingRoomIntoStock(HasTrait Ultimate)
+			Burn 1
+		}
+	}
+	Text Auto: <b>CXCombo</b> [Put 1 card from your hand into your waiting room] When this card attacks, if <b>"Dual Personalities"</b> is in your climax area, and you have 3 or more other «Ultimate» characters, you pay may the cost. If you do, choose up to 1 «Ultimate» character in your waiting room, return it to your hand, choose up to 1 «Ultimate» character in your waiting room, put it into your stock, and deal 1 damage to your opponent.
+
+EndCard
+
+Character: DGR/CS02-E056
+Name Mukuro Ikusaba
+Color R
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Ultimate
+Trait2 Soldier
+
+	Auto: OnPlay
+	{
+		RevealUpTo Deck 3
+		If TargetsContain 1 IsEvent
+		{
+			AIChoice AddToHand
+			Message Choose an event to add to your hand
+			ChooseCardsFromTargets 1 1 IsEvent
+			MoveCard Hand
+			Discard 1 Any
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, look at up to 3 cards from the top of your deck, choose up to 1 event from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+
+	*OnAttackGivePower(1000,Ultimate)
+
+EndCard
+
+Character: DGR/CS02-E057
+Name Junko Enoshima
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Ultimate
+Trait2 Fashion
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 IsClimax
+		{
+			SearchWaitingRoom HasTrait Ultimate
+		}
+	}
+	Text Auto: [Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 «Ultimate» character in your waiting room, and return it to your hand.
+	
+	Act: Discard 1 Any SendSelf WaitingRoom
+	{
+		SearchWaitingRoom HasTrait Ultimate
+	}
+	Text Act: [Put 1 card from your hand into your waiting room & put this card into your waiting room] Choose 1 «Ultimate» character in your waiting room, and return it to your hand.
+
+EndCard
+
+Character: DGR/CS02-E058
+Name Genocider Sho
+Color R
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Death
+
+	Auto: OnAttack
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		TargetSelf
+		GainPower X
+	}
+	Quick
+	Text Auto: When this card attacks, this gets +X power. X is equal to the number of characters your opponent has × 1000.
+	
+	Auto: StartMyEncoreStep
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals Touko Fukawa
+			FirstTarget
+			Change
+		}
+	}
+	Text Auto: <b>Change</b> [Put this card into your waiting room] At the beginning of your encore step, you may pay the cost. If you do, choose a card named "Touko Fukawa" in your waiting room, and put it on the stage position that this card was on.
+	
+	Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals Touko Fukawa
+		If HasTarget
+		{
+			FirstTarget
+			Marker_FaceDown
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand or waiting room, you may choose a card named "Touko Fukawa" in your waiting room, and put it face down underneath this card as a marker.
+	
+EndCard
+
+Character: DGR/CS02-E059
+Name Leon Kuwata
+Color R
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Soul 1
+Trait1 Ultimate
+Trait2 Baseball
+
+	*MemoryBackup
+	
+	Backup 3000
+
+EndCard
+
+Character: DGR/CS02-E060
+Name Monokuma
+Color R
+Level 0
+Cost 0
+Army
+Power 500
+Soul 1
+Trait1 Despair
+
+	Cont: GiveSelf
+	{
+		TargetLocation CenterStage
+		NarrowTargets NameEquals Monokuma
+		SetXValue TargetCount
+		MultiplyXValue 1500
+		GainPower X
+	}
+	Text Cont: This card gets +1500 power for each of your "Monokuma" on your center stage.
+
+EndCard
+
+Character: DGR/CS02-E061
+Name Judge and Jury, Monokuma
+Color R
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Despair
+
+	Auto: OnPlay
+	{
+		TargetLocation OpponentStage
+		NarrowTargets HasTrait Despair
+		ChooseCharacterFromTargets Choose 1 «Despair» character on your opponent's stage to send to the waiting room.
+		MoveCard WaitingRoom
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose up to 1 of your opponent's characters with «Despair» and put it into their waiting room.
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost Discard 1 NameEquals Monokuma
+		{
+			TargetSelf
+			MoveCard hand
+		}
+	}
+	Text Auto: [Put 1 "Monokuma" from your hand into your waiting room] When is card is put into your waiting room from the stage, you may pay the cost. If you do, return this card to your hand.
+	
+	*RedLevel1Bomb
+
+EndCard
+
+Character: DGR/CS02-E062
+Name Revealed Identity, Junko Enoshima
+Color R
+Level 1
+Cost 1
+Power 6000
+Soul 1
+Trait1 Ultimate
+Trait2 Despair
+
+	Cont: GiveSelf
+	{
+		If StageContains 2 Other && HasTrait Despair
+		{
+			GainPower 1500
+			GainEffect
+			{
+				Auto: Encore Clock
+				{
+				}
+				Text Auto: <b>Encore</b> [Put the top card of your deck into your clock]
+			}
+		}
+	}
+	Text Cont: If you have 2 or more other «Despair» characters, this card gets +1500 power and "AUTO <b>Encore</b> [Put the top card of your deck into your clock]"
+
+EndCard
+
+Character: DGR/CS02-E063
+Name Defeated, Junko Enoshima
+Color R
+Level 3
+Cost 2
+Power 10500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Despair
+
+	*GlobalPower(1500,Despair|Ultimate)
+	
+	*Act1Rest2BurnBrainstorm
+
+EndCard
+
+Event: DGR/CS02-E064
+Name Gungnir Spear
+Color R
+Level 2
+Cost 3
+Requirement StageContains 5 HasTrait Ultimate|Despair
+
+	Effect:
+	{
+		TargetBattleOpponent
+		SaveTargets
+		TargetMyCharacterInBattle
+		AddCurrentToSavedTargets
+		LoadTargets
+		Message Choose a character in battle.
+		ChooseCharacterFromTargets
+		GainSpecialEffect CannotDealDamage
+		TargetLocation OpponentStage
+		RememberTargets
+		GainTrait Despair
+		UntilEndOfOpponentsTurn
+		ScheduleEffect StartDrawPhase
+		{
+			TargetRemembered
+			GainTrait Despair
+		}
+		TargetSelf
+		MoveCard Memory
+	}
+	Text If you have 5 or more «Ultimate» or «Despair» characters, choose 1 character in battle, and that character gets the following ability until end of turn. "CONT This card cannot deal damage to a player." Then, all of your characters and your opponent's characters get «Despair» until end of turn./nPut this card into your memory.
+
+EndCard
+
+Climax: DGR/CS02-E065
+Name Commitment to Despair
+*StandbyClimax
+EndCard
+
+Climax: DGR/CS02-E066
+Name The Clue in Blood
+*DoorClimax
+EndCard
+
+Climax: DGR/CS02-E067
+Name Mutual Killing Game
+*StandbyClimax
+EndCard
+
+//Blue
+
+Character: DGR/CS02-E068
+Name Absorbing Facts, Touko Fukawa
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Book
+
+	Auto: OnPlay
+	{
+		Peek Deck 2
+		Message Choose cards to return to the top deck.
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard Deck
+		If Compare TargetCount 2 OrMore
+		{
+			Message Select the order to return cards (first on top)
+			TargetTop Deck 2
+			Reorder
+		}
+		PutTheRestIntoTheWaitingRoom
+	}
+	Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, choose up to 2 cards from among them, put them on the top of your deck in any order, and put the rest into your waiting room.
+	
+	Auto: OnPlay|OnSentFromStageToWaitingRoom
+	{
+		PayCost 1 Discard 1 Any
+		{
+			SearchDeck HasTrait Ultimate
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, search your deck for up to 1 «Ultimate» character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+
+EndCard
+
+Character: DGR/CS02-E069
+Name Questioning Hope, Aoi Asahina
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Swimmer
+
+	Auto: OnPlay
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Ultimate
+		AIChoice GainPower 1500
+		ChooseCharacterFromTargets Choose a character to give +1500 power
+		GainPower 1500
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your «Ultimate» characters, and that character gets +1500 power until end of turn.
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+	Text Auto: [Discard a card] When this card is put into your waiting room from the stage, you may pay the cost, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+
+EndCard
+
+Character: DGR/CS02-E070
+Name Ultimate Detective, Kyoko Kirigiri
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Detective
+Combo Solving the First Mystery
+
+	Cont: GiveSelf
+	{
+		If AllYourCharacters HasTrait Ultimate
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: If all of your characters are «Ultimate», this card gets +2000 power.
+	
+	Auto: OnAttack
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		AddToXValue 1
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}
+		If Climax Solving The First Mystery
+		{
+			Peek Deck X
+			AIChoice AddToHand
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+			Text Auto: <b>CXCombo Investigate</b> When this card attacks, if you have a card named <b>"Solving the First Mystery"</b> in your climax area, look at up to X cards from the top of your deck, put up to 1 card among those into your hand, and put the rest into your waiting room. <i>X is equal to your level + 1.</i>
+
+EndCard
+
+Character: DGR/CS02-E071
+Name Healing Smile, Sayaka Maizono
+Color B
+Level 3
+Cost 2
+Power 9000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Music
+
+	*EarlyPlay4OrMore(Ultimate)
+	
+	Auto: OnPlay
+	{
+		MultipleChoiceQuestion Choose one \n1.Look at the top 3 cards of your deck and add one to hand \n2.Put the top card of your clock into the waiting room.|1|2
+		If Answer 0
+		{
+			*CheckAndAdd(3)
+		}
+		Else
+		{
+			*OptionalHeal
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of the following effects and perform it. "Look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room." "You may put the top card of your clock into your waiting room."
+	
+	Auto: OnPlay
+	{
+		SetXToNumberOfCharacters HasTrait Ultimate
+		MultiplyXValue 1000
+		GainPower X
+	}
+	Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of «Ultimate» characters you have × 1000.
+
+EndCard
+
+Character: DGR/CS02-E072
+Name Unknown Origins, Kyoko Kirigiri
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Mystery
+
+	Auto: OnPlay
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Ultimate
+		ChooseCharacterFromTargets Choose an «Ultimate» character to get +1000 power until end of turn.
+		GainPower 1000
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your other «Ultimate» characters, and it gets +1000 power until end of turn.
+
+	Auto: OnAttack
+	{
+		If Not LocationContains Backstage 1 Other
+		{
+			Question Put the top card of your deck into your waiting room?
+			If Yes
+			{
+				Mill 1
+				IfThatCard IsCharacter && Compare TargetCardsLevel 0 OrLess && HasTrait Ultimate
+				{
+					PlaceOnStage False False True False
+				}
+			}
+		}
+	}
+	Text Auto: When this card attacks, if you do not have another characters in your back stage, you may put the top card of your deck into your waiting room. If that card is a level 0 or lower «Ultimate» character, put it on any position of your back stage.
+	
+	*BlueLevel0Bomb
+
+EndCard
+
+Character: DGR/CS02-E073
+Name Sakura's Will, Aoi Asahina
+Color B
+Level 0
+Cost 0
+Power 2500
+Soul 1
+Trait1 Ultimate
+Trait2 Swimmer
+
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		RevealUpTo Deck 3
+		If TargetsContain 1 IsClimax
+		{
+			AIChoice AddToHand
+			Message Choose a climax to add to your hand
+			ChooseCardsFromTargets 0 1 IsClimax
+			MoveCard Hand
+			Discard 1 Any
+		}
+	}
+	Text Auto: When this card is sent from the stage to the waiting room, look at up to 3 cards from the top of your deck, choose up to 1 climax from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. If you put 1 card into your hand, choose 1 card in your hand, and put it into your waiting room.
+
+EndCard
+
+Character: DGR/CS02-E074
+Name Creep, Touko Fukawa
+Color B
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trait1 Ultimate
+Trait2 Book
+
+	*GiveOthersPowerOnMyTurn(1000)
+	
+	Auto: OnTriggerCheckClimax
+	{
+		IfOther HasTrigger Book || Gate
+		{
+			PayCost Discard 1 Any
+			{
+				SearchWaitingRoom IsCharacter && HasTrait Ultimate
+			}
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When your character triggers a climax with [BOOK] or [PANTS] in its trigger icon, you may pay the cost. If you do, choose 1 «Ultimate» character in your waiting room, and return it to your hand.
+
+EndCard
+
+Character: DGR/CS02-E075
+Name Seeking Shelter, Sayaka Maizono
+Color B
+Level 1
+Cost 0
+Power 4500
+Soul 1
+Trait1 Ultimate
+Trait2 Music
+
+	*GainPowerForEachOther(500,Ultimate)
+	
+	Auto: OnAttack
+	{
+		If StageContains 2 Other && HasTrait Ultimate
+		{
+			TargetFacing
+			If HasTarget
+			{
+				If Compare TargetCardsLevel 2 Exactly
+				{
+					TargetSelf
+					GainPower 6000
+				}
+			}
+		}
+	}
+	Quick
+	Text Auto: When this card attacks, if you have 2 or more other «Ultimate» characters, and the character facing this card is level 2, this card gets +6000 power until end of turn.
+
+EndCard
+
+Character: DGR/CS02-E076
+Name Kind Giant, Sakura Ohgami
+Color B
+Level 2
+Cost 1
+Power 5000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fighter
+Combo Determination to End the Game
+
+	*EarlyPlay4OrMore(Ultimate)
+	
+	Auto: OnPlay
+	{
+		If StageContains 4 Other && HasTrait Ultimate
+		{
+			PayCost Send 1 Stage NameEquals Aoi Asahina
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter && HasTrait Ultimate
+				RevealTargets
+				MoveCard Stock
+				TargetTop Deck 1
+				Reveal
+				IfTarget HasTrait Ultimate
+				{
+					MoveCard Hand
+				}
+			}
+		}
+	}
+	Text Auto: [Put 1 "Aoi Asahina" from your stage into the waiting room] When this card is placed on the stage from your hand, if you have 4 or more other «Ultimate» characters, you may pay the cost. If you do, choose up to 1 «Ultimate» character in your waiting room, put it to stock and reveal the top card of your deck. If that card is an «Ultimate» character, put that card into your hand.
+	
+	Auto: OnAttack
+	{
+		If Climax Determination to End the Game
+		{
+			PayCost SendClimax WaitingRoom
+			{
+				GainPower 5000
+				GainEffect
+				{
+					Auto: OnEndOfAttack
+					{
+						Peek Deck 4
+						AIChoice AddToHand
+						Message Choose a card to add to your hand.
+						ChooseCardsFromTargets 0 4 HasTrait Ultimate
+						MoveCard Hand
+						PutTheRestIntoTheWaitingRoom
+					}
+					Text: Auto At the end of this card's attack, if the character facing this card is reversed or there is no character facing this card, look at up to 4 cards from the top of your deck, put up to 4 «Ultimate» characters among those cards, put them into your hand, and put the rest into your waiting room.
+				}
+			}
+		}			
+	}
+	EndCard
+	Text Auto: <b>CXCombo</b> [Put 1 <b>"Determination to End the Game"</b> in your climax area to your waiting room] When this card attacks, you may pay the cost. If you do, this card gets +5000 power and the following ability until the end of turn. "AUTO At the end of this card's attack, if the character facing this card is reversed or there is no character facing this card, look at up to 4 cards from the top of your deck, put up to 4 «Ultimate» characters among those cards, put them into your hand, and put the rest into your waiting room."
+
+Character: DGR/CS02-E077
+Name Moving Towards the Future, Aoi Asahina
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Swimmer
+Combo Door to the Future
+
+	*StockHealer
+	
+	Auto: OnAttack
+	{
+		If Climax Door to the Future &&& StageContains 4 Other && HasTrait Ultimate
+		{
+			GainPower 1000
+			MillOpponentBottom 4
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			If HasTarget
+			{
+				Repeat X
+				{
+					Burn 1
+				}
+			}
+		}
+	}
+	Text Auto: When this card attacks, if <b>"Door to the Future"</b> is in your climax area, and you have 4 or more other «Ultimate» characters, this card gets +1000 power until end of turn, put the bottom 4 cards of your opponent's deck into their waiting room, and deal 1 damage to your opponent X times. X is equal to the number of climax among those cards. 
+
+EndCard
+
+Character: DGR/CS02-E078
+Name Salvaging for Hope, Kyoko Kirigiri
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Detective
+
+	*Healer
+	
+	Act: SendSelf WaitingRoom
+	{
+		SearchLocationForTargets Memory 1 1 NameEquals Ultimate Hope, Makato Naegi
+		PlaceOnStage False True True False
+	}
+	Text Act: [Put this card into your waiting room] Choose 1 "Ultimate Hope, Makoto Naegi" in your memory, and put it on any position on the stage.
+
+EndCard
+
+Character: DGR/CS02-E079
+Name Kyoko Kirigiri
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Detective
+
+	Text Cont: Your value of X for <b>Investigate</b> abilities is increased by 1.
+	
+	*Act1RestSelfCheck3Add1Brainstorm
+
+EndCard
+
+Character: DGR/CS02-E080
+Name Sayaka Maizono
+Color B
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Music
+
+	Cont: GiveAll
+	{
+		If NameEquals Ultimate Lucky Student, Makoto Naegi
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: All of your other "Ultimate Lucky Student, Makoto Naegi" gets +1000 power.
+	
+	Auto: OnPlay
+	{
+		TargetLocation Hand
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Stock
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+	
+	Auto: OnPlayedNormally
+	{
+		PayCost 1
+		{
+			Bond Ultimate Lucky Student, Makoto Naegi
+		}
+	}
+	Text Auto: <b>Bond/ "Ultimate Lucky Student, Makoto Naegi"</b>" [(1)] <i>(When this card is played and placed on the stage, you may pay the cost, choose 1 "Ultimate Lucky Student, Makoto Naegi" in your waiting room, and return it to your hand)</i>
+	
+EndCard
+
+Character: DGR/CS02-E081
+Name Aoi Asahina
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Swimmer
+
+	*SacrificeToSave(Any)
+	Text Auto: [Put this card into your waiting room] When your other character is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, return that character to its previous stage position as resting.
+	
+	Act: RestSelf
+	{
+		*GiveCharacterPower(1500,Ultimate)
+	}
+	Text Act: [Rest this card] Choose 1 of your «Ultimate» characters, it gets +1500 power until end of turn.
+
+EndCard
+
+Character: DGR/CS02-E082
+Name Sakura Ohgami
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Fighter
+
+	Cont: GiveSelf
+	{
+		If HasMarker
+		{
+			GainPower 2500
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					SearchWaitingRoom HasTrait Ultimate
+					Discard 1 Any
+				}
+				Text Auto: When this card's battle opponent becomes reversed, choose 1 «Ultimate» character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room.
+			}
+		}
+	}
+	Text Cont: If there is a marker underneath this card, this card gets +2500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, choose 1 «Ultimate» character in your waiting room, return it to your hand, choose 1 card in your hand, and put it into your waiting room."
+
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Ultimate
+		{
+			Question Put the revealed card as a marker?
+			If Yes
+			{
+				Marker_FaceDown
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an «Ultimate» character, you may put it face up underneath this card as a marker. 
+
+EndCard
+
+Character: DGR/CS02-E083
+Name Discovering a Body, Aoi Asahina
+Color B
+Level 1
+Cost 0
+Power 3500
+Soul 1
+Trait1 Ultimate
+Trait2 Swimmer
+
+	Cont: GiveSelf
+	{
+		If MyTurn && StageContains 1 Other && HasTrait Ultimate
+		{
+			GainPower 3000
+		}
+	}
+	Text Cont: During your turn, if you have another «Ultimate» character, this card gets +3000 power.
+	*OnAttackPay1ToDoubleTrigger
+
+EndCard
+
+Character: DGR/CS02-E084
+Name Touko Fukawa
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Book
+
+	Auto: OnFrontalAttacked
+	{
+		If HasMarker
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Ultimate
+			{
+				TargetSelf
+				MoveCard Memory
+				ScheduleEffect EndOfTurn
+				{
+					TargetSelf
+					MoveCard Memory
+					SearchLocationForTargets WaitingRoom 0 1 NameEquals Genocider Sho
+					PlaceOnStage False True True False
+				}
+			}
+		}
+	}
+	Text Auto: When this card is frontal attacked, if there is a marker underneath this card, reveal the top card of your deck. If that card is an «Ultimate» character, put this card into your memory. Then, at the end of the turn, put this card from your memory into your waiting room, and put a card named "Genosider Sho" in your waiting room onto any position of the stage.
+	
+	Auto: StartDrawPhase			
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation WaitingRoom
+			NarrowTargets NameEquals Genocider Sho
+			FirstTarget
+			Change
+		}
+	}
+	Text Auto: <b>Change</b> [Put this card into your waiting room] At the beginning of your draw phase, you may pay the cost. If you do, choose a card named "Genocider Sho" in your waiting room, and put it on the stage position that this card was on.
+	
+	Auto: OnPlay|OnPlacedOnStageFromWaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Genocider Sho
+		If IsTarget
+		{
+			Question_Obvious Put "Genocider Sho" under this card as a marker?
+			If Yes
+			{
+				FirstTarget
+				Marker_FaceDown
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand or waiting room, you may choose a card named "Genocider Sho" in your waiting room, and put it face down underneath this card as a marker.
+	
+EndCard
+
+Character: DGR/CS02-E085
+Name Suddenly Fainting, Touko Fukawa
+Color B
+Level 2
+Cost 1
+Power 2000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Book
+Backup 3000
+Combo Dual Personalities
+
+	Auto: OnSpecificClimaxPlay Dual Personalities
+	{
+		PayCost SendSelf WaitingRoom
+		{
+			TargetLocation Hand
+			NarrowTargets NameEquals Ultimate Murderer, Genocider Sho
+			FirstTarget
+			Change
+		}
+	}
+	Text Auto: <b>CXCombo</b> [Put this card into your waiting room] When <b>"Dual Personalities"</b> is placed on your climax area, you may pay the cost. If you do, choose up to 1 "Ultimate Murderer, Genocider Sho" in your hand, and put it on the stage position this card was on.
+
+EndCard
+
+Character: DGR/CS02-E086
+Name Prepared for Battle, Kyoko Kirigiri
+Color B
+Level 2
+Cost 1
+Power 7000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Detective
+
+	*GainPowerWhenAttackingLevel3(6000)
+	
+	Auto: OnReverseOpponent
+	{
+		TargetFacing
+		If HasTarget
+		{
+			If Compare TargetCardsLevel 2 OrMore
+			{
+				TargetTop Deck 1
+				MoveCard Stock
+			}
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, if that character is level 2 or higher, you may put the top card of your deck into your stock.
+
+EndCard
+
+Character: DGR/CS02-E087
+Name Area Exploration, Kyoko Kirigiri
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Mystery
+
+	*GlobalPower(500,Ultimate)
+	
+	Act: RestSelf
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+			SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+			AddToXValue MyLevel
+			AddToXValue 1
+			If Compare X 5 GreaterThan
+			{
+				SetXValue 5
+			}
+		
+		Peek Deck X
+		ChooseCardsFromTargets 0 1 HasTrait Ultimate
+		MoveCard Hand
+		Discard 1 Any
+	}
+	Text Act: [Rest this card] Look at up to X cards from the top of your deck, add up to 1 «Ultimate» character among those cards, reveal it to your opponent, put it into your hand, put the rest into your waiting room, and put 1 card from your hand into your waiting room. X is equal to your level + 1.
+	
+EndCard
+
+Character: DGR/CS02-E088
+Name Body Found, Kyoko Kirigiri
+Color B
+Level 0
+Cost 0
+Power 1000
+Soul 1
+Trait1 Ultimate
+Trait2 Mystery
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom NameEquals Body Found!
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Body Found!" in your waiting room, and return it to your hand.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget IsEvent || HasTrait Ultimate
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Ultimate
+			ChooseCharacterFromTargets Choose a character to give +1500 power.
+			GainPower 1500
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an «Ultimate» character or event, choose 1 of your «Ultimate» characters, and it gets +1500 power.
+
+EndCard
+
+Character: DGR/CS02-E089
+Name Mad in Love, Touko Fukawa
+Color B
+Level 0
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Book
+
+	Auto: OnPlay
+	{
+		If CardsInClock 2 OrLess
+		{
+			TargetSelf
+			Rest
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 2 or less cards in your clock, rest this card.
+
+EndCard
+
+Character: DGR/CS02-E090
+Name Alone, Sayaka Maizono
+Color B
+Level 1
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Music
+
+	Cont: GiveSelf
+	{
+		If LocationContainsOrLess CenterStage 1 Other
+		{
+			GainPower 4000
+		}
+	}
+	Text Cont: If you have 1 or fewer other characters on your center stage, this card gets +4000 power.
+	
+	Auto: StartAttackPhase
+	{
+		If CardPosition Stand && LocationContainsOrLess 1 Other
+		{
+			Question Put the top card of your deck to stock?
+			If Yes
+			{
+				TargetTop Deck 1
+				MoveCard Stock
+			}
+			Mill 1
+			SetXValue TotalLevel
+			SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Ultimate
+		}
+	}
+	Text Auto: At the beginning of your attack phase, if this card is standing and you have 1 or fewer other cheracters on your center stage, you may put the top card of your deck into your stock, then put the top card of your deck into your waiting room, choose up to 1 level X or lower «Ultimate» character in your waiting room, and return it to your hand. X is equal to the level of the card put to the waiting room this way.
+
+EndCard
+
+Character: DGR/CS02-E091
+Name Trying to Understand, Kyoko Kirigiri
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Mystery
+
+	Cont: GiveSelf
+	{
+		If StageContains 2 HasTrait Ultimate
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: If you have 2 or more other Ultimate characters, this card gets +2000 power.
+	
+	Cont: GiveSelf
+	{
+		If OpponentsTurn
+		{
+			GainPower 1000
+		}
+	}
+	Text Cont: During your opponent's turn, this card gets +1000 power.
+
+EndCard
+
+Character: DGR/CS02-E092
+Name Finding Another Way, Sakura Ohgami
+Color B
+Level 2
+Cost 1
+Power 2500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fighter
+Backup 2500
+
+	Auto: OnUseThisCardsBackup
+	{
+		TargetLocation OpponentClimax
+		If HasTarget
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Ultiamte && InBattle
+			ChooseCharacterFromTargets Choose a character to give +2000 power.
+			GainPower 2000
+		}
+	}
+	Text Auto: When you use this card's <b>"Backup"</b>, if there is a climax in your opponent's climax area, choose 1 of your «Ultimate» characters in battle, it gets +2000 power until end of turn.
+
+EndCard
+
+Character: DGR/CS02-E093
+Name Trying to Remember, Aoi Asahina
+Color B
+Level 2
+Cost 1
+Power 4500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Swimmer
+
+	*GlobalPower(1000,Ultimate)
+
+	Auto: OnPlay
+	{
+		Peek 1
+		Marker_FaceDown
+	}
+	Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it under this card as a face-down marker.
+	
+	Act: RestSelf
+	{
+		Peek 1
+		Question Would you like to put the top card of your deck under this card as a marker?
+		If Yes
+		{
+			Marker_FaceDown
+			SearchLocationForTargets Marker 1 1 Any
+			MoveCardtoBottom Deck
+		}
+	}
+	Text Act: [Rest this card] Look at the top card of your deck, and put it on top of your deck or under this card as a face-down marker. If you put it under this card as a marker, look at the cards under this card as a marker, and put 1 card on the bottom of your deck.
+
+EndCard
+
+Character: DGR/CS02-E094
+Name Deep in Thought, Kyoko Kirigiri
+Color B
+Level 2
+Cost 1
+Power 8500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Mystery
+
+EndCard
+
+Event: DGR/CS02-E095
+Name Class Trial
+Color B
+Level 1
+Cost 1
+Requirement StageContains 3 HasTrait Ultimate
+
+	Effect:
+	{
+		MultipleChoiceQuestion Choose one \n1.[Level 1 or higher] Search your deck for up to 1 «Ultimate» character. \n2.[Level 2 or higher] Search your deck for up to 1 climax. \n3.[Level 3 or higher] Search your deck for up to 1 «Ultimate» character and up to 1 climax.|1|2|3
+		If Answer 0
+		{
+			If Compare MyLevel 1 OrMore
+			{
+				SearchDeck HasTrait Ultimate
+			}
+		}
+		If Answer 1
+		{
+			If Compare MyLevel 2 OrMore
+			{
+				SearchDeck IsClimax
+			}
+		}
+		If Answer 2
+		{
+			If Compare MyLevel 3 OrMore
+			{
+				SearchLocationForTargets Deck 1 1 Any Choose a card to add to your hand.
+				MoveCard Hand
+				ShuffleLocation Deck
+				TargetLocation WaitingRoom
+				ChooseCardsFromTargets 0 1 HasTrait Ultimate
+				MoveCard Stock
+			}
+		}
+	}
+	Text If you have 2 or less «Ultimate» characters, you cannot play this card from your hand. Perform 1 of the following effects./n"If your level is 1 or higher, search your deck for up to 1 «Ultimate» character, reveal it to your opponent, put it into your hand, and shuffle your deck."/n"If your level is 2 or higher, search your deck for up to 1 climax, reveal it to your opponent, put it into your hand, and shuffle your deck."/n"If your level is 3 or higher, search your deck for a card, put it into your hand, shuffle your deck, and put up to 1 «Ultimate» character in your waiting room into your stock.
+
+EndCard
+
+Climax: DGR/CS02-E096
+Name Solving the First Mystery
+*GateClimax
+EndCard
+
+Climax: DGR/CS02-E097
+Name Determination to End the Game
+*GateClimax
+EndCard
+
+Climax: DGR/CS02-E098
+Name Door to the Future
+Color B
+Trigger DoubleSoul
+	
+	Auto: OnPlay
+	{
+		Message Choose a level 1 or lower character to put into stock
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 1 OrLess
+		RevealTargets
+		MoveCard Stock
+		TargetLocation Stage
+		GainSoul 1
+	}
+	Text Auto: When this card is placed on your climax area from your hand, choose up to 1 level 1 or lower character in your waiting room, put it into your stock, and all of your characters get +1 soul until end of turn.
+
+EndCard
+
+Climax: DGR/CS02-E099
+Name Dual Personalities
+*BookClimax
+EndCard
+
+//Danganronpa Trial Deck
+
+Character: DGR/CS02-TE01
+Name Ultimate Baseball Star, Leon Kuwata
+Color Y
+Level 0
+Cost 0
+Power 3000
+Soul 1
+Trait1 Ultimate
+Trait2 Baseball
+
+	*OthersCannotSideAttack
+
+	*MoveOtherWithTraitToBackstageOnReverse(Ultimate)
+
+EndCard
+
+Character: DGR/CS02-TE02
+Name Ultimate Clairvoyant, Yasuhiro Hagakure
+Color Y
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Ultimate
+Trait2 Fortune
+
+	Auto: OnPlay
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}
+		TargetTop Deck X
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+	Text Auto: <b>Investigate</b> When this card is placed on the stage from your hand, look at up to X cards from the top of your deck and return them in any order.
+
+	*Act1RestSelfDrawBrainstorm5
+
+EndCard
+
+Character: DGR/CS02-TE03
+Name Ultimate Affluent Progeny, Byakuga Togami
+Color Y
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Money
+
+	Cont: GiveSelf
+	{
+		If MyTurn	
+		{
+			SetXToNumberOfCharacters HasTrait Ultimate && InLocation Backstage
+			MultiplyXValue 1000
+			GainPower X
+		}
+	}
+	Text Cont: This card gets +1000 power for each of your other backstage «Ultimate» characters.
+
+	*OnPlayGainPowerForEach(500,Ultimate)
+
+EndCard
+
+Character: DGR/CS02-TE04
+Name Ultimate Lucky Student, Makoto Naegi
+Color Y
+Level 1
+Cost 0
+Power 2500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Luck
+Combo Welcome to Hope's Peak Academy
+
+	*OnPlayGainPower(3000)
+
+	Auto: OnAttack 
+	{
+		If Climax Welcome to Hope's Peak Academy &&& StageContains 1 Other && HasTrait Ultimate
+		{
+			MillUpTo Deck 3
+			NarrowTargets HasTrait Ultimate
+			SetXValue TargetCount 
+			SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Ultimate
+		}
+	}
+	Text Auto: <b>CXCombo</b> When this card attacks, if <b>"Welcome to Hope's Peak Academy"</b> is in your climax area, and you have another «Ultimate» character, put up to 3 cards from the top of your deck into your waiting room, choose up to 1 level X or lower «Ultimate» character in your waiting room, and return it to your hand. X is equal to the number of «Ultimate» characters put into your waiting room by this effect.
+
+EndCard
+
+Character: DGR/CS02-TE05
+Name Ultimate Moral Compass, Kiyotaka Ishimaru
+Color Y
+Level 1
+Cost 1
+Power 1500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Moral
+Backup 2500
+	
+EndCard
+
+Character: DGR/CS02-TE06
+Name Ultimate Biker Gang Leader, Mondo Ohwada
+Color Y
+Level 2
+Cost 1
+Power 3500
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Biker
+
+	*LevelAssist
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Ultimate
+		}
+	}
+	Text Auto: [Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a «Ultimate» character in your waiting room and return it to your hand.
+	
+EndCard
+
+Character: DGR/CS02-TE07
+Name Ultimate Fanfic Creator, Hifumi Yamada
+Color Y
+Level 2
+Cost 1
+Power 6000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fan
+
+	Cont: GiveSelf
+	{
+		If StageContains 1 NameEquals Ultimate Gambler, Celestia Ludenberg
+		{
+			GainPower 4000
+		}
+	}
+	Text Cont: If you have another character named "Ultimate Gambler, Celestia Ludenberg", this card gets +4000 power.
+	
+	Auto: OnOtherReversed
+	{
+		IfOther NameEquals Ultimate Gambler, Celestia Ludenberg
+		{
+			GainPower 4000
+		}
+	}
+	Text Auto: When another character named "Ultimate Gambler, Celestia Ludenberg" becomes REVERSED, this card gets +4000 power.
+	
+EndCard
+
+Climax: DGR/CS02-TE08
+Name Welcome to Hope's Peak Academy
+*ChoiceClimax
+EndCard
+
+Character: DGR/CS02-TE09
+Name Headmaster of Hope's Peak Academy, Monokuma
+Color R
+Level 0
+Cost 0
+Power 500
+Soul 1
+Trait1 Despair
+
+	Auto: OnPlay
+    {
+        PayCost 1 Discard 1 Any
+        {
+            SearchWaitingRoom IsCharacter && HasTrait Ultimate|Despair
+            TargetLocation OpponentCenterStage
+            ChooseCharacterFromTargets Choose a character to give -1000 power.
+            LosePower 1000
+        }
+    }
+    Text Auto: [(1) Discard a card] When this card is placed on the stage from your hand, you may pay the cost, choose a character in your waiting room and return it to your hand.
+
+	*RedLevel0Bomb
+    
+EndCard
+
+Character: DGR/CS02-TE10
+Name Ultimate Fashionista, Junko Enoshima
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Fashion
+
+	Cont: GiveSelf
+	{
+		GainName Ultimate Soldier, Mukuro Ikusaba
+	}
+	Text Cont: This card's name is also treated as "Ultimate Soldier, Mukuro Ikusaba"
+	
+	*OnPlayScry
+	
+	Act: 1 SendSelf WaitingRoom
+	{
+		*Check4Add1(Ultimate|Despair)
+	}
+	Text Act: [(1) Put this card into your waiting room] Look at up to 4 cards from your deck, choose up to 1 «Ultimate» or «Despair» character among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: DGR/CS02-TE11
+Name Ultimate Programmer, Chihiro Fujisaki
+Color B
+Level 0
+Cost 0
+Power 1500
+Soul 1
+Trait1 Ultimate
+Trait2 Computer
+
+	*GlobalPower(500,Ultimate)
+	
+	*ClimaxExchange
+	
+EndCard
+
+Character: DGR/CS02-TE12
+Name Ultimate Swimming Pro, Aoi Asahina
+Color B
+Level 0
+Cost 0
+Power 2000
+Soul 1
+Trait1 Ultimate
+Trait2 Swimmer
+
+	*FreeRunner
+	
+EndCard
+
+Character: DGR/CS02-TE13
+Name Ultimate Writing Prodigy, Touko Fukawa
+Color B
+Level 1
+Cost 0
+Power 4000
+Soul 1
+Trait1 Ultimate
+Trait2 Book
+
+	Auto: OnPlay
+	{
+		If StageContains 2 Other && HasTrait Ultimate
+		{
+			DrawCard 
+			Discard 1 Any
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other «Ultimate» characters, you may draw 1 card and, if you do, put 1 card from your hand into your waiting room.
+	
+	*OnAttackGivePowerTimesSoul
+	
+EndCard
+
+Character: DGR/CS02-TE14
+Name Ultimate Gambler, Celestia Ludenberg
+Color B
+Level 2
+Cost 1
+Power 4000
+Soul 1
+Trigger Soul
+Trait1 Ultimate
+Trait2 Gambler
+
+	Auto: OnPlay
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}	
+		Mill X
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			Question Send a level 3 or lower character to your opponent's waiting room?
+			If Yes
+			{
+				TargetLocation OpponentStage
+				NarrowTargets CanBeChosen && Compare ThatCardsLevel 3 OrLess
+				ChooseCharacterFromTargets Choose a character to send to the waiting room
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+	Text Auto: <b>Investigate</b> When this card is placed on the stage from your hand, put the top X cards of your deck into your waiting room. If there is a climax among those cards, choose 1 of your opponent's characters on the center stage and put that card to the bottom of your opponent's deck. X is equal to your level. <i>(X cannot be greater than 5)</i>
+	
+	*BlueEarlyPlayBomb
+
+EndCard
+
+Character: DGR/CS02-TE15
+Name Ultimate Martial Artist, Sakura Ohgami
+Color B
+Level 2
+Cost 2
+Power 6500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Fighter
+
+	*GainPowerForEachOther(1000, Ultimate)
+	
+	*HandEncoreTrait(Ultimate)
+		
+EndCard
+
+Character: DGR/CS02-TE16
+Name Ultimate ???, Kyoko Kirigiri
+Color B
+Level 3
+Cost 2
+Power 10000
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Mystery
+
+	Auto: OnPlay
+	{	
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		AddToXValue 1
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}	
+		Peek Deck X
+		ChooseCard Choose a card to add to your hand.
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+	}
+	Text Auto: <b>Investigate</b> When this card is placed on your stage from your hand, look at up to top X cards from your deck, choose 1 card among them, put it into your hand, and put the rest into your waiting room. X is equal to your level +1.<i>(X cannot be greater than 5)</i>
+	
+	Auto: OnAttack
+	{
+		PayCost 2 Discard 1 Any
+		{
+			//	***INVESTIGATE KEYWORD VARIABLE***
+			SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+			AddToXValue MyLevel
+			AddToXValue 1
+			If Compare X 5 GreaterThan
+			{
+				SetXValue 5
+			}
+			MillOpponentBottom X
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Burn X
+		}
+	}
+	Text Auto: <b>Investigate</b> [(2) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, put the bottom X cards of your opponent's deck into their waiting room, and deal Y damage to your opponent. X is equal to your level + 1. Y is equal to the number of climax among those cards. <i>(X cannot be greater than 5. Damage may be canceled)</i>
+EndCard
+
+Character: DGR/CS02-TE17
+Name Ultimate Pop Sensation, Sayaka Maizono
+Color B
+Level 3
+Cost 2
+Power 9500
+Soul 2
+Trigger Soul
+Trait1 Ultimate
+Trait2 Music
+
+	Cont: GiveSelf
+	{
+		If MyTurn && StageContains 4 Other && HasTrait Ultimate
+		{
+			GainPower 5000
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					GainSpecialEffect NoBackupOnAttack
+					GainSpecialEffect NoEventsOnAttack
+				}
+				Text Cont: During this card's battle, your opponent cannot play event cards or "BACKUP"
+			}
+		}
+	}
+	Text Cont: During your turn, if you have 4 or more other «Ultimate» characters, this card gets +5000 power and the following ability. "Cont: During this card's battle, your opponent cannot play events or <b>"Backup"</b> from their hand."
+	
+	*Healer
+	
+EndCard
+
+Event: DGR/CS02-TE18
+Name Student Handbook
+Color B
+Level 2
+Cost 0
+Requirement StageContains 1 HasTrait Ultimate
+
+	Effect:
+	{
+		//	***INVESTIGATE KEYWORD VARIABLE***
+		SetXToNumberOfCharacters NameEquals Kyoko Kirigiri
+		AddToXValue MyLevel
+		If Compare X 5 GreaterThan
+		{
+			SetXValue 5
+		}
+		Repeat 2
+		{
+		
+			RevealUpTo Deck X
+			ChooseCardsFromTargets 0 1 HasTrait Ultimate
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		Discard 1
+	}
+	Text If you do not have an «Ultimate» character, you cannot play this card. Investigate Perform the following action 2 times. "Look at up to X cards from the top of your deck, choose up to 1 «Ultimate» character among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room. X is equal to your level." <i>(X cannot be greater than 5)</i>/nPut 1 card from your hand into the waiting room.
+
+EndCard
+
+Climax: DGR/CS02-TE19
+Name 78th Class of Hope's Peak Academy
+*GateClimax
+EndCard
+
+Climax: DGR/CS02-TE20
+Name Hope or Despair?
+Color B
+*2SoulClimax
+EndCard
