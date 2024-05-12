@@ -1,4 +1,3 @@
-
 Character: SFN/S108-001
 Name Precious Memories, Himmel
 Color Y
@@ -7,8 +6,8 @@ Cost 0
 Power 2000
 Trait1 Adventurer
 Trait2 Weapon
-Auto: OnPlay
 
+Auto: OnPlay
 	{
 		If StageContains 1 Other && HasTrait Adventurer|Magic
 		{
