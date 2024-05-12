@@ -1,0 +1,3437 @@
+
+Character: SFN/S108-001
+Name Precious Memories, Himmel
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Weapon
+Auto: OnPlay
+
+	{
+		If StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			GainPower 1500
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					*ScryToBottom
+				}
+				Text Auto: When this card attacks, look at the top card of your deck and put it either on top or bottom of your deck.
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have another <Adventurer> or <Magic> character, this card gains +1500 power and the following ability until end of turn. "Auto: When this card attacks, look at the top card of your deck and put it either on top or bottom of your deck."
+
+	Auto: OnOtherFrontalAttacked
+	{
+		IfOther HasTrait Adventurer|Magic
+		{
+			PayCost 1 SendSelf WaitingRoom
+			{
+				TargetMyCharacterInBattle
+				Bounce
+			}
+		}
+	}
+	Text Auto: [(1) Put this card into your waiting room] When your other <Adventurer> or <Magic> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+
+EndCard
+
+Character: SFN/S108-002
+Name "Hometown Flower" Frieren & Himmel
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	*EarlyPlay4OrMore(Adventurer|Magic)
+
+	Cont: GiveSelf
+	{
+		If MyTurn &&& StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			GainPower 2000
+			GainEffect
+			{
+				Auto: OnAttack
+				{
+					PayCost 3 Discard 2 Any
+					{
+						Burn 4
+					}
+				}
+				Text Auto: [(3) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 4 damage to your opponent.
+			}
+		}
+	}
+	Text Cont: During your turn, if you have another <Adventurer> or <Magic> characters, this card gets +2000 power and the following ability. "Auto: [(3) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 4 damage to your opponent." <i>(Damage may be canceled)<\i>
+	
+	*Healer
+	
+EndCard
+
+Character: SFN/S108-003
+Name The Reason for Starting the Journey, Himmel
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Weapon
+Combo Eternal Love
+	
+	Auto: OnPlay
+	{
+		If StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			*OptionalHeal
+			PayCost 1
+			{
+				SearchLocationForTargets Hand 0 1 NameEquals The reason for starting the journey, Frieren
+				PlaceOnStage False True True False
+			}
+		}
+	}
+	Text Auto: [(1)] When this card is placed on the stage from your hand, if you have another <Adventurer> or <Magic> character, you may put the top card of your clock into the waiting room, and you may pay the cost. If you do, choose up to 1 "The Reason for Starting the Journey, Frieren" from your hand, and put it on any position of your stage.
+	
+	Auto: OnAttack
+	{
+		If Climax Eternal Love && LocationContainsOrLess Hand 5 Any &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			MillOpponentBottom 3
+			NarrowTargets IsClimax
+			SetXValue TargetCount
+			Repeat X
+			{
+				Burn 2
+			}
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When this card attacks, if <b>"Eternal Love"<\b> is in your climax area, your hand has 5 or less cards, and you have 2 or more other <Adventurer> or <Magic> characters, put the bottom 3 cards of your opponent's deck into their waiting room, and deal 2 damage X times to your opponent. X is equal to the of climax among those cards. <i>(Damage may be canceled)<\i>
+
+EndCard
+
+Character: SFN/S108-004
+Name "Group of Heroes" Himmel
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Weapon
+	
+	Act: 1 Rest 2 Any
+	{
+		Mill 3
+		SetXValue 0
+		ForEachTarget
+		{
+			IfTarget HasTrait Adventurer|Magic
+			{
+				AddToXValue 1
+			}
+		}
+		SearchWaitingRoom HasTrait Adventurer|Magic && Compare ThatCardsLevel X OrLower
+	}
+	Text Act: [(1) Rest 2 of your characters] Put 3 cards from the top of your deck into your waiting room, choose up to 1 level X or lower <Adventurer> or <Magic> character in your waiting room and return it to your hand. X is equal to the number of <Adventurer> or <Magic> characters put into your waiting room by this effect.
+
+EndCard
+
+Character: SFN/S108-005
+Name "Throw Kiss" Frieren
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	*DropSearch(Adventurer|Magic)
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		If Compare CardsInHand 1 OrMore
+		{
+			Question Put a card from your hand into your stock?
+			If Yes
+			{
+				SearchLocationForTargets Hand 0 1 Any
+				MoveCard Stock
+			}
+		}
+	}
+	Text Auto: When this card is put into your waiting room from the stage, you may choose 1 card in your hand, and put it into your stock.
+
+EndCard					
+
+Character: SFN/S108-006
+Name "Flamme's First Disciple" Frieren
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+
+	Auto: OnPlay
+	{
+		If Compare CardsInHand 1 OrMore
+		{
+			Question Put a card from your hand into your stock?
+			If Yes
+			{
+				SearchLocationForTargets Hand 0 1 Any
+				MoveCard Stock
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may choose 1 card in your hand, and put it into your stock.
+	
+	Auto: OnPlay
+	{
+		PayCost 1 Discard 1 IsClimax
+		{
+			Message Choose an event to return to your hand.
+			SearchLocationForTargets WaitingRoom 1 1 IsEvent
+			RevealTargets
+			MoveCard Hand
+		}
+	}
+	Text Auto: [(1) Put 1 climax from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose an event in your waiting room and return it to your hand.
+
+EndCard
+
+Character: SFN/S108-007
+Name "Fishy Monk" Heiter
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+	
+	Auto: OnUseThisCardsBackup
+	{
+		PayCost 1 Discard 1 Any
+		{
+			TargetLocation OpponentStage
+			SetXValue OpponentsLevel
+			AddToXValue 1
+			NarrowTargets Compare ThatCardsLevel X OrHigher
+			ChooseCharacterFromTargets Choose a character to put to your opponent's stock
+			MoveCard OpponentStock
+		}
+	}
+	Text Auto:[(1) Put 1 card from your hand into your waiting room] When you use this card's <b>"Backup"</b>, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it into their stock.
+	
+	Backup 2500
+	
+EndCard
+
+Character: SFN/S108-008
+Name "The Strongest Warrior" Eisen
+Color Y	
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adventurer
+Trait2 Weapon
+	
+	*GainPowerWithEnoughCharacters(8000,2,Adventurer|Magic)
+	
+	Auto: OnPlay
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If OpponentsTurn
+				{
+					GainPower 2000
+				}
+			}
+			Text Cont: During your opponent's turn, this card gains +2000 power.
+		}
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If InLocation MiddleCenterStage
+				{
+					GainEffect
+					{
+						Cont: GiveFacing
+						{
+							LoseSoul 1
+						}
+					}
+				}
+			}
+			Text Cont: If this card is in the middle position of your center stage, the character facing this card gets -1 soul.
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, this card gains the following 2 abilities until the end of your opponent's turn. "Cont: During your opponent's turn, this card gains +2000 power." "Cont: If this card is in the middle position of your center stage, the character facing this card gets -1 soul."
+
+EndCard
+
+Character: SFN/S108-009
+Name The Reason for Starting the Journey, Frieren
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	*GlobalPower(1500,Adventurer|Magic)
+	
+	Auto: OnPlay
+	{
+		If StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			Peek BottomOfOpponentDeck 2
+			If HasTarget
+				{
+					Message Choose the cards to put back on bottom.
+					ChooseCardsFromTargets 0 2 Any
+					MoveCardToBottom OpponentDeck
+					Reorder
+					PutTheRestIntoTheWaitingRoom
+				}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have another <Adventurer> or <Magic> character, look at up to 2 cards from the bottom of your opponent's deck, choose up to 2 cards from among them, put them on the bottom of their deck in any order, and put the rest into their waiting room.
+	
+EndCard
+
+Character: SFN/S108-010
+Name I Can't Wait, Eisen
+Color Y	
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Weapon
+
+	Cont: GiveSelf
+	{
+		If AllYourCharacters HasTrait Adventurer|Magic
+		{
+			GainLevel 1
+			GainPower 1500
+		}
+	}
+	Text Cont: If all of your characters are <Adventurer> or <Magic>, this card gets +1 level and +1500 power.
+	
+	*RunToCenter
+	
+EndCard
+
+Character: SFN/S108-011
+Name "Group of Heroes" Heiter
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 1 Discard 2 Any
+				{
+					SearchLocationForTargets Deck 0 2 && HasTrait Adventurer|Magic
+					Reveal
+					MoveCard Hand
+					ShuffleLocation Deck
+				}
+			}
+		}
+	}
+	Text Auto: [(1) Put 2 cards from your hand into your waiting room] During the turn this card is placed on the stage from your hand, when this card attacks, you may pay the cost. If you do, search your deck for up to 2 <Adventurer> or <Magic> characters, reveal them, put them in your hand, and shuffle your deck.
+
+EndCard
+
+Character: SFN/S108-012
+Name Reason for Making the Statue, Himmel
+Color Y	
+Level 0
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Weapon
+
+	*MoveOtherWithTraitToBackstageOnReverse(Adventurer|Magic)
+
+EndCard
+
+Character: SFN/S108-013
+Name "Group of Heroes" Frieren
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+Combo Just 10 Years of Adventure
+
+	Cont: GiveSelf
+	{
+		If Climax Just 10 Years of Adventure &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			AddToOtherCardsTriggerIcon Choice NameEquals "Hometown Flower" Frieren & Himmel|"Group of Heroes" Heiter|"Group of Heroes" Eisen
+		}
+	}
+	Text Cont: <b>CxCombo<\b> If <b>"Just 10 Years of Adventure"<\b> is in your climax area, if you have 2 or more other <Adventurer> or <Magic> characters, your other ""Hometown Flower" Frieren & Himmel", ""Group of Heroes" Heiter" and ""Group of Heroes" Eisen" in all of your zones get CHOICE in the trigger icon.
+	
+	Act: RestSelf
+	{
+		PeekTop Deck
+		MultipleChoiceQuestion Choose where to place the card you looked at:\n1. To waiting room \n2. To bottom of the deck \n3. To top of the deck|1|2|3
+		If Answer 0
+		{
+			MoveCard WaitingRoom
+		}
+		If Answer 1
+		{
+			MoveCardToBottom Deck
+		}
+		If Answer 2
+		{
+			EndPeek Deck
+		}
+		TargetLocation Stage
+		AIChoice GainPower 2000
+		ChooseCharacterFromTargets Choose a character to give +2000 power.
+		GainPower 2000
+	}
+	Text Act: [Rest this card] Look at the top card of your deck, put it either on top or bottom of your deck or into your waiting room, choose 1 of your characters, and it gets +2000 power until end of turn.
+
+EndCard
+
+Character: SFN/S108-014
+Name "Hero's Sword" Himmel
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Weapon
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Adventurer|Magic
+		{
+			DrawCard
+		}
+	}
+	Text Auto: [Put a <Adventurer> or <Magic> character card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay cost. If you do, draw a card.
+	
+	Auto: OnReverse
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets NameEquals The Reason for Starting the Journey, Himmel
+		SetXValue TargetCount
+		TargetBattleOpponent
+		IfTarget OnStage
+		{
+			If Compare TargetCardsLevel X OrLess
+			{
+				Question Reverse the battle opponent?
+				If Yes
+				{
+					Reverse
+				}
+			}
+		}
+	}
+	Text Auto: When this card becomes reversed, if this card's battle opponent is level X or lower, you may reverse that character. X is equal to the number of "The Reason for Starting the Journey, Himmel" in your waiting room.
+
+EndCard
+
+Character: SFN/S108-015
+Name "Group of Heroes" Eisen
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 Adventurer
+Trait2 Weapon
+
+	Cont: GiveSelf
+	{
+		If AllYourCharacters HasTrait Adventurer|Magic
+		{
+			GainPower 3000
+		}
+	}
+	Text Cont: If all of your characters are <Adventurer> or <Magic>, this card gets +3000 power.
+	
+	Auto: OnAttack
+	{
+		PayCost Discard 1 Any
+		{
+			*Check4Add1(Adventurer|Magic)
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, look at up to four cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: SFN/S108-016
+Name Someone Who Praises Me, Frieren
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+
+	Cont: GiveSelf
+	{
+		If MyTurn && Compare CardsInMemory 1 OrMore
+		{
+			GainPower 2500
+			GainEffect
+			{
+				*GainPowerWhenAttackingLevel2(6000)
+			}
+		}
+	}
+	Text Cont: <b>Memory<\b> During your turn, if there is a card in your memory, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+
+EndCard
+
+Character: SFN/S108-017
+Name Statue of a Group of Heroes
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 Adventurer
+Trait2 Magic
+
+	Cont: GiveSelf
+	{
+		GainSpecialEffect CannotAttack
+	}
+	Text Cont: This card cannot attack.
+	
+	Cont: MemoryGiveHand
+	{
+		If Not CardNamePlayedThisTurn The Reason for Starting the Journey, Himmel && NameEquals The Reason for Starting the Journey, Himmel
+		{
+			ChangeCost -1
+		}
+	}
+	Text Cont: <b>Memory<\b> If this card is in your memory, and you have not played "The Reason for Starting the Journey, Himmel" this turn, your "The Reason for Starting the Journey, Himmel" in your hand gets -1 cost.
+	
+	Act: 1 SendSelf Memory
+	{
+		SearchWaitingRoom NameEquals "Hero" Himmel|"Hometown Flower" Frieren & Himmel
+	}
+	ActivationRequirement CardPosition Stand
+	Text Act: [(1) Put this standing card into your memory] Search your waiting room for up to 1 ""Hero" Himmel" or ""Hometown Flower" Frieren & Himmel", reveal it to your opponent, put it into your hand.
+
+EndCard
+
+Character: SFN/S108-018
+Name "A Journey that Touches People's Hearts" Frieren
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Adventurer
+Trait2 Magic
+Combo Regret
+
+	Auto: OnUseEvent
+	{
+		If StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			TargetSelf
+			GainPower 3000
+		}
+	}
+	TimesPerTurn 1
+	Text Auto: This ability activates up to 1 time per turn. When you play an event, if you have another <Adventurer> or <Magic> character, this card gets +3000 power until end of turn.
+	
+	Auto: OnAttack
+	{
+		If Climax Regret
+		{
+			Message Choose up to 2 cards to shuffle into your opponent's deck
+			SearchLocationForTargets OpponentWaitingRoom 0 2 Any
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When this card attacks, if <b>"Regret"<\b> is in your climax area, choose up to 2 cards in your opponent's waiting room, return them to their deck, and your opponent shuffles their deck.
+
+EndCard
+
+Character: SFN/S108-019
+Name Surprise, Frieren
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		Question Put the top 3 cards of your deck into the waiting room?
+		If Yes
+		{
+			Mill 3
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 IsEvent
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic
+		}
+	}
+	Text Auto: [Put 1 event from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose an <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+
+EndCard
+
+Character: SFN/S108-020
+Name "Fake Monk?" Heiter
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+
+	*LevelAssist
+	
+	Act: 2 RestSelf
+	{
+		Heal
+	}
+	Text Act: [(2) Rest this card] Put the top card of your clock into your waiting room.
+
+EndCard
+
+Event: SFN/S108-021
+Name Magic to Remove Rust from Bronze Statues
+Color Y
+Level 1
+Cost 1
+
+	Effect:
+	{
+		SearchDeck IsClimax && ColorIs Yellow
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Statue of a group of heroes
+		MoveCard Memory
+	}
+	Text Search your deck for up to 1 yellow climax, reveal it to your opponent, put it into your hand and shuffle your deck. Choose up to 1 "Statue of a Group of Heroes" in your waiting room and put it into your memory.
+
+EndCard
+
+Climax: SFN/S108-022
+Name Eternal Love
+
+	*ChoiceClimax
+	
+EndCard
+
+Climax: SFN/S108-023
+Name Just 10 Years of Adventure
+
+	*ChoiceClimax
+
+EndCard
+
+Climax: SFN/S108-024
+Name Regret
+
+	*ChoiceClimax
+
+EndCard
+
+Character: SFN/S108-025
+Name Influential Wizard, Serie
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+
+	Auto: OnPlay
+	{
+		PayCost 1 Clock
+		{
+			SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+		}
+	}
+	Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+	
+	Auto: OnPlay
+	{
+		PayCost 1 Discard 1 IsEvent
+		{
+			SearchWaitingRoom IsEvent
+		}
+	}
+	Text Auto: [(1) Put 1 event from your hand into your waiting room] When this is placed on the stage from your hand, you may pay the cost. If you do, choose 1 event from your waiting room, and add it to hand.
+	
+EndCard
+
+Character: SFN/S108-026
+Name Aura the Guillotine
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Mazoku
+Combo Scales of Obedience
+
+	*OnPlayDraw2Discard1
+	
+	Auto: OnSpecificClimaxPlay Scales of Obedience
+	{
+		If InLocation CenterStage &&& StageContains 4 Other && HasTrait Adventurer|Magic
+		{
+			TargetSelf
+			SetXValue TargetCardsPower
+			TargetFacing
+			If Compare X TargetCardsPower GreaterThan
+			{
+				TargetFacing
+				MoveCard OpponentClock
+			}
+			If Compare X TargetCardsPower LessThan
+			{
+				TargetSelf
+				MoveCard Clock
+			}
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When <b>"Scales of Obedience"<\b> is placed on your climax area, if this card is in your center stage, and you have 4 or more other <Adventurer> or <Magic> characters, choose 1 character facing this card, if this card's power is greater than that character's power, put that character into your opponent's clock, if this card's power is less than that character's power, put this card into your clock.
+
+EndCard	
+
+Character: SFN/S108-027
+Name "Master" Flamme
+Color G
+Level 2
+Cost 1
+Power 6000
+Trait1 Magic
+Combo Cowardly and Worst Way to Fight
+
+	*EarlyPlay4OrMore(Adventurer|Magic)
+	
+	Auto: OnAttack
+	{
+		TargetLocation OpponentStage
+		SetXValue 1000
+		MultiplyXValue TargetCount
+		TargetSelf
+		GainPower X
+	}
+	Quick
+	Text Auto: When this card attacks, this card gets +X power until end of turn. X is equal to the number of characters your opponent has x1000.
+	
+	Auto: OnReverseOpponent 
+	{
+		If Climax Cowardly and Worst Way to Fight
+		{
+			PayCost SendClimax WaitingRoom
+			{
+				RevealUpTo Deck 2
+				Message Choose up to 2 <Adventurer> or <Magic> characters or events to add to your hand.
+				ChooseCardsFromTargets 0 2 HasTrait Adventurer|Magic || IsEvent
+				MoveCard Hand
+				PutTheRestIntoTheWaitingRoom
+				TargetLocation OpponentStage
+				NarrowTargets Compare ThatCardsLevel 0 OrLess
+				If HasTarget
+				{
+					ChooseCharacterFromTargets_Optional Choose up to 1 of your Opponent's Level 0 or lower characters, put it in their waiting room
+					MoveCard OpponentWaitingRoom
+				}
+			}
+		}
+	}
+	Text Auto: <b>CxCombo<\b> [Put <b>"Cowardly and Worst Way to Fight"<\b> from your climax area to waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Adventurer> or <Magic> characters or events from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room, choose up to 1 of your pppponent's level 0 or lower characters and put it in their waiting room.
+	
+EndCard
+
+Character: SFN/S108-028
+Name Ubel
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+
+	Cont: InHand
+	{
+		If LocationContains OpponentStage 1 Compare ThatCardsLevel 3 OrMore
+		{
+			LoseLevel 1
+		}
+	}
+	Text Cont: If your opponent has a level 3 or higher character, this card gets -1 level while in your hand.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfThatCard HasTrait Adventurer|Magic || IsEvent
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsLevel 3 OrLess
+			ChooseCharacterFromTargets_Optional Choose a character to put into your opponent's waiting room.
+			MoveCard OpponentWaitingRoom
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an <Adventurer> or <Magic> character or event, you may choose 1 level 3 or lower character in your opponent's center stage, and put it into their waiting room.
+	
+EndCard
+
+Character: SFN/S108-029
+Name Wirbel
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+	
+	Auto: OnPlay
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to make unable to move until end of opponent's turn.
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotMove
+			}
+			Text Cont: This card cannot move to another position of the stage.
+		}
+	}
+	Slow
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters and it gets the following ability until the end of your opponent's next turn. "Cont: This card cannot move to another position of the stage."
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 IsClimax
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic
+		}
+	}
+	Text Auto: [Put a climax from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose an <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+
+EndCard
+
+Character: SFN/S108-030
+Name Methode
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Magic
+
+	Cont: GiveAll
+	{
+		If Other && InLocation MiddleCenterStage && Compare ThatCardsLevel 0 OrLess
+		{
+			GainPower 1000
+		}
+	}
+	Text Cont: Your other level 0 or lower character in the middle position of your center stage gets +1000 power.
+	
+	Act: 1 Rest 2 Any
+	{
+		Brainstorm 5
+		PerClimax
+		{
+			SearchDeck HasTrait Adventurer|Magic
+		}
+	}
+	Text Act: BRAINSTORM [(1) Rest 2 characters] Flip over 5 cards from the top of your deck and put them into the waiting room. For each climax revealed, search your deck for up to 1 <Adventurer> or <Magic> character, reveal it to your opponent, add it to your hand and shuffle your deck.
+	
+EndCard
+
+Character: SFN/S108-031
+Name Land
+Color G
+Level 1
+Cost 0
+Power 3500
+Trait1 Magic
+
+	Auto: OnPlay
+	{
+		If LocationContains WaitingRoom 1 NameEquals Land
+		{
+			Message Choose a "Land" to put under this card as a marker
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals Land
+			Marker_FaceUp
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may choose 1 "Land" in your waiting room and place it face-up underneath this card as a marker.
+	
+	Auto: OnClimaxPlay
+	{
+		*GiveCharacterPower(1500,Adventurer|Magic)
+	}
+	Text Auto: When a climax is placed into your climax area, choose 1 of your <Adventurer> or <Magic> characters and that character gains +1500 power until end of turn.
+	
+	Act: Discard 1 IsCharacter
+	{
+		TargetSelf
+		TargetMarkersUnderTargets
+		ChooseCardsFromTargets 1 1 NameEquals Land
+		PlaceOnStage False True True False
+		RememberTargets
+	}
+	Text Act: [Put 1 character from your hand into your waiting room] Choose 1 "Land" underneath this card as a marker and place it on any position on your stage. At the end of your turn, you may put that character underneath this card face-up as a marker.
+	Auto: EndOfTurn
+	{
+		If StageContains 1 RememberedByThisCard
+		{
+			TargetRemembered
+			Question Put your "Land" under this card as a marker?
+			If Yes
+			{
+				Marker_FaceUp
+			}
+		}
+	}
+	
+EndCard
+
+Character: SFN/S108-032
+Name Sage of Corruption, Qual
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Magic
+Trait2 Mazoku
+
+	*Healer
+
+	Auto: OnEndOfAttack
+	{
+		PayCost 3 Discard 2 Any
+		{
+			Burn 3
+		}
+	}
+	Text Auto: [(3) Put 2 cards from your hand into your waiting room] At the end of this card's attack, you may pay the cost. If you do, deal 3 damage to your opponent. <i>(Damage may be canceled)<\i>
+
+EndCard
+
+Character: SFN/S108-033
+Name Kanne
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+
+	Auto: OnPlay
+	{
+		*ScryToBottom
+	}
+	Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, put it on the top or bottom of your deck.
+	
+	Auto: OnPlay
+	{
+		SearchLocationForTargets Clock 0 1 Any
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			SearchLocationForTargets Hand 1 1 Any
+			MoveCard Clock
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may choose a card in your clock and return it to your hand. If you do, put a card from your hand into your clock.
+	
+EndCard
+
+Character: SFN/S108-034
+Name Lawine
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Magic
+	
+	*GainPowerOnPlay(1500)
+	
+	Auto: StartOpponentDrawPhase
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrHigher
+		{
+			TargetSelf
+			Question Return "Lawine" to your hand?
+			If Yes && OnStage
+			{
+				MoveCard Hand
+			}
+		}
+	}
+	Text Auto: At the beginning of your opponent's draw phase, reveal the top card of your deck. If that card is level 1 or higher, you may return this card to your hand.
+	
+EndCard
+
+Character: SFN/S108-035
+Name Mimic
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Magic
+Trait2 Mamono
+
+	Auto: OnReversed
+	{
+		Peek Deck 4
+		ChooseCardsFromTargets 0 1 IsEvent
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			Discard 1 Any
+		}
+		PutTheRestIntoTheWaitingRoom
+	}
+	Text Auto: When this card becomes reversed in battle, look at up to 4 cards from top of your deck, add up to 1 event, reveal it, put it in your hand, and put the rest in the waiting room. If you put a card in your hand, put 1 card from your hand to the waiting room.
+	
+EndCard 
+
+Character: SFN/S108-036
+Name Denken
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Magic
+	
+	Auto: OnPlay
+	{
+		Mill 2
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetSelf
+			Rest
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, put the top two cards of your deck into your waiting room. If there is a climax among those card, rest this card.
+	
+EndCard
+
+Character: SFN/S108-037
+Name Words to Deceive, Lugner
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Magic
+Trait2 Mazoku
+
+	Auto: OnAttack
+	{
+		TargetTop Deck 1
+		Reveal
+		IfThatCard IsEvent || HasTrait Adventurer|Magic
+		{
+			*GiveCharacterPower(3000,Any)
+		}
+	}
+	Text Auto: When this card attacks, reveal the top card of your deck. If that card is an event or an <Adventurer> or <Magic> character, choose 1 of your characters, and that character gets +3000 power until end of turn.
+	
+	Auto: StartClimaxPhase
+	{
+		If Compare MyLevel 1 OrMore 
+		{
+			TargetLocation Stage 
+			ChooseCharacterFromTargets Choose a character to swap with.
+			AddSelfToTargets
+			Exchange
+		}
+	}
+	Alarm
+	Text Auto: ALARM If this is on top of your clock, your level is 1 or higher, at the start of your climax phase, you may choose 1 of your characters and this card, exchange them.
+	
+EndCard
+
+Character: SFN/S108-038
+Name "Air Farzen" Linie
+Color G
+Level 1
+Cost 1
+Power 5500
+Trait1 Magic
+Trait2 Mazoku
+
+	*GainPowerWithEnoughCharacters(4500,4,Adventurer|Magic)
+
+EndCard
+
+Character: SFN/S108-039
+Name "Decapitation Officer" Draht
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Magic
+Trait2 Mazoku
+
+	Auto: OnPlay
+	{
+		SetXToNumberOfCharacters HasTrait Adventurer|Magic
+		MultiplyXValue 1000
+		GainPower X
+	}
+	Text Auto: When this card is placed on the stage from your hand, this card gets +X power. X is equal to the number of <Adventurer> or <Magic> characters you have x1000.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfThatCard HasTrait Adventurer|Magic || NameEquals Magic of Obedience
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 0 OrLess
+			If HasTarget
+			{
+				ChooseCharacterFromTargets_Optional Choose up to 1 of your opponent's level 0 or lower characters and put it in their waiting room.
+				MoveCard OpponentWaitingRoom
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is an <Adventurer> or <Magic> character or "Magic of Obedience", you may choose up to 1 of your opponent's level 0 or lower characters, put it in their waiting room.
+	
+EndCard
+
+Character: SFN/S108-040
+Name "Seven Sages of Destruction" Aura
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Magic
+Trait2 Mazoku
+
+	*Level3Assist
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom NameEquals Magic of Obedience
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Magic of Obedience" in your waiting room, and return it to your hand.
+	
+EndCard
+
+Character: SFN/S108-041
+Name Red Mirror Dragon
+Color G
+Level 2
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Magic
+Trait2 Mamono
+
+	Cont: GiveSelf
+	{
+		SetXToNumberOfCharacters InLocation Backstage && Other && HasTrait Adventurer|Magic
+		MultiplyXValue 1500
+		GainPower X
+	}
+	Text Cont: For each other <Adventurer> or <Magic> character on your backstage, this card gets +1500 power.
+	
+	Auto: OnReversed
+	{
+		RevealUpTo OpponentDeck 3
+		If HasTarget
+		{
+			OpponentChooseCardsFromTargets 0 1 IsEvent
+			MoveCard OpponentHand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+	Text Auto: When this card becomes reversed in battle, your opponents may reveal up to 3 cards from the top of their deck. If they revealed 1 or more cards, choose up to 1 event from among those cards, they put it into their hand, put the rest into their waiting room.
+	
+EndCard
+
+Event: SFN/S108-042
+Name Magic of Obedience
+Color G
+Level 2
+Cost 0
+Counter
+
+	Effect:
+	{
+		Message Choose up to 1 "Aura the Guillotine" in your waiting room.
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Aura the Guillotine
+		If HasTarget
+		{
+			MultipleChoiceQuestion Return it to your hand or put it into your stock. \n1.Hand\n2.Stock|1|2
+			If Answer 0
+			{
+				RevealTargets
+				MoveCard Hand
+			}
+			Else
+			{
+				RevealTargets
+				MoveCard Stock
+			}
+		}
+		TargetLocation OpponentStage
+		ChooseCharactersFromTargets 0 3 Choose up to 3 Characters to get effect.
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotBeReversed
+			}
+			Text Cont: This card cannot become reversed.
+		}
+	}
+	ActivationRequirement StageContains 2 HasTrait Adventurer|Magic
+	Text COUNTER If you have 1 or less <Adventurer> or <Magic> characters, this cannot be played from hand. \nChoose up to 1 "Aura the Guillotine" in your waiting room, return it to your hand or put it into your stock, choose up to 3 of your opponent's characters, they get the following ability until end of turn. "Cont: This card cannot become reversed."
+EndCard
+
+Event: SFN/S108-043
+Name Illusion Magic
+Color G
+Level 2
+Cost 1
+
+	Effect:
+	{
+		TargetLocation OpponentCenterStage
+		ChooseCharactersFromTargets 0 3 Choose up to 3 Characters to -2000 power.
+		LosePower 2000
+		TargetSelf
+		MoveCard Memory
+	}
+	ActivationRequirement StageContains 1 HasTrait Adventurer|Magic
+	Text If you do not have <Adventurer> or <Magic> character, this cannot be played from hand. \nChoose up to 3 characters in your opponent's center stage, they get the +2000 power until end of turn. Put this card into your memory.
+	
+EndCard
+
+Climax: SFN/S108-044
+Name Scales of Obedience
+
+*BarClimax
+
+EndCard
+
+Climax: SFN/S108-045
+Name Cowardly and Worst Way to Fight
+
+*BarClimax
+
+EndCard
+
+Character: SFN/S108-046
+Name Mirror Lotus Bracelet, Fern
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		Peek Deck 2
+		Message Choose up to 2 cards to put into your waiting room.
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard WaitingRoom
+		TargetLocation ScryArea
+		SetXValue TargetCount
+		MoveCard Deck
+		TargetTop Deck X
+		Message Select order to return cards (first on top)
+		Reorder
+	}
+	Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, choose up to 2 of them, put them on the top of your deck in any order, and put rest into your waiting room.
+	
+	*RedLevel0Bomb
+
+EndCard
+
+Character: SFN/S108-047
+Name Clumsy Birthday, Stark
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Adventurer
+Trait2 Weapon
+Combo Independence of Young People
+
+	Auto: StartAttackPhase
+	{
+		If Climax Independence of Young People
+		{
+			PayCost Discard 1 Any SendClimax WaitingRoom
+			{
+				Stand
+				SearchLocationForTargets WaitingRoom 0 1 NameEquals Clumsy Birthday, Fern
+				PlaceOnStage False True True False
+				MultipleChoiceQuestion Choose one \n1.This card gains "Cont: GREAT PERFORMANCE" until end of your opponent's turn.\n2.Choose 1 card in your waiting room, and put it into your stock.|1|2
+				If Answer 0
+				{
+					TargetSelf
+					UntilEndOfOpponentsTurn
+					GainEffect
+					{
+						*GreatPerformance
+					}
+				}
+				Else
+				{
+					*PutCardFromWaitingRoomIntoStock(Any)
+				}
+			}
+		}
+	}
+	Text Auto: <b>CxCombo<\b> [Put 1 card from your hand into your waiting room & Put <b>"Independence of Young People"<\b> from your climax area to waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card, choose up to 1 "Clumsy Birthday, Fern" from your waitingroom, and put it on any position of your stage, choose 1 of the following 2 effects and perform it. "This card gains "Cont: GREAT PERFORMANCE" until end of your opponent's turn." "Choose 1 card in your waiting room, and put it into your stock."
+	EndCard
+
+Character: SFN/S108-048
+Name Social Circle, Fern
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+	
+	*OnPlayCheckTopTraitOrEventAddDiscard(Adventurer|Magic)
+	
+	Auto: OnClimaxPlay
+	{
+		PayCost SendSelf Hand
+		{
+			AIChoice GainPower 1000
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give +1000 power until end of opponent's next turn.
+			UntilEndOfOpponentsTurn
+			GainPower 1000
+		}
+	}
+	Text Auto: [Return this card to your hand] When your climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1000 power until end of your opponent's next turn.
+	
+EndCard
+
+Character: SFN/S108-049
+Name Fern & Stark
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+	
+	Auto: OnPlay
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainSpecialEffect DoubleTrigger
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				TargetTop Stock 1
+				MoveCard WaitingRoom
+			}
+			Text Auto: When this card attacks, during that attack, perform a trigger check 2 times on the trigger step. If performed 2 times, put the top card of your stock into your waiting room.
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card attacks, during that attack, perform a trigger check 2 times on the trigger step. If performed 2 times, put the top card of your stock into your waiting room."
+	
+	Act: 1 SendSelf WaitingRoom
+	{
+		*Check4Add1(Adventurer|Magic)
+	}
+	Text Act: [(1) Put this card into the waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: SFN/S108-050
+Name "Priest" Sein
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+Combo Believe The Words
+
+	Auto: OnPlay
+	{
+		SetXToNumberOfCharacters HasTrait Adventurer|Magic
+		MultiplyXValue 500
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to get power.
+		GainPower X
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your characters, and that character gets +X power. X is equal to the number of <Adventurer> or <Magic> characters you have x500.
+	
+	Auto: StartMyEncorePhase
+	{
+		If Climax Believe The Words && FacingIsEmptyOrReversed && StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			*OptionalBlindStock
+			SearchLocationForTargets Stock 1 1 Any
+			MoveCard Hand
+			ShuffleLocation Stock
+		}
+	}
+	Text Auto: <b>CxCombo<\b> At the beginning of your encore step, if <b>"Believe The Words"<\b> is in your climax area, this card is on your center stage, you have 2 or more other <Adventurer> or <Magic> characters, and there is either no character facing this card or the character facing this card is reversed, you may put the top card of your deck into stock, and search 1 card in your stock, put it into your hand and shuffle your stock.
+
+EndCard
+
+Character: SFN/S108-051
+Name "Warrior" Stark
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 8000
+Soul 2
+Trait1 Adventurer
+Trait2 Weapon
+Combo Master's Teachings
+
+	Cont: GiveSelf
+	{
+		If AllYourCharacters HasTrait Adventurer|Magic
+		{
+			GainPower 500
+			GainEffect
+			{
+				Auto: OnOtherFrontalAttacked
+				{
+					PayCost SendSelf WaitingRoom
+					{
+						TargetOther
+						GainEffect
+						{
+							Cont: GiveSelf
+							{
+								GainSpecialEffect CannotBeReversed
+							}
+							Text Cont: This card cannot become reversed.
+						}
+					}
+				}
+				Text Auto: [Put this card into your waiting room] When your other character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, and that character gets the following ability until end of turn. "Cont: This card cannot become reversed."
+			}		
+		}
+	}
+	Text Cont: If all of your characters are <Adventurer> or <Magic>, this card gets +500 power and the following ability. "Auto: [Put this card into your waiting room] When your other character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, and that character gets the following ability until end of turn. "Cont: This card cannot become reversed.""
+	
+	Auto: StartAttackPhase
+	{
+		If Climax Master's Teachings
+		{
+			PayCost SendClimax WaitingRoom
+			{
+				Stand
+			}
+		}
+	}
+	Text Auto: <b>CxCombo<\b> [Put <b>"Master's Teachings"<\b> from your climax area into your waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card.
+
+EndCard
+
+Character: SFN/S108-052
+Name Clumsy Birthday, Fern
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 3500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	*2000Assist
+	
+	*Healer
+	
+	Act: 3 RestSelf SendFromHand 1 ScryArea NameEquals Birthday Present
+	{
+		TargetSentToPayCost
+		Marker_FaceUp
+		Burn 2
+	}
+	Text Act: [(3) Put 1 "Birthday Present" from your hand face-up underneath this card as a marker, RestSelf] Deal 2 damage to your opponent. <i>(Damage may be canceled)<\i>
+	
+EndCard
+
+Character: SFN/S108-053
+Name Frieren & Fern & Stark
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Combo The Middle of a Journey
+
+	*OnPlayDraw2Discard2BlindStock
+	
+	Auto: OnAttack
+	{
+		If Climax The Middle of a Journey
+		{
+			*OptionalBurn(1)
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When this card attacks, if <b>"The Middle of a Journey"<\b> is in your climax area, you may deal 1 damage to your opponent. <i>(Damage may be canceled)<\i>
+	
+EndCard
+
+Character: SFN/S108-054
+Name Days in the Northern Countries, Stark
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Weapon
+
+	Auto: OnPlay
+	{
+		If LocationContainsOrLess OpponentCenterStage 1 IsCharacter
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets Compare ThatCardsCost 0 OrLess
+			ChooseCharacterFromTargets_Optional
+			MoveCard WaitingRoom
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if your opponent has 1 or less characters in their center stage, you may choose 1 cost 0 or lower character in their center stage, and put it into their waiting room.
+
+	Auto: OnPlay
+	{
+		PayCost 2
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic
+		}
+	}
+	Text Auto: [(2)] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose an <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+
+EndCard
+
+Character: SFN/S108-055
+Name Social Circle, Stark
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Weapon
+
+	*GainPowerForEachOther(500,Adventurer|Magic)
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			AIChoice PlaceOnStageStanding
+			SearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel 0 OrLower && HasTrait Adventurer|Magic
+			PlaceOnStage False True True False
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 level 0 or lower <Adventurer> or <Magic> character in your waiting room, and put it on any position of your stage.
+
+EndCard
+
+Character: SFN/S108-056
+Name The Most Difficult Pattern, Stark
+Color R
+Level 1
+Cost 1
+Power 5500
+Trait1 Adventurer
+Trait2 Weapon
+
+	*GainPowerWithEnoughCharacters(2000,2,Adventurer|Magic)
+	
+	*HandEncore
+
+EndCard
+
+Character: SFN/S108-057
+Name A New Journey, Sein
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5000
+Trait1 Adventurer
+Trait2 Magic
+
+	*Level3Assist
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 IsEvent
+		{
+			Refresh
+		}
+	}
+	Text Auto: [Put 1 event from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all cards from your waiting room to your deck, and shuffle your deck.
+
+EndCard
+
+Character: SFN/S108-058
+Name Long Journey, Eisen
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Weapon
+
+	Auto: OnPlay
+	{
+		{
+			Question Search your deck for up to 1 <Adventurer> or <Magic> characters?
+			If Yes
+			{
+				SearchLocationForTargets Deck 0 1 HasTrait Adventurer|Magic
+				RevealTargets
+				MoveCards WaitingRoom
+				ShuffleLocation Deck
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may perform the following action. "Search your deck for up to 1 <Adventurer> or <Magic> characters, reveal it to your opponent, put it into your waiting room, and shuffle your deck."
+	
+	*BondDiscard(Eizen's Disciple\, Stark)
+EndCard
+
+Character: SFN/S108-059
+Name The Magic Of Seeing Through Clothes, Fern
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to lose its markers
+		TargetMarkersUnderTargets
+		MoveCard WaitingRoom
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose 1 of your opponent's characters, put all markers from underneath that character to the waiting room.
+
+	Auto: OnPlay|OnSentFromStageToWaitingRoom
+	{
+		PayCost 1 Discard 1 HasTrait Adventurer|Magic
+		{
+			*CheckAndAdd(3)
+		}
+	}
+	Text Auto: [(1) Put 1 <Adventurer> or <Magic> character from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+
+EndCard
+
+Character: SFN/S108-060
+Name Eizen's Disciple, Stark
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Weapon
+
+	Cont: GiveSelf
+	{
+		If HasMarker
+		{
+			GainLevel 1
+			GainPower 2500
+		}
+	}
+	Text Cont: If this card has a marker underneath it, this card gains +1 level and +2500 power.
+	
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfTarget HasTrait Adventurer|Magic || IsEvent
+		{
+			Question Put this card underneath this as a marker?
+				If Yes
+			{
+				Marker_FaceDown
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may reveal the top card of your deck. If that card is an <Adventurer> or <Magic> character or event, you may put it underneath this card face down as a marker.
+	
+EndCard
+
+Character: SFN/S108-061
+Name A Monk Who Breaks The Precepts, Sein
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		Mill 2
+		NarrowTargets IsClimax
+		If HasTarget
+		{
+			TargetLocation OpponentCenterStage
+			ChooseCharacterFromTargets Choose a character to lose 1000 power.
+			LosePower 1000
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, put the top 2 cards of your deck into your waiting room. If there is a climax among those cards, choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+	
+	Auto: OnPlay
+	{
+		PayCost 1 Discard 1 Any
+		{
+			SearchWaitingRoom HasTrait Adventurer|Magic
+			AIChoice GainPower 1000
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Adventurer|Magic
+			ChooseCharacterFromTargets Choose a character to give +1000 power.
+			GainPower 1000
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 <Adventurer> or <Magic> character in your waiting room, return it to your hand, choose 1 of your other <Adventurer> or <Magic> characters, and that character gets +1000 power until end of turn.
+	
+EndCard
+
+Character: SFN/S108-062
+Name The Job of Priest, Zain
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnUseThisCardsBackup
+	{
+		If StageContains 3 HasTrait Adventurer|Magic
+		{
+			MultipleChoiceQuestion Search your deck or your waiting room for "Birthday Present"?|Deck|WaitingRoom
+			If Answer 0
+			{
+				SearchLocationForTargets Deck 0 1 NameEquals Birthday Present
+				MoveCard Memory
+				ShuffleLocation Deck
+			}
+			Else
+			{
+				SearchLocationForTargets WaitingRoom 0 1 NameEquals Birthday Present
+				MoveCard Memory
+			}
+		}
+	}
+	Text Auto: When you use this card's <b>Backup</b>, if you have <Adventurer> or <Magic> characters 3 or more, choose 1 of the following effects, and perform it. "Search your deck for up to 1 "Birthday Present", reveal it to your opponent, put it into your memory, and shuffle your deck." " "Choose a "Birthday Present" in your waiting room and put it into your memory."
+	
+	Backup 2000
+	
+EndCard
+
+Character: SFN/S108-063
+Name This Guy is a Kid... Stark
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Adventurer
+Trait2 Weapon
+
+	*GainPowerForEachOther(500,Adventurer|Magic)
+	
+	Auto: OnAttack
+	{
+		TargetFacing
+		If HasTarget
+		{
+			If Compare TargetCardsLevel 3 OrMore
+			{
+				TargetSelf
+				UntilEndOfOpponentsTurn
+				GainPower 4500
+			}
+		}
+	}
+	Quick
+	Text Auto: When this card attacks, if the character facing this card is level 3 or higher, this card gets +4500 power until the end of your opponent's next turn.
+	
+EndCard
+
+Character: SFN/S108-064
+Name Swelling Fern
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	*GainPowerForEachOther(1000,Adventurer|Magic)
+	
+	*HandEncore
+
+EndCard
+
+Event: SFN/S108-065
+Name Birthday Present
+Color R
+Level 1
+Cost 1
+
+	Effect:
+	{
+		Mill 2
+		SetXValue TotalLevel
+		SearchWaitingRoom HasTrait Adventurer|Magic && Compare ThatCardsLevel X OrLess
+		TargetSelf
+		MoveCard Memory
+	}
+	Text Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower <Adventurer> or <Magic> character in your waiting room, and return it to your hand. X is the total level of the cards put into your waiting room by this effect. Put this card to your memory.
+	
+	Auto: OnLevelUp
+	{
+		PayCost Discard 1 Any
+		{
+			TargetSelf
+			MoveCard Hand
+		}
+	}
+	InMemory
+	Text Auto: <b>Memory<\b> [Put 1 card from your hand into your waiting room] When you level up, if this card is in your memory, you may pay the cost. If you do, return this card to your hand.
+
+EndCard
+
+Event: SFN/S108-066
+Name Magic to Find Lost Accessories
+Color R
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Adventurer|Magic
+Counter
+
+	Effect:
+	{
+		Question Draw a card?
+		If Yes
+		{
+			DrawCard
+			Discard 1 Any
+		}
+		SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic
+	}
+	Text Counter: If you do not have an <Adventurer> or <Magic> character, this card cannot be played from your hand. \nYou may draw 1 card. If you do, put 1 card from your hand into your waiting room. Choose an <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+
+EndCard
+
+Climax: SFN/S108-067
+Name Independence of Young People
+
+	*StandbyClimax
+
+EndCard
+
+Climax: SFN/S108-068
+Name Believe the Words
+
+	*DoorClimax
+
+EndCard
+
+Climax: SFN/S108-069
+Name Master's Teachings
+
+	*StandbyClimax
+
+EndCard
+
+Climax: SFN/S108-070
+Name The Middle of a Journey
+
+	*DoorClimax
+	
+EndCard
+
+Character: SFN/S108-071
+Name Stable Magician, Fern
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnUseEvent
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+	TimesPerTurn 3
+	Text Auto: This ability activates up to 3 times per turn. When you play an event, look at up to 2 cards from the top of your deck and return them in any order.
+	
+	*Act1RestSelfSalvageBrainstorm(Any)
+	
+EndCard
+
+Character: SFN/S108-072
+Name Winter Outfit, Frieren
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+	
+EndCard
+
+Character: SFN/S108-073
+Name "Wizard" Fern
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+Combo Battle on a Moonlit Night
+
+	*GainPowerWithEnoughCharacters(2000,2,Adventurer|Magic)
+	
+	Auto: OnSpecificClimaxPlay Battle on a Moonlit Night
+	{
+		If InLocation CenterStage &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			SearchWaitingRoom NameEquals Magic to Find Lost Accessories|Flight Magic
+			TargetSelf
+			GainPower 1000
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When <b>"Battle on a Moonlit Night"<\b> is placed on your climax area, if this card is in your center stage, and you have other 2 or more <Adventurer> or <Magic> character, choose up to 1 "Magic to Find Lost Accessories" or "Flight Magic" in your waiting room, and return it to your hand, this card gets +1000 power until the end of turn.
+	
+EndCard
+
+Character: SFN/S108-074
+Name My Favorite Magic, Frieren
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Adventurer
+Trait2 Magic
+Combo The Brave
+
+	*Healer
+
+	Auto: OnAttack
+	{
+		If Climax The Brave &&& LocationContains WaitingRoom 3 IsEvent && NameContains Magic
+		{
+			MultipleChoiceQuestion Choose one of the following effects and perform it,\n1. Your opponent puts the top 12 cards of their deck into their waiting room, and this card gets +1500 power until the end of turn.\n2. Look at up to 2 cards from the top of your opponent's deck, choose up to 1 card from among them, put it to waiting room, and put the rest on top of your opponent's deck in any order.\n3. [Put 2 cards from your hand into your waiting room] You may pay the cost. If you do, deal 3 damage to your opponent.|1|2|3
+			If Answer 0
+			{
+				MillOpponent 12
+				TargetSelf
+				GainPower 1500
+			}
+			If Answer 1
+			{
+				Peek OpponentDeck 2
+				*ChooseCardsToPutIntoWaitingRoomReturnTheRestInAnyOrder(0,1)
+			}
+			If Answer 2
+			{
+				PayCost Discard 2 Any
+				{
+					Burn 3
+				}
+			}
+		}
+	}			
+	Text Auto: <b>CxCombo<\b> When this card attacks, if <b>"The Brave"<\b> is in your climax area, and there are 3 or more events with either "Magic" in it's card name in your waiting room, choose 1 of the following 3 effects and perform it. "Your opponent puts the top 12 cards of their deck into their waiting room, and this card gets +1500 power until the end of turn." "Look at up to 2 cards from the top of your opponent's deck, choose up to 1 card from among them, put it to waiting room, and put the rest on top of your opponent's deck in any order." "[Put 2 cards from your hand into your waiting room] You may pay the cost. If you do, deal 3 damage to your opponent." <i>(Damage may be canceled)<\i>
+	
+EndCard
+
+Character: SFN/S108-075
+Name Fern & Frieren
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Act: RestSelf
+	{
+		If StageContains 3 Other && HasTrait Adventurer|Magic
+		{
+			DrawCard
+			Discard 1 Any
+		}
+	}
+	Text Act: [Rest this card] If you have 3 or more other <Adventurer> or <Magic> characters, draw 1 card, choose 1 card in your hand, and put it into your waiting room.
+	
+	Act: 1 RestSelf
+	{
+		Brainstorm 5
+		TargetBrainstormed
+		NarrowTargets HasTrigger Book
+		SetXValue TargetCount
+		If Compare X 1 OrMore
+		{
+			Repeat X
+			{
+				SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic || NameEquals Magic to Create a Flower Garden
+			}
+		}
+	}
+	Text Act: BRAINSTORM [(1) Rest this card] Flip over 5 cards from the top of your deck, and put them into your waiting room. For each climax with book in its trigger icon revealed among those cards, choose up to 1 <Adventurer> or <Magic> character or "Magic to Create a Flower Garden" in your waiting room, and return it to your hand.
+	
+EndCard
+
+Character: SFN/S108-076
+Name Unnecessary Shopping, Frieren
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 IsEvent || IsClimax
+		{
+			SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic
+		}
+	}
+	Text Auto: [Put 1 event or climax from your hand into your waiting room] When this card is placed on the stage from your hand from the stage, you may pay the cost. If you do, choose an <Adventurer> or <Magic> character in your waiting room and return it to your hand.
+
+EndCard
+
+Character: SFN/S108-077
+Name Days in the Northern Countries, Fern
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnCardSentFromAToB Deck Hand
+	{
+		If MyTurn && Phase Main || Phase Attack
+		{
+			*GiveCharacterPower(1000,Any)
+		}
+	}
+	TimesPerTurn 3
+	Text Auto: This ability activates up to 3 time per turn. When you draw a card during your main phase or attack phase, choose 1 of your character and that gets +1000 power until end of turn.
+	
+	Auto: StartMyEncoreStep
+	{
+		If LocationContains Climax 1 HasTrigger Book &&& StageContainsOrLess 0 Other && NameEquals Days in the Northern Countries, Fern
+		{
+			*OptionalDraw
+		}
+	}
+	Text Auto: At the start of your encore step, if there is a climax with DOOR in its trigger icon in your climax area, and you do not have another "Days in the Northern Countries, Fern", you may draw 1 card.
+	
+EndCard
+
+Character: SFN/S108-078
+Name Older Sister, Frieren
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnUseEvent
+	{
+		If StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			TargetSelf
+			GainPower 3000
+		}
+	}
+	TimesPerTurn 1
+	Text Auto: This ability activates up to 1 time per turn. When you play an event, if you have another <Adventurer> or <Magic> character, this card gets +3000 power until end of turn.
+	
+	Auto: OnAttack
+	{
+		TargetLocation Stage
+		NarrowTargets IsCharacter
+		GainEffect
+		{
+			Auto: OnThisTriggerCheck
+			{
+				IfOther IsClimax
+				{
+					PayCost 1
+					{
+						BlindStock	
+						*OptionalDrawDiscard
+					}
+				}
+			}
+			Text Auto: [(1)] When this card's trigger check reveals a climax, you may pay the cost. If you do, put 1 card from the top of your deck into your stock, and you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+		}
+	}
+	Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: [(1)] When this card's trigger check reveals a climax, you may pay the cost. If you do, put 1 card from the top of your deck into your stock, and you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room."
+	
+EndCard
+
+Character: SFN/S108-079
+Name New Year Festival, Frieren
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Adventurer
+Trait2 Magic
+Combo Scenery that I Couldn't See Alone
+	
+	Cont: GiveSelf
+	{
+		If MyTurn &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+				GainPower 2000
+		}
+	}
+	Text Cont: During your turn, if the number of other <Adventurer> or <Magic> characters you have is 2 or more, this card gets +2000 power.
+	
+	Auto: OnAttack
+	{
+		If Climax Scenery that I Couldn't See Alone &&& StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			Mill 2
+			SetXValue TotalLevel
+			SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess && HasTrait Adventurer|Magic
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When this card attacks, if <b>"Scenery that I Couldn't See Alone"<\b> is in your climax area and you have another <Adventurer> or <Magic> character, put the top 2 cards of your deck into the waiting room, choose up to 1 level X or lower <Adventurer> or <Magic> character in your waiting room, return it to your hand. X equals the sum of the levels of the cards placed into the waiting room by this card effect.
+	
+EndCard
+
+Character: SFN/S108-080
+Name Subjugation Request, Frieren
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnUseEvent
+	{
+		GainLevel 1
+		GainPower 1000
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetTop Deck 1
+				Reveal
+				If Compare TargetCardsLevel 1 OrMore
+				{
+					MoveCard Stock
+				}
+			}
+			Text Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+		}
+	}
+	Quick
+	TimesPerTurn 1
+	Text Auto: This ability activates up to 1 time per turn. When you play an event, this card gets +1 level and +1000 power and the following ability until end of turn. "Auto: When this card attacks, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock."
+
+EndCard
+
+Character: SFN/S108-081
+Name Something Important, Frieren
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 8500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+	
+	Cont: InHand
+	{
+		If LocationContains WaitingRoom 6 IsEvent
+		{
+			LoseLevel 1
+		}
+	}
+	Text Cont: If there are 6 or more events in your waiting room, this card gets -1 level in your hand.
+	
+	Cont: GiveSelf
+	{
+		If StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			GainPower 2000
+			GainEffect
+			{
+				Auto: Encore Discard 1 IsEvent || IsClimax
+				{
+				}
+				Text Auto: ENCORE [Put 1 event or climax from your hand into your waiting room]
+			}
+		}
+	}
+	Text Cont: If you have 2 or more other <Adventurer> or <Magic> characters, this card gets +2000 power and "Auto: ENCORE [Put 1 event or climax from your hand into your waiting room]".
+	
+	*StockHealer
+	
+EndCard
+
+Character: SFN/S108-082
+Name Live with Magic, Fern
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		GainPower 1500
+		MultipleChoiceQuestion Choose one \n1.Look at up to X cards from the top of your deck and search for up to 1 card, put it in your hand, and put the rest into your waiting room. X equals the number of your <Adventurer> or <Magic> characters.\n2.[Put a card from your hand into your waiting room] You may pay the cost. If you do, put the top card of your clock into your stock.|1|2
+		If Answer 0
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Adventurer|Magic
+			SetXValue TargetCount
+			Peek Deck X
+			ChooseCardsFromTargets 0 1 Any
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+		Else
+		{
+			*StockHealer
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, this card +1500 power until end of turn, choose 1 of the following 2 effects and perform it. "Look at up to X cards from the top of your deck and search for up to 1 card, put it in your hand, and put the rest into your waiting room. X equals the number of your <Adventurer> or <Magic> characters." "[Put a card from your hand into your waiting room] You may pay the cost, put the top card of your clock into your stock."
+	
+EndCard
+
+Character: SFN/S108-083
+Name Return of Favor, Fern
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+Combo Full-Fledged Magician
+
+	*Healer
+
+	Auto: OnSpecificClimaxPlay Full-Fledged Magician
+	{
+		GainSpecialEffect NoEventsOnAttack
+		GainSpecialEffect NoBackupOnAttack
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				PayCost 1 Discard 1 Any
+				{
+					Burn 2
+				}
+			}
+			Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card's attack, you may pay the cost. If you do, deal 2 damage to your opponent. 
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When <b>"Full-Fledged Magician"<\b> is placed on your climax area, this card gets the 2 following abilities until end of turn. "Cont: During this card’s battle, your opponent cannot play events or <b>"Backup"</b> from hand." "Auto: [(1) Put 1 card from your hand into your waiting room] When this cards attacks, you may pay the cost. If you do, deal 2 damage to your opponent." <i>(Damage may be canceled)<\i>
+	
+EndCard
+
+Character: SFN/S108-084
+Name Victory and Mourning, Frieren
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnTriggerCheckClimax
+	{
+		PayCost Discard 1 IsClimax
+		{
+			*ScryToBottom
+			SearchWaitingRoom IsCharacter && HasTrait Adventurer|Magic
+		}
+	}
+	Text Auto: [Put 1 climax from your hand into your waiting room] When your trigger check reveals a climax, you may pay the cost. If you do, look at the top card of your deck, put it on the top or bottom of your deck, choose 1 <Adventurer> or <Magic> character in your waiting room, and return it to your hand.
+
+	*RestGivePower(1000,Any)
+
+EndCard
+
+Character: SFN/S108-085
+Name Worries, Frieren
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets
+		RemoveTrait
+	}
+	Text Auto: When this is placed on the stage from hand, choose 1 of your opponent's characters and 1 of its traits, that character loses that trait until end of turn.
+	
+	Auto: OnPlay
+	{
+		PayCost 1 Discard 1 IsEvent
+		{
+			SearchWaitingRoom IsEvent
+		}
+	}
+	Text Auto: [(1) Put 1 event from your hand into your waiting room] When this is placed on the stage from hand, you may pay the cost. If you do, choose 1 event from your waiting room, and add it to hand.
+	
+EndCard
+
+Character: SFN/S108-086
+Name Cold Gaze, Fern
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnUseThisCardsBackup
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Adventurer|Magic
+		SetXValue TargetCount
+		MillOpponentBottom X
+	}
+	Text Auto: When you use this card's <b>"Backup"</b>, put X cards from the bottom of your opponent's deck into their waiting room. X is equal to the number of <Adventurer> or <Magic> characters you have.
+	
+	Backup 2000
+	
+EndCard
+
+Character: SFN/S108-087
+Name Longevity Friend, Frieren
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Adventurer
+Trait2 Magic
+
+	*MemoryBackup
+	
+	Backup 3000
+	
+EndCard
+
+Character: SFN/S108-088
+Name Passing Through Checkpoints, Frieren
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnAttack
+	{
+		TargetLocation WaitingRoom
+		NarrowTargets IsEvent
+		SetXValue TargetCount
+		MultiplyXValue 1500
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Adventurer|Magic
+		AIChoice GainPower X
+		ChooseCharacterFromTargets Choose a character to give +X power.
+		GainPower X
+	}
+	Text Auto: When this card attacks, choose one of your other <Adventurer> or <Magic> characters, and that character gets +X power until end of turn. X is equal to the number of events in your waiting room x1500.
+	
+	*BlueEarlyPlayBomb
+	
+EndCard
+
+
+Character: SFN/S108-089
+Name Meal with Disciples, Frieren
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		*OptionalDraw
+		TargetLocation OpponentStage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				If InBattle
+				{
+					GainSpecialEffect CannotUseBackup
+					GainSpecialEffect CannotUseEvents
+				}
+			}
+			Text Cont: During this card's battle, you cannot use events or <b>"Backup"</b>.
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose up to 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: During this card's battle, you cannot play events or <b>"Backup"</b> from your hand."
+	
+	Auto: OnPlay
+	{
+		If StageContains 4 Other && HasTrait Adventurer|Magic
+		{
+			*PutCardFromWaitingRoomIntoStock(HasTrait Adventurer|Magic)
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Adventurer> or <Magic> characters, you may choose 1 <Adventurer> or <Magic> character in your waiting room, and put it into your stock.
+	
+EndCard
+
+Character: SFN/S108-090
+Name Meal with Teacher, Fern
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnOpponentCancel
+	{
+		If Compare OpponentCancelsThisTurn 2 OrMore
+		{
+			Message Choose 1 card to marker.
+			SearchLocationForTargets WaitingRoom 1 1 Any
+			Marker_FaceUp
+		}
+	}
+	Text Auto: When damage dealt by your character is canceled, if damage dealt by your other character was cancelled this turn, choose 1 card in your waiting room, and put it face up underneath this card as a marker.
+	
+	Auto: OnGainMarker
+	{
+		TargetSelf
+		If Compare MarkersUnderThis 3 OrMore
+		{
+			MoveCard WaitingRoom
+		}
+	}
+	Text Auto: When a marker is placed underneath this card, if there are 3 or more markers underneath this, put this card into waiting room.
+	
+	*RestGivePower(2500,Any)
+	
+EndCard
+
+Character: SFN/S108-091
+Name A Present for Stark, Frieren
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		PayCost HandClock HasTrait Adventurer|Magic
+		{
+			*CheckAndAdd(4)
+		}
+	}
+	Text Auto: [Put 1 <Adventurer> or <Magic> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: SFN/S108-092
+Name Social Circle, Frieren
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	*GivePowerOnPlay(1500,Adventurer|Magic)
+	
+	*OnAttackGivePower(1500,Adventurer|Magic)
+	
+EndCard
+
+Character: SFN/S108-093
+Name Following, Fern
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	*OnPlayCheckTopTraitOrEventAddDiscard(Adventurer|Magic)
+	
+	Auto: OnPlay
+	{
+		Mill 2
+		NarrowTargets IsEvent
+		If HasTarget
+		{
+			PayCost Discard 1 Any
+			{
+				SearchWaitingRoom IsCharacter
+			}
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this is placed on the stage from hand, put the top 2 cards of your deck into waiting room. If there is an event among them, you may pay the cost. If you do, choose 1 character in your waiting room and return it to your hand.
+	
+EndCard
+
+Character: SFN/S108-094
+Name Subjugation Request, Fern
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	*OnOtherAttackedSacrificeToGivePower(1500,Adventurer|Magic)
+	
+	*Act1SalvageBrainstorm(Any)
+	
+EndCard
+
+Character: SFN/S108-095
+Name Amazing, Fern
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	Cont: GiveSelf
+	{
+		If MyTurn &&& StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			GainPower 1500
+		}
+	}
+	Text Cont: During your turn, if you have another <Adventurer> or <Magic> character, this card gets +1500 power.
+	
+	Auto: OnReverseOpponent
+	{
+		If AllYourCharacters HasTrait Adventurer|Magic
+		{
+			*CheckAndAdd(2)
+			Discard 1 Any
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, if all your characters are <Adventurer> or <Magic>, look at up to 2 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room, put 1 card from your hand into your waiting room.
+	
+EndCard
+
+Character: SFN/S108-096
+Name Freezing, Frieren
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnReverseOpponent
+	{
+		TargetBattleOpponent
+		IfTarget OnStage && Compare CardsInStock 4 OrLess
+		{
+			Question Put the battle opponent on the bottom of your opponent's deck?
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, if cards in your stock is 4 or lower, you may put that character on the bottom of your opponent's deck.
+	
+	Auto: StartClimaxPhase
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Adventurer|Magic
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				TargetBattleOpponent
+				IfTarget OnStage
+				{
+					Question Put the battle opponent on the bottom of your opponent's deck?
+					If Yes
+					{
+						TargetBattleOpponent
+						MoveCard BottomOfOpponentDeck
+					}
+				}
+			}
+		}
+	}
+	Alarm
+	Text Auto: ALARM If this card is the top card of your clock, at the beginning of your climax phase, choose 1 of your <Adventurer> or <Magic> characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put that character on the bottom of your opponent's deck."
+	
+EndCard
+
+Character: SFN/S108-097
+Name "A Wizard Who Lived for Over a Thousand Years" Frieren
+Color B
+Level 0
+Cost 0
+Power 3000
+Trait1 Adventurer
+Trait2 Magic
+
+	Cont: GiveAll
+	{
+		If Other
+		{
+			GainSpecialEffect CannotSideAttack
+		}
+	}
+	Text Cont: All of your other characters get the following ability. "Cont: This cannot side attack."
+	
+	Cont: GiveSelf
+	{
+		TargetFacing
+		If Compare TargetCardsLevel 3 OrMore
+		{
+			GainPower 7500
+		}
+	}
+	Text Cont: If the level of the character facing this card is 3 or higher, this card gains +7500 power.
+	
+EndCard
+
+Character: SFN/S108-098
+Name Mazoku's Attack, Frieren
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Magic
+
+	*BackupBonus1000(Adventurer|Magic)
+	Auto: OnUseThisCardsBackup
+	{	
+		TargetSelf
+		MoveCardToBottom Deck
+	}
+	Quick
+	ActivationRequirement Compare MyLevel 1 OrHigher
+	Text Act: <b>Backup</b> 1500, Level 1 [Reveal this card in your hand & Put this card at the bottom of your deck]
+	Backup 1500
+	
+EndCard
+
+Character: SFN/S108-099
+Name Role of Mother, Fern
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Adventurer
+Trait2 Magic
+
+	Auto: OnPlay
+	{
+		TargetLocation Stage
+		NarrowTargets NameContains Frieren
+		AIChoice Stand
+		ChooseCharacterFromTargets Choose a character to stand.
+		Stand
+	}
+	Text Auto: When this card is placed on the stage from your hand, you may choose 1 of your character with "Frieren" in it's card name, and stand it.
+	
+	Auto: OnOtherCharacterAttacks
+	{
+		TargetOther
+		IfThatCard HasTrait Adventurer|Magic
+		{
+			TargetLocation Stage
+			NarrowTargets Other && HasTrait Adventurer|Magic
+			SetXValue TargetCount
+			MultiplyXValue 500
+			TargetSelf
+			GainPower X
+		}
+	}
+	Quick
+	Text Auto: When your other <Adventurer> or <Magic> character attacks, this card gets +X power until end of turn. X is equal to your other <Adventurer> or <Magic> characters x500.
+	
+EndCard
+
+Character: SFN/S108-100
+Name Preparation in the Morning, Frieren
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+
+	*LevelAssistTrait(Adventurer|Magic)
+	
+	Act: RestSelf
+	{
+		TargetTop Deck 3
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+		TargetSelf
+		DontStand
+	}
+	Text Act: [Rest this card] Look at up to 3 cards from the top of your deck, put them on the top of your deck in any order. This card not stand during your next stand phase.
+	
+EndCard
+
+Character: SFN/S108-101
+Name Birthday Celebration, Frieren
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Adventurer
+Trait2 Magic
+
+	*GainPowerWithEnoughCharacters(7000,2,Adventurer|Magic)
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 IsEvent
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Birthday Celebration, Fern
+			PlaceOnStage False True True False
+		}
+	}
+	Text Auto: [Put 1 event from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a "Birthday Celebration, Fern" in your waiting room and put it in any position of your stage.
+
+EndCard
+
+Character: SFN/S108-102
+Name Birthday Celebration, Fern
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 Adventurer
+Trait2 Magic
+
+	Cont: GiveSelf
+	{
+		If MyTurn &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+				GainPower 4000
+		}
+	}
+	Text Cont: During your turn, if you have 2 or more other <Adventurer> or <Magic> characters, this card gets +4000 power.
+	
+	Auto: StartOpponentAttackPhase
+	{
+		Question Swap positions with a Birthday Celebration, Frieren?
+		If Yes
+		{
+			TargetLocation Stage
+			NarrowTargets Other && NameEquals Birthday Celebration, Frieren && CanMove
+			ChooseCharacterFromTargets
+			If HasTarget
+			{
+				AddSelfToTargets
+				Exchange
+				Stand
+			}
+		}
+	}
+	Text Auto: At the start of your opponent's attack phase, choose 1 of your "Birthday Celebration, Frieren" and this card, you may exchange them as standing.
+	
+EndCard
+
+Character: SFN/S108-103
+Name A Fumbling Sense of Distance, Fern
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Adventurer
+Trait2 Magic
+	
+	Cont: GiveSelf
+	{
+		GainSpecialEffect NoBackupInBattle
+		If InBattle 
+		{
+			GainSpecialEffect CannotUseEvents
+			GainSpecialEffect OpponentCannotUseEvents
+		}
+	}
+	Text Cont: During this card's battle, all players cannot play events and <b>"Backup"</b> from their hands.
+	
+	*GainPowerWhenAttackingLevel3(6000)
+	
+EndCard
+
+Event: SFN/S108-104
+Name Flight Magic
+Color B
+Level 1
+Cost 0
+Requirement StageContains 1 HasTrait Adventurer|Magic
+Counter
+
+	Effect:
+	{
+		*Check4Add1(Adventurer|Magic)
+	}
+	Text Counter: If you do not have an <Adventurer> or <Magic> character, this card cannot be played from your hand. \nLook at up to 4 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character from among them, add it to your hand, and put the rest into the waiting room.
+
+EndCard
+
+Event: SFN/S108-105
+Name Magic to Create a Flower Garden
+Color B
+Level 3
+Cost 1
+
+	Effect:
+	{
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+		RevealTargets
+		MoveCard Hand
+		Question Return all of your opponent's stock to their deck?
+		If Yes
+		{
+			SetXValue CardsInOpponentsStock 
+			TargetLocation OpponentStock
+			MoveCard OpponentDeck
+			ShuffleLocation OpponentDeck
+			TargetTop OpponentDeck X
+			MoveCard OpponentStock
+		}
+	}
+	Text: Choose up to a character in your waiting room and return it to your hand, and you may perform the following action. "Return all of your opponent's stock to their deck, your opponent shuffles their deck, and put the same number of cards from the top of their deck to their stock and your opponent puts the same number of cards from the top of your opponent's deck into their stock"
+	
+EndCard
+
+Event: SFN/S108-106
+Name Magic that Turns Sweet Grapes into Sour Grapes
+Color B
+Level 2
+Cost 0
+
+	Effect:
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+		TargetSelf
+		MoveCard Stock
+	}
+	ActivationRequirement StageContains 1 HasTrait Adventurer|Magic
+	Text If you do not have <Adventurer> or <Magic> character, this cannot be played from hand. \nChoose 1 of your opponent's level 1 or higher characters, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1. Put this card into your stock.
+	
+EndCard
+
+Event: SFN/S108-107
+Name Basic Attack Magic
+Color B
+Level 2
+Cost 4
+
+	Effect:
+	{
+		Burn 3
+	}
+	Text: Deal 3 damage to your opponent. <i>(Damage may be canceled)<\i>
+	
+EndCard
+
+Climax: SFN/S108-108
+Name Battle on a Moonlit Night
+
+*GateClimax
+
+EndCard
+
+Climax: SFN/S108-109
+Name The Brave
+
+*GateClimax
+
+EndCard
+
+Climax: SFN/S108-110
+Name Scenery That I Couldn't See Alone
+
+*BookClimax
+
+EndCard
+
+Climax: SFN/S108-111
+Name Full-Fledged Magician
+
+*BookClimax
+
+EndCard
+
+Character: SFN/S108-T01
+Name Magic Collection, Frieren
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+
+	*Act1RestSelfDrawBrainstorm5
+	
+	Act: SendSelf WaitingRoom
+	{
+		If Compare MyLevel 3 OrMore
+		{
+			If LocationContains Memory 1 NameEquals Blue Moon Grass, Himmel
+			{
+				SearchLocationForTargets Hand 0 1 NameEquals Frieren the Slayer
+				Change
+				UntilEndOfOpponentsTurn
+				GainEffect
+				{
+					*HexProof
+				}
+			}
+		}
+	}
+	Text Act: <b>Memory<\b> [Put this card into the waiting room] If you are level 3 or higher, and you have "Blue Moon Grass, Himmel" in your memory, choose up to 1 "Frieren the Slayer" in your hand and place it in the stage position this card was on, and that gets the following abilities until the end of your opponent's next turn. "Cont: This card cannot be chosen by your opponent's effects."
+	
+EndCard
+
+Character: SFN/S108-T02
+Name Next Job, Heiter
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Adventurer
+Trait2 Magic
+	
+	*GlobalPower(500, Adventurer|Magic)
+	
+	Act: Discard 1 Any SendSelf BottomOfDeck
+	{
+		SearchDeck HasTrait Adventurer|Magic
+	}
+	Text Act: [Put 1 card from your hand into your waiting room & Put this card into the bottom of your deck] Choose an <Adventurer> or <Magic> character in your deck, return it to your hand, and shuffle you deck.
+	
+EndCard
+
+Character: SFN/S108-T03
+Name Next Job, Eisen
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Weapon
+
+	*GiveAllOpponentsEncore2
+
+EndCard
+
+Character: SFN/S108-T04
+Name "Hero" Himmel
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 3000
+Trait1 Adventurer
+Trait2 Weapon
+Combo Our Adventure
+
+	*OnPlayGainPower(3000)
+
+	Auto: OnAttack
+	{
+		If Climax Our Adventure &&& StageContains 1 Other && HasTrait Adventurer|Magic
+		{
+			*Check4Add1(Adventurer|Magic)
+		}
+	}
+	Text Auto: <b>CxCombo<\b> When this card attacks, if <b>"Our Adventure"<\b> is in your climax area, and you have another <Adventurer> or <Magic> character，look at up to 4 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character to add to your hand, and put the rest into the waiting room.
+	
+EndCard
+
+Character: SFN/S108-T05
+Name Triumphant Return, Himmel
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Adventurer
+Trait2 Weapon
+	
+	Cont: GiveSelf
+	{
+		If MyTurn && StageContains 1 NameEquals Magic Collection, Frieren
+		{
+			GainPower 4000
+			GainEffect
+			{
+				*OnAttackPay1ToDoubleTrigger
+			}
+		}
+	}
+	Text Cont: During your turn, if you have another "Magic Collection, Frieren", this card gets +4000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+	
+EndCard
+
+Character: SFN/S108-T06
+Name "Priest" Heiter
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Adventurer
+Trait2 Magic
+
+	*LevelAssist
+
+	Auto: OnPlay
+	{
+		If StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			Question Draw up to 2 cards and discard 2 cards?
+			If Yes
+			{
+				DrawCard
+				DrawCard
+				Discard 2 Any
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Adventurer> or <Magic> characters, you may draw 2 cards. If so, put 2 cards from your hand into your waiting room.
+
+EndCard
+
+Character: SFN/S108-T07
+Name "Warrior" Eisen
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Adventurer
+Trait2 Weapon
+	
+	*GainPowerWithEnoughCharacters(4500,4,Adventurer|Magic)
+	
+EndCard
+
+Character: SFN/S108-T08
+Name Today's Mood, Himmel
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Adventurer
+Trait2 Weapon
+
+	Cont: GiveSelf
+	{
+		TargetLocation BackStage
+		NarrowTargets Other && NameEquals Magic Collection, Frieren
+		If MyTurn && HasTarget
+		{
+			GainPower 6000
+			GainEffect
+			{
+				*OnAttackPay1ToDoubleTrigger
+			}
+		}
+	}
+	Text Cont: During your turn, if you have another "Magic Collection, Frieren", this card gets +6000 power and the following ability. "Auto: [(1)] When this card attacks, you may pay the cost. If you do, during that attack, perform a trigger check 2 times on the trigger step."
+	
+EndCard
+
+Climax: SFN/S108-T09
+Name Our Adventure
+
+*ChoiceClimax
+
+EndCard
+
+Climax: SFN/S108-T10
+Name Half Century Meteor
+Color Y
+
+*2SoulClimax
+
+EndCard
+
+Character: SFN/S108-T11
+Name "Wizard" Frieren
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Adventurer
+Trait2 Magic
+
+	*ClimaxExchange
+	
+	*BlueLevel0Bomb
+
+EndCard
+
+Character: SFN/S108-T12
+Name Requesting, Heiter
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Magic
+
+	Cont: GiveAll
+	{
+		If NameEquals "Apprentice Magician" Fern
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: All of your other ""Apprentice Magician" Fern" gets +2000 power.
+	
+	*BondDiscard("Apprentice Magician" Fern|New Year Festival\, Fern)
+	
+EndCard
+
+Character: SFN/S108-T13
+Name Blue Moon Grass, Himmel
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Adventurer
+Trait2 Weapon
+
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost HandClock Any
+		{
+			SearchLocationForTargets Deck 0 1 HasTrait Adventurer|Magic
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+			If LocationContainsOrLess Memory 2 Any
+			{
+				SearchLocationForTargets WaitingRoom 0 1 NameEquals Blue Moon Grass, Himmel
+				MoveCard Memory
+			}
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your clock] When this card is placed from the stage to your waiting room, you may pay the cost. If you do, search your deck for up to 1 <Adventurer> or <Magic> character, reveal it to your opponent, put it into your hand, and shuffle your deck. If you have 2 or less cards in your memory, you may choose a "Blue Moon Grass, Himmel" in your waiting room and put it into your memory.
+	
+EndCard
+
+Character: SFN/S108-T14
+Name "Apprentice Magician" Fern
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Magic
+EndCard
+
+Character: SFN/S108-T15
+Name Request for cleaning, Frieren
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Adventurer
+Trait2 Magic
+
+	Backup 2500
+
+EndCard
+
+Character: SFN/S108-T16
+Name Master's care, Fern
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 Adventurer
+Trait2 Magic
+	
+	Cont: GiveSelf
+	{
+		If MyTurn && StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			GainPower 4000
+		}
+	}
+	Text Cont: During your turn, if you have 2 or more <Adventurer> or <Magic> characters, this card gets +4000 power.
+	
+	*ClockEncore
+	
+EndCard
+
+Character: SFN/S108-T17
+Name Frieren the Slayer
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Adventurer
+Trait2 Magic
+Combo The Promised Blue Moon Grass
+
+	*OnPlayCheck3
+	
+	Auto: OnAttack
+	{
+		If Climax The Promised Blue Moon Grass &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		{
+			PayCost Discard 2 Any
+			{
+				Burn 4
+				TargetLocation Stage 
+				NarrowTargets HasTrait Adventurer|Magic
+				ChooseCharacterFromTargets
+				GainPower 2000
+			}
+		}
+	}			
+	Text Auto: <b>CxCombo<\b> [Put 2 cards from your hand into your waiting room] When this card attacks, if <b>"The Promised Blue Moon Grass"<\b> is in your climax area, and you have 2 or more <Adventurer> or <Magic> characters, you may pay the cost. If you do, deal 4 damage to your opponent, choose 1 of your <Adventurer> or <Magic> characters and that character gains +2000 power until end of turn. <i>(Damage may be canceled)<\i>
+EndCard
+
+Character: SFN/S108-T18
+Name New Year Festival, Fern
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Adventurer
+Trait2 Magic
+
+	*Healer
+	
+	Auto: OnAttack
+	{
+		PayCost 1 Discard 1 Any
+		{
+			GainPower 2000
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					*OptionalBurn(1)
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent.
+			}
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent." <i>(Damage may be canceled)<\i>
+	
+EndCard
+
+Event: SFN/S108-T19
+Name Defensive Magic
+Color B
+Level 2
+Cost 3
+Counter
+	
+	Effect:
+	{
+		If StageContains 5 HasTrait Adventurer|Magic
+		{
+			Question Choose your opponent's character? (Pressing no will choose your character)
+			If Yes
+			{
+				TargetBattleOpponent
+				GainSpecialEffect CannotDealDamage
+			}
+			If No
+			{
+				TargetMyCharacterInBattle
+				GainSpecialEffect CannotDealDamage
+			}
+		}
+		*GiveCharacterPower(1500,Any)
+	}
+	Text COUNTER IF you have 5 or more <Adventurer> or <Magic> characters, choose a character in battle and that character gains the following ability until end of turn. "Cont: This card cannot deal damage to players" \nChoose 1 of your characters and that character gains +1500 power until end of turn.
+	
+EndCard
+
+Climax: SFN/S108-T20
+Name The Promised Blue Moon Grass
+
+*GateClimax
+
+EndCard

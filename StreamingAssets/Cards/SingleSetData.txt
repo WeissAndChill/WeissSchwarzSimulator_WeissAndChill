@@ -1,0 +1,4 @@
+Series: Frieren: Beyond Journey's End
+Folder: Frieren/S108
+Prefix: SFN/S108
+SetName: Frieren: Beyond Journey's End (S108)
