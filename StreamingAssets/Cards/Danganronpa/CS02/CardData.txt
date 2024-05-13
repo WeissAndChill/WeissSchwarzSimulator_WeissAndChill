@@ -1658,7 +1658,7 @@ Combo Commitment to Despair
 	
 	Auto: PlacedByIf NameEquals Commitment to Despair
 	{
-		If MyLevel 3 OrMore
+		If Compare MyLevel 3 OrMore
 		{
 			PayCost 1 Discard 1 Any Send 1 WaitingRoom Other && HasTrait Despair
 			{
