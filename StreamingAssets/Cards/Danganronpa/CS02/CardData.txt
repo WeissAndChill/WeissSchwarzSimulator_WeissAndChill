@@ -815,7 +815,7 @@ Requirement StageContains 2 HasTrait Ultimate
 			}
 		}
 	}
-	Text If you do not have 2 or more «Ultimate» characters, you cannot play this card.\nRest 1 of your s characters, return up to 1 «Ultimate» character from your waiting room to your hand.\nReveal the top card of your deck. If that card is level 1 or lower, put that card into your stock. <i>(If it is not, return the revealed card to its original place)</i>\nIf you have 2 or less cards in your memory, put this card into your memory.
+	Text If you do not have 2 or more «Ultimate» characters, you cannot play this card.\nRest 1 of your standing characters, return up to 1 «Ultimate» character from your waiting room to your hand.\nReveal the top card of your deck. If that card is level 1 or lower, put that card into your stock. <i>(If it is not, return the revealed card to its original place)</i>\nIf you have 2 or less cards in your memory, put this card into your memory.
 
 EndCard
 
@@ -861,7 +861,7 @@ Trait2 Moral
 			}
 		}
 	}
-	Text Cont: If you have another "Commanding Force, Kiyotaka Ishimaru" in your center stage, this card gets the following 2 abilities. "Cont: This card gets +500 power for each of your other 《Britannia》 characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+	Text Cont: If you have another "Commanding Force, Kiyotaka Ishimaru" in your center stage, this card gets the following 2 abilities. "Cont: This card gets +500 power for each of your other «Ultimate» characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
 	
 	Auto: OnPlay
 	{
