@@ -285,10 +285,14 @@ Combo Protecting Their Pride
 	{
 		If Climax Protecting Their Pride &&& LocationContains Memory 1 NameEquals Body Found!
 		{
-			SearchWaitingRoom HasTrait Ultimate && IsCharacter
+			TargetLocation Memory
+			NarrowTargets NameEquals Body Found!
+			SearchWaitingRoom HasTrait Ultimate && IsCharacter && Compare ThatCardsLevel TargetCount OrLess
+			TargetSelf
+			GainPower 1000
 		}
 	}
-	Text Auto: <b>CXCombo Memory</b> When this card attacks, if <b>"Protecting Their Pride"</b> is in your climax area and "Body Found!" is in your memory, choose up to 1 «Ultimate» character in your waiting room, and return it to your hand.
+	Text Auto: <b>CXCombo Memory</b> When this card attacks, if <b>"Protecting Their Pride"</b> is in your climax area and "Body Found!" is in your memory, choose up to 1 level X or lower «Ultimate» character in your waiting room, return it to your hand, and this card gets +1000 power until end of turn. X is equal to the number of "Body Found!" in your memory.
 
 EndCard
 
@@ -325,7 +329,7 @@ Color Y
 Level 3
 Cost 2
 Power 9000
-Soul 1
+Soul 2
 Trigger Soul
 Trait1 Ultimate
 Trait2 Fortune
@@ -808,14 +812,14 @@ Requirement StageContains 2 HasTrait Ultimate
 			{
 				MoveCard Stock
 			}
-			If LocationContainsOrLess Memory 2
-			{
-				TargetSelf
-				MoveCard Memory
-			}
+		}
+		If LocationContainsOrLess Memory 2
+		{
+			TargetSelf
+			MoveCard Memory
 		}
 	}
-	Text If you do not have 2 or more «Ultimate» characters, you cannot play this card.\nRest 1 of your standing characters, return up to 1 «Ultimate» character from your waiting room to your hand.\nReveal the top card of your deck. If that card is level 1 or lower, put that card into your stock. <i>(If it is not, return the revealed card to its original place)</i>\nIf you have 2 or less cards in your memory, put this card into your memory.
+	Text If you do not have 2 or more «Ultimate» characters, you cannot play this card.\nRest 1 of your s characters, return up to 1 «Ultimate» character from your waiting room to your hand, reveal the top card of your deck. If that card is level 1 or lower, put that card into your stock. <i>(If it is not, return the revealed card to its original place)</i>\nIf you have 2 or less cards in your memory, put this card into your memory.
 
 EndCard
 
@@ -861,7 +865,7 @@ Trait2 Moral
 			}
 		}
 	}
-	Text Cont: If you have another "Commanding Force, Kiyotaka Ishimaru" in your center stage, this card gets the following 2 abilities. "Cont: This card gets +500 power for each of your other «Ultimate» characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+	Text Cont: If you have another "Commanding Force, Kiyotaka Ishimaru" in your center stage, this card gets the following 2 abilities. "Cont: This card gets +500 power for each of your other 《Britannia》 characters." "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
 	
 	Auto: OnPlay
 	{
@@ -1809,7 +1813,7 @@ Combo The Clue in Blood
 	{
 		If Climax The Clue In Blood &&& LocationContains Memory 1 NameEquals Body Found!
 		{
-			PayCost Discard 1 SendSelf Memory &&& SendFromMemoryToWaitingRoom 1 NameEquals Body Found!
+			PayCost Discard 1 Any &&& SendSelf Memory &&& SendFromMemoryToWaitingRoom 1 NameEquals Body Found!
 			{
 				Burn 2
 			}
