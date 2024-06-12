@@ -1,0 +1,4 @@
+Series: Yuru Camp
+Folder: Yuru Camp/W116
+Prefix: YRC/W116
+SetName: Yuru Camp (W116)

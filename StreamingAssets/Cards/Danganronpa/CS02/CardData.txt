@@ -159,7 +159,7 @@ Combo The Ultimate Truth Bullet
 			}
 		}
 	}
-	Text Auto: <b>CXCombo</b> [(1) Put 2 cards from your hand into your waiting room] When this card attacks, if you have a card named <b>"The Ultimate Truth Bullet"</b> in your climax area, if you have 4 or more other «Hope» characters, you may pay the cost. If you do, deal 1 damage to your opponent, and then deal 2 damage to your opponent. <i>(Damage may be canceled)</i>
+	Text Auto: <b>CXCombo</b> [(2) Put 2 cards from your hand into your waiting room] When this card attacks, if you have a card named <b>"The Ultimate Truth Bullet"</b> in your climax area, if you have 4 or more other «Hope» characters, you may pay the cost. If you do, deal 1 damage to your opponent, and then deal 2 damage to your opponent. <i>(Damage may be canceled)</i>
 	
 EndCard
 
@@ -596,10 +596,9 @@ Trait1 Ultimate
 Trait2 Luck
 Combo The Ultimate Truth
 
-	
 	Auto: StartDrawPhase
 	{
-		PayCost SendFromMemoryToWaitingRoom 1 NameEquals Climbing Towards Hope, Makato Naegi Discard 1 Any
+		PayCost SendFromMemoryToWaitingRoom 1 NameEquals Climbing Towards Hope, Makoto Naegi &&& Discard 1 Any
 		{
 			SearchLocationForTargets Deck 0 1 NameEquals The Ultimate Truth Bullet
 			RevealTargets
@@ -2513,7 +2512,7 @@ Trait2 Detective
 	
 	Act: SendSelf WaitingRoom
 	{
-		SearchLocationForTargets Memory 1 1 NameEquals Ultimate Hope, Makato Naegi
+		SearchLocationForTargets Memory 1 1 NameEquals Ultimate Hope, Makoto Naegi
 		PlaceOnStage False True True False
 	}
 	Text Act: [Put this card into your waiting room] Choose 1 "Ultimate Hope, Makoto Naegi" in your memory, and put it on any position on the stage.
