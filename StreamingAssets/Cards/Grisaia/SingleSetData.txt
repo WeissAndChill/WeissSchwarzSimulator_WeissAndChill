@@ -1,0 +1,13 @@
+
+Series: Fruit of Grisaia
+Folder: Grisaia/S72
+Prefix: GRI/S72
+SetName: Grisaia Volume 1 (S72)
+
+Folder: Grisaia/S84
+Prefix: GRI/S84
+SetName: Grisaia Volume 2 (S84)
+
+Folder: Grisaia/S112
+Prefix: GRI/S112
+SetName: Grisaia Phantom Trigger (S112)

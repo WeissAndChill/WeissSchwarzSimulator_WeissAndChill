@@ -1,0 +1,2882 @@
+Character: GRI/S112-001
+Name Soul Speed, Maki
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Weapon
+Combo Taste of Food
+Auto: OnAttack
+{
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Summer, Swimsuits, Bikes, and Car Washes
+	SetXValue TargetCount
+	MultiplyXValue 1500
+	TargetSelf
+	GainPower X
+}
+Text Auto: When this card attacks, this character gets +X power until end of turn. X is equal to 1500 multiplied by the number of "Summer, Swimsuits, Bikes, and Car Washes" in your waiting room.
+Auto: OnAttack
+{
+	If Climax Taste of food &&& StageContains 3 Other && HasTrait Grisaia
+	{
+		RevealUpTo Deck 3
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 HasTrait Grisaia || NameEquals Summer, Swimsuits, Bikes, and Car Washes
+		RevealTargets
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		If Compare TargetCardsLevel 2 OrMore
+		{
+				TargetSelf
+				GainPower 1000
+				GainSoul 1
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Taste of Food" is in your CX area and you have other 3 or more <Grisaia> characters, look at up to 3 cards from the top of your deck, choose up to 1 <Grisaia> character or "Summer, Swimsuits, Bikes, and Car Washes" among them, show it to your opponent, put it in your hand and put the rest into waiting room. If you chose a card is level 2 or higher, this card +1000 power and +1 soul until end of turn.
+EndCard
+
+Character: GRI/S112-002
+Name The Most Important Thing, Rena
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Trait1 Grisaia
+Trait2 Weapon
+Combo Reunion, and Death Struggle
+Auto: OnPlay
+{
+	If AllYourCharacters HasTrait Grisaia
+	{
+		PayCost Send 1 WaitingRoom Other && HasTrait Grisaia
+		{
+			SearchLocationForTargets Clock 1 1 Any
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: [Put 1 other <Grisaia> character from your stage into your waiting room] When this card is placed on the stage from your hand, if all of your characters are <Grisaia>, you may pay the cost. If you do, choose 1 card in your clock and return it to your hand. 
+Auto: OnAttack
+{
+	If Climax Reunion, and Death Struggle
+	{
+		PayCost Discard 1 HasTrait Grisaia
+		{
+			Burn 2
+			TargetFacing
+			If Not HasTarget
+			{
+				PayCost 2 Discard 1 HasTrait Grisaia
+				{
+					Burn 2
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 <Grisaia> character from your hand into your waiting room] When this card attacks, if "Reunion, and Death Struggle" is in your CX area, you may pay the cost. If you do, deal 2 damage to your opponent and perform the following effect. "[(2) Put 1 <Grisaia> character from your hand into your waiting room] If there is no character facing this card, you may pay the cost. If you do, deal 2 damage to your opponent."
+EndCard
+
+Character: GRI/S112-003
+Name Girls' Daily Life, Rena
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Grisaia
+	{
+		TargetLocation OpponentStage
+		SetXValue TargetCount
+		*CheckAndAdd(X)
+	}
+}
+Text Auto: [Put a <Grisaia> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to X cards from the top of your deck, choose up to 1 card from among them, add it to hand, and send the rest to waiting room. X equals the number of your opponent's characters.
+*YellowLevel0Bomb
+EndCard
+
+Character: GRI/S112-004
+Name Gourmet Beach, Tohka & Rena
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax
+	{
+		*GiveCharacterPower(1000,Any)
+	}
+}
+Text Auto: When your character's trigger check reveals a CX, choose 1 of your characters, it gets +1000 power until end of turn.
+*Act1RestSelfCheck3Add1Brainstorm
+EndCard
+
+Character: GRI/S112-005
+Name Girls' Daily Life, Maki
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 1 OrMore
+	{
+		TargetSelf
+		GainPower 2000
+		GainSoul 1
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is level 1 or higher, this card gets +2000 power and +1 soul until end of turn.
+Auto: StartOpponentDrawPhase
+{
+	Mill 2
+	If TargetsContain 1 Compare ThatCardsLevel 2 OrHigher
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			TargetSelf
+			Bounce
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's draw phase, put the top 2 cards of your deck into the waiting room. If there is a level 2 or higher card among those cards, you may return this card to your hand.
+EndCard
+
+Character: GRI/S112-006
+Name Shooter, Rena
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn &&& StageContains 2 Other && HasTrait Grisaia
+	{
+		GainPower 2000
+		GainEffect
+		{
+			*GainPowerWhenAttackingLevel2(6000)
+		}
+	}
+}
+Text Cont: During your turn, if you have 2 or more other <Grisaia> characters, this card gets +2000 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		*ChangeWaitingRoom(Glutton Gunman\, Rena)
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your CX phase, you may pay the cost. If you do, choose 1 "Glutton Gunman, Rena" in your waiting room and put it on the stage position this card was on.
+EndCard
+
+Character: GRI/S112-007
+Name An Opaque Escort Mission, Vanilla
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Stage 1 Other && NameEquals An Opaque Escort Mission, Choco
+	{
+		GainPower 2500
+		GainEffect
+		{
+			*RunToCenter
+		}
+	}
+}
+Text Cont: If you have another "An Opaque Escort Mission, Choco" on your stage, this card gets +2500 power and the following ability. "Auto: At the beginning of your opponent's attack phase, you may move this card to the open middle position of your center stage."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals An Opaque Escort Mission, Choco
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 "An Opaque Escort Mission, Choco" in your deck and put it in any position of your stage, and shuffle your deck.
+EndCard
+
+Character: GRI/S112-008
+Name An Opaque Escort Mission, Choco
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If MyTurn &&& LocationContains Stage 1 Other && NameEquals An Opaque Escort Mission, Vanilla
+	{
+		GainPower 3000
+		GainEffect
+		{
+			Cont: GiveFacing
+			{
+				GainSpecialEffect CannotReturnToHand
+				GainSpecialEffect CannotGoToMemory
+			}
+			Text Cont: The character facing this card cannot be returned to hand, or be put into memory.
+		}
+	}
+}
+Text Cont: During your turn, if you have another "An Opaque Escort Mission, Vanilla" on your stage, this card gets +3000 power and the following ability. "Cont: The character facing this card cannot be returned to hand, or be put into memory."
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals An Opaque Escort Mission, Vanilla
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 "An Opaque Escort Mission, Vanilla" in your deck and put it in any position of your stage, and shuffle your deck.
+EndCard
+
+Character: GRI/S112-009
+Name Morning Scenery, Rena & Murasaki
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Weapon
+*DropSearch(Grisaia)
+Auto: OnDirectAttack
+{
+	TargetLocation Stage
+	NarrowTargets Other && HasTrait Grisaia
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When this card direct attacks, choose 1 of your other <Grisaia> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: GRI/S112-010
+Name Sisters of the Battlefield, Maki & Rena
+Color Y
+Level 1
+Cost 0
+Trigger Soul
+Power 1500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	TargetLocation OpponentStage
+	SetXValue 1000
+	MultiplyXValue TargetCount
+	TargetSelf
+	GainPower X
+}
+Quick
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of characters your opponent has x1000.
+Auto: StartClimaxPhase
+{
+	If StageContains 4 HasTrait Grisaia
+	{
+		*OptionalDraw
+		*OptionalDraw
+		Discard 2 Any
+	}
+}
+Alarm
+Text Auto: ALARM If this card is the top card of your clock, and you have 4 or more <Grisaia> characters, at the beginning of your CX phase, draw up to 2 cards, choose 2 cards in your hand, and put them into your waiting room.
+EndCard
+
+Character: GRI/S112-011
+Name Glutton Gunman, Rena
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost SendSelf WaitingRoom
+	{
+		*ChangeWaitingRoom(Shooter\, Rena)
+	}
+}
+Text Auto: CHANGE [Put this card into your waiting room] At the beginning of your CX phase, you may pay the cost. If you do, choose 1 "Shooter, Rena" in your waiting room and put it on the stage position this card was on.
+Auto: OnAttack
+{
+	If LocationContains Memory 1 NameEquals Thanatos．System
+	{
+		GainPower 3000
+		GainEffect
+		{
+			Auto: OnEndOfAttack
+			{
+				TargetSelf
+				LosePower 3000
+			}
+			Text Auto: When this card attacks, if "Thanatos．System" in your memory, this card gets +3000 power until the end of attack.
+		}
+		GainEffect
+		{
+			Auto: OnThisTriggerCheck
+			{
+				GainEffect
+				{
+					Auto: OnThisTriggerCheck
+					{
+						TargetTop Stock 1
+						MoveCard WaitingRoom
+					}
+					TimesPerTurn 1
+					Quick
+				}
+				TriggerCheck
+			}
+			TimesPerTurn 1
+			Quick
+			Text Auto: When this card attacks, if "Thanatos．System" in your memory, this card perform the trigger check twice during this attack. After 2 trigger checks have been made, put the top card of your stock into your waiting room.
+		}
+	}
+}
+Text Auto: When this card attacks, if "Thanatos．System" in your memory, this card gets +3000 power until the end of attack, perform the trigger check twice during this attack. After 2 trigger checks have been made, put the top card of your stock into your waiting room.
+EndCard
+
+Character: GRI/S112-012
+Name "Jargon12" Maki
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Grisaia
+Trait2 Weapon
+*EarlyPlay4OrMore(Grisaia)
+HandAction Send 1 WaitingRoom NameEquals First Taste, Taiga
+{
+	TargetSelf
+	PlaceOnStage False True True False
+}
+ActivationRequirement Compare MyLevel 2 Exactly &&& LocationContains Stage 4 HasTrait Grisaia &&& LocationContains Level 1 IsColor Yellow || LocationContains Clock 1 IsColor Yellow
+HandAction Send 1 WaitingRoom NameEquals First Taste, Taiga
+{
+	TargetSelf
+	PlaceOnStage False True True False
+}
+ActivationRequirement Compare MyLevel 3 OrMore &&& LocationContains Level 1 IsColor Yellow || LocationContains Clock 1 IsColor Yellow
+Text Cont: If you play this card from your hand, you may put 1 "First Taste, Taiga" from your hand into your waiting room. If you do, you may play this card with 0 cost.
+Auto: OnPlay
+{
+	UntilEndOfOpponentsTurn
+	GainPower 2500
+	UntilEndOfOpponentsTurn
+	GainEffect
+	{
+		*GreatPerformance
+	}
+}
+Text Auto: When this card is placed on stage from your hand, this card gains +2500 power and the following ability until the end of your opponent's turn. "Cont: GREAT PERFORMANCE"
+EndCard
+
+Character: GRI/S112-013
+Name A World Apart, Arisaka
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Teacher
+Cont: GiveAll
+{
+	If MyTurn &&& Other && HasTrait Grisaia
+	{
+		GainPower 1000
+	}
+}
+Text Cont: During your turn, all of your other <Grisaia> characters get +1000 power.
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When your CX is placed on your CX area, choose 1 of your characters, it gets +1000 power until end of turn.
+EndCard
+
+Character: GRI/S112-014
+Name Hungry Beast, Rena
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	TargetMyCharacterInBattle
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			IfOther OnStage
+			{
+				Question Put the battle opponent into the bottom of your opponent's stock?
+				If Yes
+				{
+					TargetOther
+					MoveCardToBottom OpponentStock
+					TargetTop OpponentStock
+					MoveCard OpponentWaitingRoom
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed, you may put that character into the bottom of your opponent's stock. If you do, put the top card of your opponent's stock into the waiting room.
+	}
+}
+Text Auto: When you use this card's "BACKUP", choose 1 of your characters in battle and it gains the following ability this turn. "Auto: When this card's battle opponent becomes reversed, you may put that character into the bottom of your opponent's stock. If you do, put the top card of your opponent's stock into the waiting room."
+Backup 2500
+EndCard
+
+Character: GRI/S112-015
+Name Morning Greetings, Haruto
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Grisaia
+Trait2 Handler
+*LevelAssist
+Act: SendSelf WaitingRoom
+{
+	TargetLocation OpponentStage
+	NarrowTargets CanMove
+	ChooseCharacterFromTargets Choose a character to move.
+	*ExchangeOpponentsCharactersOrMoveToOpenPosition
+	Stand
+}
+Text Act: [Send this card to waiting room] Choose 1 of your opponent's characters, stand it, and move it to another open position of their stage, or choose another of your opponent's characters, and exchange them as standing.
+EndCard
+
+Character: GRI/S112-016
+Name My Happiness, Rena
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveSelf
+{
+	TargetLocation CenterStage
+	NarrowTargets Other && HasTrait Grisaia
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each of your other <Grisaia> characters in the center stage.
+Cont: GiveSelf
+{
+	If LocationContains Stage 1 Other && NameEquals Morning Greetings, Haruto
+	{
+		GainEffect
+		{
+			Auto: OnDirectAttack
+			{
+				SearchLocationForTargets WaitingRoom 0 1 HasTrait Grisaia
+				MoveCard Stock
+			}
+			Text Auto: When this card direct attacks, you may choose 1 <Grisaia> character in your waiting room, and put it into your stock.
+		}
+		GainEffect
+		{
+			Auto: Encore SendFromWaitingRoomToBottom 1 Clock HasTrait Grisaia
+			{
+			}
+			Text Auto: ENCORE [Put 1 <Grisaia> character from your waiting room at the bottom of your clock]
+		}
+	}
+}
+Text Cont: If you have another "Morning Greetings, Haruto" on your stage, this card gets the following 2 abilities. "Auto: When this card direct attacks, you may choose 1 <Grisaia> character in your waiting room, and put it into your stock." "Auto: ENCORE [Put 1 <Grisaia> character from your waiting room at the bottom of your clock]"
+EndCard
+
+Character: GRI/S112-017
+Name Challenger, Maki
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 Grisaia
+Trait2 Weapon
+*GainPowerWhenAttackingLevel3(6000)
+Auto: OnReverseOpponent
+{
+	If MyTurn
+	{
+		IfOther Compare ThatCardsLevel 2 OrHigher
+		{
+			TargetTop Deck 1
+			Reveal
+			IfThatCard HasTrait Grisaia || NameEquals Summer, swimsuits, bikes, and car washes
+			{
+				Question Choose opponent's characters?
+				If Yes
+				{
+					TargetLocation OpponentStage
+					AIChoice Bounce
+					ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+					Bounce
+				}
+			}
+		}
+	}
+}
+Text Auto: During your turn, when this card's level 2 or higher battle opponent becomes reversed, reveal the top card of your deck. If that card is <Grisaia> character or "Summer, Swimsuits, Bikes, And Car Washes", you may choose 1 of your opponent's characters, and return it to their hand.
+EndCard
+
+Event: GRI/S112-018
+Name Fishing on the Riverbank
+Color Y
+Level 1
+Cost 0
+Counter
+Requirement StageContains 1 HasTrait Grisaia
+Effect:
+{
+	*Check4Add1(Grisaia)
+}
+Text COUNTER If you have no <Grisaia> characters this card cannot be played from your hand. Look at up to 4 cards from the top of your deck, choose up to 1 <Grisaia> character from among them, add it to your hand, and put the rest into the waiting room.
+EndCard
+
+Event: GRI/S112-019
+Name Summer, Swimsuits, Bikes, and Car Washes
+Color Y
+Level 2
+Cost 0
+Effect: 
+{
+	MultipleChoiceQuestion Choose one \n1. Choose up to 1 <Grisaia> character in your waiting room and return it to your hand.\n2. [(1)] You may pay the cost. If you do, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand.|Choice 1|Choice 2
+	If Answer 0
+	{
+		SearchWaitingRoom HasTrait Grisaia
+	}
+	If Answer 1
+	{
+		PayCost 1
+		{
+			TargetTop Deck 3
+			If Compare TargetCount 2 OrMore
+			{
+				Reorder
+			}
+			Else
+			{
+				View
+			}
+			TargetLocation OpponentStage
+			AIChoice Bounce
+			ChooseCharacterFromTargets Choose an opponent's character to return to their hand.
+			Bounce
+		}
+	}
+}
+Text Choose 1 of the following 2 effects and perform it.\n"Choose up to 1 <Grisaia> character in your waiting toom and return it to your hand."\n"[(1)] You may pay the cost. If you do, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand."
+EndCard
+
+Climax: GRI/S112-020
+Name Reunion, and Death Struggle
+*ChoiceClimax
+EndCard
+
+Climax: GRI/S112-021
+Name Taste of Food
+*ChoiceClimax
+EndCard
+
+Character: GRI/S112-022
+Name Evil Eye User, Gumi
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel X OrLess && IsCharacter
+		RevealTargets
+		MoveCard Hand
+		If Compare X 3 OrMore
+		{
+			*OptionalBlindStock
+		}
+	}
+}
+Text Auto: [Put a card from hand to waiting room] When this is placed onto the stage from your hand, you may pay cost. If so, reveal the top card of your deck, choose 1 level X or lower character in your waiting room and return it to your hand. If X is 3 or higher, you may put the top card of your deck into your stock. X is equal to the level of the revealed card.
+EndCard
+
+Character: GRI/S112-023
+Name Butterfly of Dawn, Arisaka
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 9000
+Soul 2
+Trait1 Grisaia
+Trait2 Teacher
+*EarlyPlay4OrMore(Grisaia)
+Auto: OnPlay
+{
+	MultipleChoiceQuestion Choose 1 of the following effects.\n1. "Choose up to 1 <Grisaia> character in your clock and put it to the bottom of your deck and this card gets +1500 power."\n2. "All of your characters gets +2500 power and the following ability until end of turn. "Auto: When this card attacks, look at the top card of your deck, put it on the top or bottom of your deck.""|1|2
+	If Answer 0
+	{
+		SearchLocationForTargets Clock 0 1 HasTrait Grisaia
+		MoveCardToBottom Deck
+		TargetSelf
+		GainPower 1500
+	}
+        If Answer 1
+	{
+		TargetLocation Stage
+		GainPower 2500
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				*ScryToBottom
+			}
+			Text Auto: When this card attacks, look at the top card of your deck, put it on the top or bottom of your deck.
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of the following effects, and perform it.\n"Choose up to 1 <Grisaia> character in your clock and put it to the bottom of your deck and this card gets +1500 power."\n"All of your characters gets +2500 power and the following ability until end of turn. "Auto: When this card attacks, look at the top card of your deck, put it on the top or bottom of your deck.""
+EndCard
+
+Character: GRI/S112-024
+Name What it Means to be an Adult, Tohka
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Grisaia
+Trait2 Weapon
+Combo Two Platonic Anomalous Creedman Styles
+Cont: InHand
+{
+	If LocationContains Memory 2 NameEquals Promise from Long Ago
+	{
+		LoseLevel 1
+	}
+}
+Text Cont: If there are 2 or more "Promise from Long Ago" in your memory, this card gets -1 level in your hand.
+Auto: OnAttack
+{
+	If Climax Two Platonic Anomalous Creedman Styles && Compare Experience 4 OrMore
+	{
+		MultipleChoiceQuestion Choose an effect.\n1. Choose up to 1 of your opponent's characters and put it into their waiting room, and this card gains +3000 power until end of turn.\n2. [(1)] You may pay the cost. If you do, deal 2 or 4 damage to your opponent.|1|2
+		If Compare Answer 0 Exactly
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets_Optional Choose up to 1 character to put into your opponent's waiting room
+			MoveCard OpponentWaitingRoom
+			TargetSelf
+			GainPower 3000
+		}
+		Else
+		{
+			PayCost 1
+			{
+				MultipleChoiceQuestion Choose the burn value. |2|4
+				If Compare Answer 0 Exactly
+				{
+					Burn 2
+				}
+				If Compare Answer 1 Exactly
+				{
+					Burn 4
+				}
+			}
+		}
+	}
+}
+Text Auto: CxCombo EXPERIENCE When this card attacks, if "Two Platonic Anomalous Creedman Styles" is in your climax area, and the total level of the cards in your level is 4 or higher, choose 1 of the following effects, and perform it.\n"Choose up to 1 of your opponent's characters and put it into their waiting room, and this card gains +3000 power until end of turn."\n"[(1)] You may pay the cost. If you do, deal 2 or 4 damage to your opponent."
+EndCard
+
+Character: GRI/S112-025
+Name Life Goes Round, Haruto
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Handler
+Cont: GiveSelf
+{
+	If MyTurn && Compare CardsInStock 3 OrLess
+	{
+		GainPower 2000
+	}
+}
+Text Cont: During your turn, if your stock has 3 or less cards, this card gets +2000 power.
+*MoveOtherWithTraitToBackstageOnReverse(Grisaia)
+Act: 1 SendSelf WaitingRoom
+{
+	If Compare MyLevel 2 OrHigher
+	{
+		SearchLocationForTargets WaitingRoom 0 1 NameEquals Morning Greetings, Haruto
+		Change
+	}
+}
+Text Act: [(1) Put this card into the waiting room] If you are level 2 or higher, choose up to 1 "Morning Greetings, Haruto" in your waiting room and place it in the stage position this card was on.
+EndCard
+
+Character: GRI/S112-026
+Name Summer Has Arrived! Tohka & Murasaki
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If Compare CardsInHand 5 OrMore
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your hand has 5 or more cards, this card gets +2000 power.
+Auto: OnReverseOpponent
+{
+	If Compare CardsInOpponentsClock 1 OrMore
+	{
+		Question Put the top card of opponent's clock into waiting room to put the battle opponent into clock?
+		If Yes
+		{
+			TargetTop OpponentClock 1
+			MoveCard OpponentWaitingRoom
+			TargetBattleOpponent
+			IfTarget OnStage
+			{
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock.
+EndCard
+
+Character: GRI/S112-027
+Name Girls' Daily Life, Tohka
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Weapon
+*ClimaxExchange
+Auto: OnCancel
+{
+	If InBattle && OnStage
+	{
+		Question Return this card to your hand?
+		If Yes
+		{
+			MoveCard Hand
+		}
+	}
+}
+Text Auto: During this card's battle, when damage you receive is canceled, you may return this card to your hand.
+EndCard
+
+Character: GRI/S112-028
+Name Stargazer, Tohka & Gumi
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Weapon
+Combo Choice Without Regrets
+Auto: OnClimaxPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia
+	AIChoice GainPower 1500
+	ChooseCharacterFromTargets Choose a character to give +1500 power.
+	GainPower 1500
+}
+Text Auto: When a CX is placed in you CX area, choose 1 of your <Grisaia> characters, it gets +1500 power until end of turn.
+Auto: StartMyEncoreStep
+{
+	If Climax Choice Without Regrets &&& LocationContainsOrLess Hand 6 Any &&& StageContains 3 Other && HasTrait Grisaia
+	{
+		RevealUpTo Deck 2
+		Message Choose up to 2 <Grisaia> characters or "Promise from Long Ago"
+		ChooseCardsFromTargets 0 2 HasTrait Grisaia || NameEquals Promise from Long Ago
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		If Compare TargetCount 2 OrMore
+		{
+			Discard 1 Any
+		}
+	}
+}
+Text Auto: CxCombo At the start of your encore step, if "Choice Without Regrets" is in your climax area, your hand has 6 or less cards, and you have 3 or more other <Grisaia> characters, look at up to 2 cards from the top of your deck, choose up to 2 <Grisaia> characters or "Promise from Long Ago" from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room. If you added 2 cards, choose a card from your hand and put it into the waiting room.
+EndCard
+
+Character: GRI/S112-029
+Name Marksman, Tohka
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	If Compare MyLevel 1 OrMore && LocationContains WaitingRoom 1 Any
+	{
+		Question Exchange a card in your waiting room with a card in your level?
+		If Yes
+		{
+			*ExchangeCardInLevelWithWaitingRoom(HasTrait Grisaia,HasTrait Grisaia)
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may choose a <Grisaia> character in your level and a <Grisaia> character in your waiting room, and exchange them.
+Auto: OnPlay
+{
+	If LocationContains Memory 1 NameEquals Promise from Long Ago
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, if "Promise from Long Ago" in your memory, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+EndCard
+
+Character: GRI/S112-030
+Name Night Battle Assault, Sylvia
+Color G
+Level 1
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Weapon
+*OnAttackGivePower(2500,Any)
+Act: Discard 1 HasTrait Grisaia
+{
+	TargetTop Deck 1
+	Reveal
+	IfTarget HasTrait Grisaia
+	{
+		TargetSelf
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CanAttackBackstage
+			}
+			Text Cont: If this card would attack, you may choose 1 character in your opponent's back stage, and this card frontal attacks that character as the defending character instead.
+		}
+	}
+}
+Text Act: [Put a <Grisaia> character from your hand into your waiting room] Reveal the top card of your deck. If that card is a <Grisaia> character, this card gets the following ability until end of turn. "Cont: When this card attacks, you may instead choose a character on your opponent's back stage, and have this card frontal attack with the chosen character as the defending character."
+EndCard
+
+Character: GRI/S112-031
+Name Tsun-Dere, Tohka
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Weapon
+*GainPowerOnPlay(1500)
+Auto: OnAttack
+{
+	If LocationContains Memory 1 NameEquals Thanatos．System
+	{
+		TargetTop Deck 1
+		Reveal
+		If Compare TargetCardsLevel 1 OrMore
+		{
+			MoveCard Stock
+		}
+	}
+}
+Text Auto: When this card attacks, if "Thanatos．System" in your memory, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+EndCard
+
+Character: GRI/S112-032
+Name Taste of Peace, Gumi
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnClimaxPlay
+{
+	GainPower 2500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			Question_Obvious Send to Memory? 
+			If Yes && InLocation Stage
+			{
+				MoveCard Memory
+				ScheduleEffect StartDrawPhase
+				{
+					Effect:
+					{
+						SearchLocationForTargets Memory 1 1 NameEquals Taste of Peace, Gumi
+						PlaceOnStage False True True False
+						GainTrait Beef Bowl
+					}
+				}
+			}
+		}
+		Text Auto: When this card's battle opponent becomes reversed in battle, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Taste of Peace, Gumi" in your memory, and put it on any position of your stage and that card gets <Beef Bowl> until end of turn.
+	}
+}
+Text Auto: When a CX is placed in your CX area, this card gets +2500 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed in battle, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Taste of Peace, Gumi" in your memory, and put it on any position of your stage, and it gets <Beef Bowl> until end of turn."
+EndCard
+
+Character: GRI/S112-033
+Name Night Battle Assault, Velvet
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 1000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	Mill 3
+	NarrowTargets IsClimax
+	If HasTarget
+	{
+		Question Choose 1 of your opponent's level 2 or lower characters and send it into your opponent's waiting room?
+		If Yes 
+		{
+			TargetLocation OpponentStage
+			NarrowTargets Compare ThatCardsLevel 2 OrLess
+			ChooseCharacterFromTargets Choose a character to send to the waiting room.
+			MoveCard OpponentWaitingRoom
+		}
+	}
+}
+Text Auto: When this is placed from your hand onto the stage, put the top 3 cards of your deck into the waiting room. If there is at least 1 CX among them, you may choose 1 of your opponent's level 2 or lower character and put it into the waiting room.
+*GreenEarlyPlayBomb
+EndCard 
+
+Character: GRI/S112-034
+Name Beloved Sniper, Tohka
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 3 Any
+	{
+		Question Choose your opponent's character in battle to gain +4 soul and the ability? (Press no will choose yours)
+		If Yes
+		{
+			TargetBattleOpponent
+			IfTarget CanBeChosen
+			{
+				SaveTargets
+			}
+			TargetLocation OpponentStage
+			NarrowTargets Not InSavedTargets
+			ChooseCharacterFromTargets
+			AddSavedToCurrentTargets
+			GainSoul 4
+			GainSpecialEffect CannotSideAttack
+		}
+		If No
+		{
+			TargetMyCharacterInBattle
+			SaveTargets
+			TargetLocation OpponentStage
+			NarrowTargets Not InSavedTargets
+			ChooseCharacterFromTargets
+			AddSavedToCurrentTargets
+			GainSoul 4
+			GainSpecialEffect CannotSideAttack
+		}
+	}
+}
+Text Auto: [(1) Put 3 cards from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose 1 character in battle and another character in your opponent's stage other than the chosen character, and they get +4 soul and the following ability until end of turn. "Cont: This card cannot side attack."
+Backup 2500
+EndCard
+
+Character: GRI/S112-035
+Name Master-Pupil Relationship, Tohka & Gumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Grisaia
+Trait2 Weapon
+*Level3Assist
+Auto: OnTriggerCheck
+{
+	IfOther IsClimax && HasTrigger Bar
+	{
+		If Compare MarkersUnderThis 1 OrLess
+		{
+			Message Choose up to 1 card to marker.
+			SearchLocationForTargets WaitingRoom 0 1 Any
+			Marker_FaceDown
+		}
+	}
+}
+Text Auto: When your character's trigger check reveals a CX with bar in its trigger icon, if there are 1 or less markers underneath this card, you may choose 1 card in your waiting room, and put it face down underneath this card as a marker.
+Auto: StartMyEncoreStep
+{
+	TargetLocation Marker 
+	If Compare TargetCount 2 OrHigher
+	{
+		MoveCard WaitingRoom
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: At the start of your encore step, if there are 2 or more markers underneath this, put all markers under this card into waiting room, choose 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GRI/S112-036
+Name Long Range Shooting Training, Tohka
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveAll
+{
+	If Other && NameEquals Stargazer, Tohka & Gumi|Master-Pupil Relationship, Tohka & Gumi
+	{
+		GainEffect
+		{
+			*Act1RestSelfDrawBrainstorm5
+		}
+	}
+}
+Text Cont: All of your other "Stargazer, Tohka & Gumi" and "Master-Pupil Relationship, Tohka & Gumi" gets the following ability. "Act: BRAINSTORM [(1) Rest this card] Flip over five cards from the top of your deck and put them into the waiting room. For each climax revealed, draw up to 1 card."
+Act: RestSelf
+{
+	If Not HasMarker
+	{
+		Message Choose a "Promise from Long Ago" to put underneath "Long Range Shooting Training, Tohka" as a marker.
+		SearchLocationForTargets WaitingRoom 1 1 NameEquals Promise from Long Ago
+		Marker_FaceUp
+	}
+}
+Text Act: [Rest this card] If there is no marker underneath this card, you may choose a "Promise from Long Ago" in your waiting room and put it face-up underneath this card as a marker.
+Act: Discard 1 Any RestSelf
+{
+	TargetLocation Marker
+	ChooseCardsFromTargets 1 1 Any
+	MoveCard Hand
+}
+Text Act: [Put 1 card from your hand into your waiting room & rest this card] Choose 1 marker from underneath this card and return it to your hand.
+EndCard
+
+Character: GRI/S112-037
+Name "That's Not The Case" Touka
+Color G
+Level 1
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Weapon
+*GreenCost0Bomb
+Act: 1 Rest 2 Any
+{
+	Brainstorm 5
+	PerClimax
+	{
+		SearchDeck HasTrait Grisaia
+	}
+}
+Text Act: BRAINSTORM [(1) Rest 2 of your characters] Flip over 5 cards from the top of your deck and put them into the waiting room. For each climax revealed, search your deck for up to 1 <Grisaia> character, and put it into your hand.
+EndCard
+
+Character: GRI/S112-038
+Name Warm Meal, Gumi
+Color G
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Trait1 Grisaia
+Trait2 Weapon
+Cont: GiveSelf
+{
+	If LocationContains Memory 2 NameEquals Promise from Long Ago
+	{
+		GainPower 6000
+	}
+}
+Text Cont: If there are 2 or more "Promise from Long Ago" in your memory, this card get +6000 power.
+Auto: OnReverseOpponent
+{
+	If LocationContains Climax 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a CX in your CX area, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Event: GRI/S112-039
+Name Promise from Long Ago
+Color G
+Level 1
+Cost 1
+Requirement StageContains 1 HasTrait Grisaia
+Effect:
+{
+	SearchDeck HasTrait Grisaia
+	TargetSelf
+	MoveCard Memory
+}
+Text Search your deck for up to 1 <Grisaia> character, reveal it to your opponent, put it into your hand, and shuffle your deck. Put this card into your memory.
+Auto: StartMyEncoreStep
+{
+	If LocationContains Stage 1 NameEquals What It Means to be an Adult, Tohka
+	{
+		PayCost SendSelf WaitingRoom SendFromMemoryToWaitingRoom 3 NameEquals Promise from Long Ago && Other
+		{
+			TargetTop OpponentDeck
+			MoveCard OpponentClock
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY [Put 3 other "Promise from Long Ago" and this card from your memory into your waiting room] At the start of your encore step, if this card is in your memory, and you have "What it Means to be an Adult, Tohka" on your stage, you may pay the cost. If you do, put the top card from your opponent's deck into your opponent's clock.
+EndCard
+
+Event: GRI/S112-040
+Name Chosen Future
+Color G
+Level 2
+Cost 1
+Effect:
+{
+	Peek OpponentDeck 2
+	If HasTarget
+        {
+        	Message Choose the cards to put back on top.
+        	ChooseCardsFromTargets 0 2 Any
+        	MoveCard OpponentDeck
+        	Reorder
+        	PutTheRestIntoTheWaitingRoom
+        }
+	Peek Deck 2
+	If HasTarget
+        {
+        	Message Choose the cards to put back on top.
+        	ChooseCardsFromTargets 0 2 Any
+        	MoveCard Deck
+        	Reorder
+        	PutTheRestIntoTheWaitingRoom
+        }
+}
+Text Look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them, put them on the top of their deck in any order, and put the rest into their waiting room, look at up to 2 cards from the top of your deck, choose up to 2 cards from among them, put them on the top of deck in any order, and put the rest into waiting room.
+EndCard
+
+Climax: GRI/S112-041
+Name Two Platonic Anomalous Creedman Styles
+*BarClimax
+EndCard
+
+Climax: GRI/S112-042
+Name Choice Without Regrets
+*BarClimax
+EndCard
+
+Character: GRI/S112-043
+Name Because I'm a Ninja, Murasaki
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Ninja
+*GainPowerOnPlay(1500)
+Auto: OnPlay|OnAttack
+{
+	PayCost 1 Clock
+	{
+		SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand or attacks, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck. 
+EndCard
+
+Character: GRI/S112-044
+Name Assault Ninja, Yuuki
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Ninja
+Combo Girls' Party in the Public Bath
+*GainPowerWithEnoughCharacters(1000,2,Grisaia)
+Auto: OnAttack
+{
+	If Climax Girls' Party in the Public Bath &&& StageContains 2 Other && HasTrait Grisaia
+	{
+		Peek Deck 2
+		Message Choose up to 2 cards to put into your waiting room
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard WaitingRoom
+		TargetLocation ScryArea
+		SetXValue TargetCount
+		MoveCard Deck
+		TargetTop Deck X
+		Message Select order to return cards (first on top)
+		Reorder
+		TargetLocation Stage
+		ChooseCharacterFromTargets
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchWaitingRoom HasTrait Grisaia
+			}
+			Text Auto: When this card's battle opponent is reversed, choose up to 1 <Grisaia> character in your waiting room and return it to your hand.
+		}
+	}
+}
+Text Auto: CxCombo When this card attacks, if "Girls' Party in the Public Bath" is in your CX area, you have other 2 or more <Grisaia> character, look at up to 2 cards from the top of your deck, choose up to 2 of them, put them on the top of your deck in any order, and put rest into your waiting room, choose 1 of your characters, it get the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may choose up to 1 <Grisaia> character in your waiting room and return it to your hand."
+EndCard
+
+Character: GRI/S112-045
+Name Sister, Go Home, Yuuki
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Ninja
+Auto: OnPlay
+{
+	TargetTop OpponentDeck 2
+	View
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your opponent's deck, and put them on the top of their deck in the original order.
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess CenterStage 2 Any
+	{
+		TargetFacing
+		If HasTarget
+		{
+			TargetSelf
+			Question Move "Sister, Go Home, Yuuki" to another position?
+			If Yes
+			{
+				MoveToOpenPosition True False
+			}
+		}
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+EndCard
+
+Character: GRI/S112-046
+Name Forest Survival, Murasaki & Tohka
+Color R
+Level 1
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Ninja
+*PowerOnMyTurn(3000)
+Auto: OnTriggerCheck
+{
+        IfOther IsClimax && HasTrigger Standby
+        {
+                  PayCost 1 SendSelf BottomOfDeck
+                  {
+			Message Choose a character that is level l or lower.
+			SearchLocationForTargets WaitingRoom 1 1 Compare ThatCardsLevel 1 OrLess && IsCharacter
+			PlaceOnStage False True True True
+                  }
+        }
+}
+Text Auto: [(1) Put this card on the bottom of your deck] When your character's trigger check reveals a CX with standby in its trigger icon, you may pay the cost. If you do, choose up to 1 level 1 or lower character in your waiting room, and put it on any position on your stage as rested.
+EndCard
+
+Character: GRI/S112-047
+Name The Hitman's Way, Aoi
+Color R
+Level 1
+Cost 1
+Power 6500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: StartClimaxPhase
+{
+	PayCost Clock
+	{
+		GainSoul 2
+		GainEffect
+		{
+			Auto: OnAttack
+			{
+				TargetFacing
+				If Compare TargetCardsLevel 2 OrMore
+				{
+					TargetSelf
+					GainPower 6000
+				}
+			}
+	    		Quick
+        		Text Auto: When this card attacks, if the character facing this card is level 2 or higher, this card gets +6000 power until end of turn.
+		}
+		GainEffect
+		{
+			*OnReverseMayMemoryOpponent
+		}
+		GainEffect
+		{
+			Auto: EndOfTurn
+			{
+				If OnStage
+				{
+					MoveCard Memory
+				}
+			}
+			Text Auto: At the end of your turn, put this card into your waiting room.
+		}
+	}
+}
+Text Auto: ACCELERATE [Put the top card of your deck into your clock] At the beginning of your climax phase, you may pay the cost. If you do, this card gets +2 soul and the 3 following ability until the end of turn. "Auto: When this card attacks, if the character facing this card is level 2 or higher, this card gets +6000 power until end of turn." "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory." "Auto: At the end of your turn, put this card into your waiting room."
+EndCard
+
+Character: GRI/S112-048
+Name Girls' Daily Life, Murasaki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Grisaia
+Trait2 Ninja
+Auto: OnUseThisCardsBackup
+{
+	PayCost 1 Discard 1 Any
+	{
+		TargetLocation OpponentStage
+		SetXValue OpponentsLevel
+		AddToXValue 1
+		NarrowTargets Compare ThatCardsLevel X OrHigher
+		AIChoice SendToWaitingRoom
+		ChooseCharacterFromTargets Choose a character to send to the waiting room.
+		Bounce
+	}
+}
+Text Auto: [(1) Put a card from your hand into your waiting room] When you use this card's "BACKUP", you may pay the cost. If you do, choose one of your opponent's characters with level higher than your opponent's level, and return that to your opponent's hand.
+Backup 2500
+EndCard
+
+Character: GRI/S112-049
+Name Stealth Ninja, Murasaki
+Color R
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Grisaia
+Trait2 Ninja
+Combo A Nameless Sword
+Cont: GiveAll
+{
+	If MyTurn &&& Other && HasTrait Grisaia
+	{
+		GainPower 1500
+	}
+}
+Text Cont: During your turn, all of your other <Grisaia> characters get +1500 power.
+Auto: OnSpecificClimaxPlay A Nameless Sword
+{
+	If Phase Climax
+	{
+		PayCost SendSelf Stock
+		{
+			SearchLocationForTargets Hand 0 1 NameEquals Ninja Master, Murasaki
+			Change
+		}
+	}
+}
+Text Auto: CxCombo [Put this card into your stock] When "A Nameless Sword" is placed on your CX area, you may pay the cost. If you do, choose up to 1 "Ninja Master, Murasaki" in your hand, put it in the stage position that this card was in.
+EndCard
+
+Character: GRI/S112-050
+Name Baptism of the Battlefield, Arisaka
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Teacher
+Combo Sweet Preparedness
+*GlobalPower(500,Grisaia)
+Auto: OnSpecificClimaxPlay Sweet Preparedness
+{
+	If StageContains 2 Other && HasTrait Grisaia
+	{
+		AIChoice PlaceOnStageStanding
+		SearchLocationForTargets WaitingRoom 0 1 IsCharacter && Compare ThatCardsLevel 0 OrLower && HasTrait Grisaia
+		PlaceOnStage False True True False
+	}
+}
+Text Auto: CxCombo When "Sweet Preparedness" is placed in your CX zone, if you have other 2 or more <Grisaia> characters, you may choose 1 level 0 or lower <Grisaia> character in your waiting room, and put it on any position of your stage.
+EndCard
+
+Character: GRI/S112-051
+Name Talented Gunsmith, Yamamoto
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Gunsmith
+Auto: OnPlay
+{
+	PayCost 1 Discard 1 Any
+	{
+		Refresh
+	}
+}
+Text Auto: [(1) Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, return all of the cards in your waiting room to your deck and shuffle your deck.
+Act: SendSelf BottomOfDeck Send 2 WaitingRoom Other && HasTrait Grisaia
+{
+	If Compare MyLevel 3 OrHigher
+	{
+		SearchLocationForTargets Deck 0 1 NameEquals Demon's Shadow, Haruto
+		PlaceOnStage False True True False
+		ShuffleLocation Deck
+	}
+}
+Text Act: [Put 2 other <Grisaia> character from your stage into your waiting room & put this card on the bottom of your deck] If you are level 3 or higher, choose up to 1 "Demon's Shadow, Haruto" from your deck, and put it on any position of your stage, shuffle your deck.
+EndCard
+
+Character: GRI/S112-052
+Name Underwater Walk, Murasaki & Rena
+Color R
+Level 1
+Cost 0
+Power 4500
+Trait1 Grisaia
+Trait2 Ninja
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia && Other
+	AIChoice GainPower 1000
+	ChooseCharacterFromTargets Choose a character to give +1000 power.
+	GainPower 1000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Grisaia> characters, it gets +1000 power until end of turn.
+Auto: OnClimaxPlay
+{
+	PayCost 1 SendSelf Hand
+	{
+		MillUpTo Deck 4
+    		*CountSoulTriggers
+   		 SearchWaitingRoom Compare ThatCardsLevel X OrLess && HasTrait Grisaia
+	}
+}
+Text Auto: [(1) Return this card to your hand] When a CX is placed in your CX area, you may pay the cost. If you do, put up to 4 cards from the top of your deck into your waiting room, choose up to 1 level X or lower <Grisaia> character in your waiting room, and return it to your hand. X is equal to the total number of SOUL in the trigger icons of those cards.
+EndCard
+
+Character: GRI/S112-053
+Name The Flip Side of Kindness, Yuuki
+Color R
+Level 1
+Cost 1
+Power 6000
+Trait1 Grisaia
+Trait2 Ninja
+Cont: GiveSelf
+{
+	If AllYourCharacters HasTrait Grisaia
+	{
+		GainPower 1000
+	}
+}
+Text Cont: If all of your characters are <Grisaia>, this card gets +1000 power.
+Auto: StartOpponentAttackPhase
+{ 
+	PayCost 1
+	{
+		TargetLocation MiddleCenterStage
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+		Else
+		{
+			TargetSelf
+			Stand
+		}
+		TargetSelf
+		GainPower 1000
+	}
+}
+Text Auto: [(1)] At the start of your opponent's attack phase, you may pay cost. If so, choose 1 of your other characters in the middle slot of your center stage and this card, exchange them as standing, and this gains +1000 power until end of turn.
+EndCard
+
+Character: GRI/S112-054
+Name The Price of Courage, Yuuki
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Grisaia
+Trait2 Ninja
+Auto: OnOtherOpponentReversed
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your <Grisaia> characters, it gets +2000 power until end of turn.
+Auto: OnCardMoves
+{
+	TargetOther
+	GainPower 500
+	GainEffect
+	{
+		Auto: OnReverseOpponent
+		{
+			TargetTop Deck 1
+			Reveal
+			If Compare TargetCardsLevel 2 OrMore
+			{
+				MoveCard Stock
+			}
+		}
+		Text Auto: When this card's battle opponent is reversed, reveal the top card of your deck. If that card is level 2 or higher, put it into your stock.
+	}
+}	
+Text Auto: During the attack phase, when your character moves to another stage position, until end of turn, that character gets +500 power and the following ability. "Auto: When this card's battle opponent becomes reversed, reveal the top card of your deck. If that card is level 2 or higher, put it into your stock."
+EndCard
+
+Character: GRI/S112-055
+Name Demon's Shadow, Haruto
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Handler
+Combo Mihama Academy, Class A
+Auto: StartAttackPhase
+{
+	If Climax Mihama Academy, Class A &&& LocationContains Memory 1 NameEquals The Hitman's Way, Aoi &&& Not LocationContains CenterStage 1 Other
+	{
+		PayCost Discard 4 Any
+		{
+			GainPower 7000
+			GainEffect
+			{
+				Auto: OnEndOfAttack
+				{
+					Peek OpponentDeck 3
+					AIChoice If IsClimax
+					Message Choose up to 3 cards to put on top of your opponent's deck in any order
+					ChooseCardsFromTargets 0 3 Any
+					MoveCard OpponentDeck
+					Reorder
+					PutTheRestIntoTheWaitingRoom
+					TargetSelf
+					Stand
+				}
+				TimesPerTurn 2
+				Text Auto: This ability activates up to twice per turn. At the end of this card's attack, look at up to 3 cards from the top of your opponent's deck, choose up to 3 of them to put on top of your opponent's deck in any order and put the remaining cards in your opponent's waiting room, then stand this card.
+			}
+		}
+	}
+}
+Text Auto: CxCombo [Put 4 cards from your hand into your waiting room] At the start of your attack phase, if "Mihama Academy, Class A" is in your climax area, you have "The Hitman's Way, Aoi" in memory, you do not have any other characters on your center stage and this card is in your center stage, you may pay the cost. If you do, this card get the following ability until the end of turn. "Auto: This ability activates up to twice per turn,. At the end of this card's attack, look at up to 3 cards from the top of your opponent's deck, choose up to 3 of them to put on top of your opponent's deck in any order and put the remaining cards in your opponent's waiting room, then stand this card."
+EndCard
+
+Character: GRI/S112-056
+Name Ninja Master, Murasaki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Grisaia
+Trait2 Ninja
+Combo A Nameless Sword
+Auto: StartAttackPhase
+{
+	If Climax A Nameless Sword &&& InLocation CenterStage
+	{
+		PayCost RestSelf
+		{
+			TargetFacing
+			IfThatCard CanBeChosen && Compare ThatCardsLevel 3 OrLess
+			{
+				MoveCard OpponentDeck
+			}
+			Burn 4
+			TargetSelf
+			UntilEndOfOpponentsTurn
+			GainPower 1000
+		}
+	}
+}
+Text Auto: CxCombo [Rest this card] At the start of your attack phase, if "A Nameless Sword" is in your climax area and this card is in the center stage, you may pay the cost. If you do, choose a level 3 or lower character facing this card and put it into top of your opponent's deck, deal 4 damage to your opponent, this card gets +1000 power until the end of your opponent's next turn.
+Auto: StartOpponentAttackPhase
+{
+	Question Exchange 2 of your characters?
+	If Yes
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Grisaia
+		ChooseCharacterFromTargets Choose a character to swap with.
+		AddSelfToTargets
+		Exchange
+		Stand
+	}
+}
+Text Auto: At the beginning of your opponent's attack phase, you may choose 1 of your other <Grisaia> characters and this card, and exchange them as standing.
+EndCard
+
+Character: GRI/S112-057
+Name Rappel, Murasaki
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Ninja
+*OnPlayFlicker
+Auto: OnPlay
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia && Other
+	AIChoice GainPower 2000
+	ChooseCharacterFromTargets Choose a character to give +2000 power.
+	GainPower 2000
+}
+Text Auto: When this card is placed on the stage from your hand, choose 1 of your other <Grisaia> characters, it gets +2000 power until end of turn.
+EndCard
+
+Character: GRI/S112-058
+Name Information Gathering, Murasaki
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Ninja
+*RedLevel0Bomb
+Auto: OnSentFromStageToWaitingRoom
+{
+	If LocationContains Memory 1 NameEquals Thanatos．System
+	{
+		Peek Deck 2
+		ChooseCardsFromTargets 0 1 Any
+		MoveCard Hand
+		PutTheRestIntoTheWaitingRoom
+		CheckForEmptyDeck
+		Discard 1 Any
+	}
+}
+Text Auto: When this card is put into your waiting room from the stage, if "Thanatos．System" in your memory, look at up to 2 cards from the top of your deck, choose up to 1 card and put it into your hand, put the rest into the waiting room, then discard 1 card.
+EndCard
+
+Character: GRI/S112-059
+Name Where is the Truth, Nogami
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Assistant
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose a character to make unable to move.
+	//This effect should be gained until the end of the next turn, not until the end of your opponent's turn.
+	If MyTurn
+	{
+		UntilEndOfOpponentsTurn
+		GainEffect
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotMove
+			}
+			Text Cont: This card cannot move to another position of your stage.
+		}
+	}
+	Else
+	{
+		//The timing is from the opponent's perspective here
+		GainEffectUntil EndOfOpponentsTurn
+		{
+			Cont: GiveSelf
+			{
+				GainSpecialEffect CannotMove
+			}
+			Text Cont: This card cannot move to another position of your stage.
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand or from the stage to the waiting room, choose 1 of your opponent's characters, it gets the following ability until the end of the next turn. "Cont: This card cannot move to another position of your stage." 
+EndCard
+
+Character: GRI/S112-060
+Name Because I'm a Ninja Too, Yuuki
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Ninja
+Cont: GiveSelf
+{
+	If LocationContainsOrLess OpponentStage 3 IsCharacter
+	{
+		GainPower 2000
+	}
+}
+Text Cont: If your opponent has 3 or less characters, this card gets +2000 power.
+Auto: OnPlay
+{
+	PayCost Discard 1 HasTrait Grisaia
+	{
+		DrawCard
+	}
+}
+Text Auto: [Discard 1 <Grisaia> character] When this is placed on stage from hand, you may pay the cost. If you do, draw 1 card.
+EndCard
+
+Character: GRI/S112-061
+Name Regret and Punishment, Ichiru
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Medical Care
+Cont: GiveAll
+{
+	If MyTurn &&& Other && InLocation MiddleCenterStage
+	{
+		GainPower 500
+		GainEffect
+		{
+			*HexProof
+		}
+	}
+}
+Text Cont: During your turn, your other character in the middle position of your center stage gets +500 power and the following ability. "Cont: This card cannot be chosen by your opponent's effects." 
+Act: 1 SendSelf WaitingRoom
+{
+	Mill 2
+	SetXValue TotalLevel
+	SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess && HasTrait Grisaia
+}
+Text Act: [(1) Send this card to waiting room] Put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower <Grisaia> character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect.
+EndCard
+
+Character: GRI/S112-062
+Name "Mihama Academy" Haruto
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Handler
+Auto: StartClimaxPhase
+{
+	TargetLocation Stage
+	ChooseCharacterFromTargets Choose a character to gain +500 power
+	GainPower 500
+}
+Text Auto: At the beginning of your climax phase, choose 1 of your character, and that character gains +500 power until end of turn.
+Act: 1 RestSelf
+{
+	Brainstorm 4
+	If Compare BrainstormedClimax 1 OrMore
+	{
+		SetXValue BrainstormedClimax
+		Repeat X
+		{
+			AIChoice AddToHand
+			SearchLocationForTargets WaitingRoom 0 1 IsCharacter && NameContains Mihama Academy
+			RevealTargets
+			MoveCards Hand
+		}
+	}
+}
+Text Act: BRAINSTORM [(1) Rest this card] Flip over 4 cards from the top of your deck, and put them into your waiting room. For each climax revealed, choose up to 1 character with "Mihama Academy" in it's card name in your waiting room and return it to your hand.
+EndCard
+
+Character: GRI/S112-063
+Name "Mihama Academy" Ichiru Sengoku
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 500
+Trait1 Grisaia
+Trait2 Medical Care
+Auto: OnUseThisCardsBackup
+{
+	TargetTop Deck 1
+	Reveal
+	IfThatCard HasTrait Grisaia
+	{
+		MoveCard Hand
+		Discard 1 Any
+	}
+}
+Text Auto: When you use this card's BACKUP, reveal the top card of your deck. If that card is a <Grisaia> character, put it into your hand, choose 1 card in your hand, and put it into your waiting room.
+Backup 2000
+EndCard
+
+Character: GRI/S112-064
+Name "Mihama Academy" Arisaka
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Grisaia
+Trait2 Teacher
+*LevelAssist
+Auto: OnClimaxPlay
+{
+	AIChoice GainPower 2000
+	ChooseMultipleCharacters 0 2 InLocation Stage
+	GainPower 2000
+}
+Text Auto: When a CX is placed on your CX area, choose up to 2 of your characters, and those characters get +2000 power until end of turn.
+EndCard
+
+Character: GRI/S112-065
+Name "Mihama Academy" Nogami
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Trait1 Grisaia
+Trait2 Assistant
+Cont: GiveSelf
+{
+	TargetLocation BackStage
+	NarrowTargets Other && HasTrait Grisaia
+	SetXValue TargetCount
+	MultiplyXValue 2500
+	GainPower X
+}
+Text Cont: This card gets +2500 power for each other <Grisaia> character in your back stage.
+Auto: OnReverseOpponent
+{
+	SearchLocationForTargets WaitingRoom 1 1 HasTrait Grisaia
+	RevealTargets
+	MoveCards Hand
+	Discard 1 Any
+}
+Text Auto: When this card's battle opponent is reversed, choose 1 <Grisaia> character in your waiting room, add it to hand, and put 1 card form your hand into your waiting room.
+EndCard
+
+Character: GRI/S112-066
+Name "Mihama Academy" Yuuki
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Power 10500
+Soul 2
+Trait1 Grisaia
+Trait2 Ninja
+Auto: OnPlay
+{
+	TargetTop Deck 1
+	Reveal
+	If Compare TargetCardsLevel 0 OrLess && IsCharacter
+	{
+		MoveCard Stock
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a level 0 or lower character, put it into your stock. 
+Auto: OnPlay
+{
+	PayCost 1
+	{
+		SearchWaitingRoom IsClimax
+	}
+}
+Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost, if you do, choose a CX in your waiting room, and return it to your hand.
+EndCard
+
+Event: GRI/S112-067
+Name Girls Go To War
+Color R
+Level 3
+Cost 3
+Effect:
+{
+	If StageContains 5 IsCharacter && NameContains Mihama Academy
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to gets +3000 power and the ability
+		GainPower 3000
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				Burn 1
+				Burn 4
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, deal 1 damage to your opponent, deal 4 damage to your opponent.
+		}
+	}
+}
+Text If you have 5 or more characters with "Mihama Academy" in it's card name, choose 1 of your characters, it gets +3000 power and the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, deal 1 damage to your opponent, deal 4 damage to your opponent."
+EndCard
+
+Climax: GRI/S112-068
+Name A Nameless Sword
+*StandbyClimax
+EndCard
+
+Climax: GRI/S112-069
+Name Girls' Party in the Public Bath
+*StandbyClimax
+EndCard
+
+Climax: GRI/S112-070
+Name Sweet Preparedness
+*DoorClimax
+EndCard
+
+Climax: GRI/S112-071
+Name Mihama Academy, Class A
+*DoorClimax
+EndCard
+
+Character: GRI/S112-072
+Name Carrying Life, Chris
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Cooking
+Auto: OnOtherReversed
+{
+	IfOther HasTrait Grisaia
+	{
+		If InLocation Backstage
+		{
+			PayCost SendSelf BottomOfDeck
+			{
+				TargetOther
+				Bounce
+			}
+		}
+	}	
+}
+Text Auto: [Put this card on the bottom of your deck] When your other <Grisaia> character becomes reversed, you may pay the cost. If you do, that card return to your hand.
+*Act1RestSelfSalvageBrainstorm(Any)
+EndCard
+
+Character: GRI/S112-073
+Name Rescue Tiger, Taiga
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Grisaia
+Trait2 Medical Care
+Combo Value of Life
+*GainPowerForEachOther(1000,Grisaia)
+Auto: OnSpecificClimaxPlay Value of Life
+{
+	If InLocation CenterStage &&& StageContains 4 Other && HasTrait Grisaia
+	{
+		PeekTop Deck 1
+		IfTarget HasTrait Grisaia
+		{
+			RevealTargets
+			MoveCard Hand
+		}
+		PutTheRestIntoTheWaitingRoom
+		TargetSelf
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				If Compare CardsInClock 1 OrMore
+				{
+					Question_Obvious Put the bottom card of your clock into the waiting room?
+					If Yes
+					{
+						TargetBottom Clock 1
+						MoveCard Stock
+					}
+				}
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, you may put the bottom card of your clock into your stock.
+		}
+	}
+}
+Text Auto: CxCombo When "Value of Life" is placed on your climax area, if this card is in your center stage, and you have 4 or more other <Grisaia> characters, look at the top card of your deck, choose a <Grisaia> character to add to your hand, put the rest into the waiting room, this card get the following ability until end of turn. "Auto: This ability activates up to once per turn. When damage dealt by this card is canceled, you may put the bottom card of your clock into your stock."
+EndCard	
+
+Character: GRI/S112-074
+Name Handler, Haruto
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Handler
+*OnPlayStockSwap(1)
+Auto: OnOtherFrontalAttacked
+{
+	IfOther HasTrait Grisaia
+	{
+		PayCost 1 SendSelf WaitingRoom
+		{
+			TargetMyCharacterInBattle
+			Bounce
+		}
+	}
+}
+Text Auto: [(1) Put this card into your waiting room] When your other <Grisaia> character is frontal attacked, you may pay the cost. If you do, return that character to your hand.
+EndCard
+
+Character: GRI/S112-075
+Name Girls' Daily Life, Chris
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Cooking
+Act: 1 SendSelf WaitingRoom
+{
+	*Check4Add1(Grisaia)
+}
+Text Act: [(1) Put this card into the waiting room] Look at up to 4 cards from the top of your deck, choose up to 1 <Grisaia> character from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+Act: 2 RestSelf Discard 1 IsClimax
+{
+	If StageContains 1 Other && HasTrait Grisaia
+	{
+		SearchLocationForTargets Clock 1 1 HasTrait Grisaia
+		MoveCard Hand
+	}
+}
+Text Act: [(2) Put 1 CX from your hand into your waiting room & rest this card] If you have another <Grisaia> character, choose a <Grisaia> character in your clock and return it to your hand. 
+*RestGivePower(1000,Any)
+EndCard
+
+Character: GRI/S112-076
+Name Thanatos．System
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Auto: OnReversed
+{
+	PayCost 1 Discard 1 Any SendSelf Memory 
+	{
+		SearchWaitingRoom HasTrait Grisaia
+	}
+}
+Text Auto: [(1) Put 1 card from your hand into your waiting room & put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, choose 1 <Grisaia> character in your waiting room, and return it to your hand.
+Auto: OnHealToWaitingRoom|OnOpponentHealToWaitingRoom
+{
+	If InLocation Memory
+	{
+		IfOther MyCard
+		{
+			If Compare CardsInHand 1 OrMore
+			{
+				Question Discard a card? If you do not, you will put the top card of your deck into your clock.
+				If Yes
+				{
+					ForcePayCost Discard 1 Any
+					{
+					}
+				}
+				Else
+				{
+					TargetTop Deck 1
+					MoveCard Clock
+				}
+			}
+			Else
+			{
+				TargetTop Deck 1
+				MoveCard Clock
+			}
+		}
+		Else
+		{
+			If Compare CardsInOpponentsHand 1 OrMore
+			{
+				OpponentQuestion Discard a card? If you do not, you will put the top card of your deck into your clock.
+				If Yes
+				{
+					OpponentMessage Discard a card.
+					OpponentSearchLocationForTargets Hand 1 1 Any
+					MoveCard OpponentWaitingRoom		
+				}
+				Else
+				{
+					TargetTop OpponentDeck 1
+					MoveCard OpponentClock
+				}
+			}
+			Else
+			{
+				TargetTop OpponentDeck 1
+				MoveCard OpponentClock
+			}
+		}
+	}
+}
+InMemory
+Text Auto: MEMORY If this card is in your memory, when your card or your opponent's card in the clock is put into the waiting room due to respective card effects, that player may choose 1 card in their hand, and put it into their waiting room. Otherwise, that player puts the top card of their deck into their clock.
+EndCard
+
+Character: GRI/S112-077
+Name Information Officer, Chris
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Cooking
+Auto: OnPlay
+{
+	SetXToNumberOfCharacters HasTrait Grisaia
+	MultiplyXValue 500
+	GainPower X
+}
+Text Auto: When this card is placed on the stage from your hand, this card gets +X power. X is equal to the number of <Grisaia> characters you have x500.
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets IsCharacter
+	GainEffect
+	{
+		Auto: OnThisTriggerCheck
+		{
+			IfOther IsClimax
+			{
+				PayCost 1
+				{
+					BlindStock	
+					*OptionalDrawDiscard
+				}
+			}
+		}
+		Text Auto: [(1)] When this card's trigger check reveals a CX, you may pay the cost. If you do, put 1 card from the top of your deck into your stock, and you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room.
+	}
+}
+Text Auto: When this card attacks, all of your characters get the following ability until end of turn. "Auto: [(1)] When this card's trigger check reveals a CX, you may pay the cost. If you do, put 1 card from the top of your deck into your stock, and you may draw 1 card. If you do, choose 1 card in your hand, and put it into your waiting room."
+EndCard
+
+Character: GRI/S112-078
+Name Attracted by the Sweet Scent, Murasaki & Chris & Taiga
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3000
+Trait1 Grisaia
+Trait2 Cooking
+*LevelAssistTrait(Grisaia)
+Auto: OnClimaxPlay
+{
+	IfOther HasTrigger Gate
+	{
+		Peek Deck 2
+		Message Choose up to 2 cards to put into your waiting room
+		ChooseCardsFromTargets 0 2 Any
+		MoveCard WaitingRoom
+		TargetLocation ScryArea
+		SetXValue TargetCount
+		MoveCard Deck
+		TargetTop Deck X
+		Message Select order to return cards (first on top)
+		Reorder
+	}
+}
+Quick
+Text Auto: When your CX with GATE in its trigger icon is placed on your climax area, look at up to 2 cards from the top of your deck, choose up to 2 of them, put them on the top of your deck in any order, and put rest into your waiting room.
+Act: RestSelf
+{
+	TargetLocation OpponentCenterStage
+	ChooseCharacterFromTargets Choose a character to lose -1000 power
+	LosePower 1000
+}
+Text Act: [Rest this card] Choose 1 character in your opponent's center stage, it gets -1000 power until end of turn.
+EndCard
+
+Character: GRI/S112-079
+Name What You Can Do Now, Taiga
+Color B
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Grisaia
+Trait2 Medical Care
+Auto: OnPlay
+{
+	*ScryToBottom
+}
+Text Auto: When this card is placed on the stage from your hand, look at the top card of your deck, and put it on the top or bottom of your deck.
+*BlueEarlyPlayBomb
+EndCard
+
+Character: GRI/S112-080
+Name Forceps Monitoring, Arisaka
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Grisaia
+Trait2 Teacher
+Auto: OnUseThisCardsBackup
+{
+	If LocationContains OpponentClimax 1 IsClimax
+	{
+		TargetMyCharacterInBattle
+		IfTarget HasTrait Grisaia
+		{
+			GainPower 2000
+		}
+	}
+}
+Text Auto: When you use this card's BACKUP, if there is a CX in your opponent's CX area, choose 1 of your <Grisaia> characters in battle and that character gains +2000 power until end of turn.
+Backup 2500
+EndCard
+
+Character: GRI/S112-081
+Name After Training, Chris & Rena & Murasaki
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Grisaia
+Trait2 Cooking
+*BlueLevel0Bomb
+Auto: OnReversed
+{
+	PayCost 1 Clock
+	{
+		*Check4Add1Level1OrHigher
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card becomes reversed in battle, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card among them, show it to your opponent, add it to hand, and send the rest to waiting room.
+EndCard
+
+Character: GRI/S112-082
+Name First Taste, Taiga
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Medical Care
+Auto: OnPlay
+{
+	Question Put the top 3 cards of your deck into the waiting room?
+	If Yes
+	{
+		Mill 3
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, you may put the top 3 cards of your deck into the waiting room.
+*2OptionBondDiscard(Soul Speed\, Maki,"Jargon12" Maki)
+EndCard
+
+Character: GRI/S112-083
+Name Extra Work, Taiga
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Medical Care
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost Discard 1 IsClimax
+	{
+		SearchWaitingRoom IsCharacter && HasTrait Grisaia
+	}
+}
+Text Auto: [Put 1 CX from your hand into your waiting room] When this card is placed on the stage from your hand or put into your waiting room from the stage, you may pay the cost. If you do, choose a <Grisaia> character in your waiting room and return it to your hand.
+EndCard
+
+Character: GRI/S112-084
+Name Mom in Class, Chris
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Cooking
+Combo Ode in Reply
+*EarlyPlayInClock(Carrying Life\, Chris)
+*GlobalPower(1500,Grisaia)
+Auto: StartOpponentAttackPhase
+{
+	If LocationContainsOrLess Hand 6 Any &&& StageContains 1 Other && HasTrait Grisaia
+	{
+		PayCost Discard 1 NameEquals Ode in Reply
+		{
+			SearchLocationForTargets Deck 0 2 HasTrait Grisaia
+			RevealTargets
+			MoveCard Hand
+			ShuffleLocation Deck
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 "Ode in Reply" from your hand into your waiting room] At the beginning of your opponent's attack phase, if your hand has 6 or less cards, and you have another <Grisaia> character, you may pay the cost. If you do, search your deck for up to 2 <Grisaia> characters, reveal them to your opponent, put them into your hand, and shuffle your deck.
+EndCard
+
+Character: GRI/S112-085
+Name "Mihama Academy" Murasaki
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Ninja
+*GivePowerOnPlay(1500,Grisaia)
+*OnAttackGivePower(1500,Grisaia)
+EndCard
+
+Character: GRI/S112-086
+Name "Mihama Academy" Rena
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay|OnSentFromStageToWaitingRoom
+{
+	PayCost 1 Discard 1 Any
+	{
+		SearchWaitingRoom IsCharacter
+	}
+}
+Text Auto: [(1) Put a card from your hand into the waiting room] When this card is placed on the stage from your hand or is sent from the stage to your waiting room, you may pay the cost. If you do, choose up to 1 character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GRI/S112-087
+Name "Mihama Academy" Taiga
+Color B
+Level 0
+Cost 0
+Power 3500
+Trait1 Grisaia
+Trait2 Medical Care
+Cont: Global
+{
+	If InLocation OpponentStage
+	{
+		GainEffect
+		{
+			Auto: Encore 2
+			{
+			}
+			Text Auto: ENCORE [(2)]
+		}
+	}
+}
+Text Cont: All of your opponent's characters get "Auto: <b>Encore</b> [(2)]".
+*EncoreStepIfNoneRestedPayToRest
+EndCard
+
+Character: GRI/S112-088
+Name It's My Turn to Carry Someone, Taiga
+Color B
+Level 1
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Medical Care
+Auto: OnReversed
+{
+	RevealUpTo Deck 3
+	PutTheRestIntoTheWaitingRoom
+	TargetLocation WaitingRoom
+	NarrowTargets NameEquals Rescue Tiger, Taiga
+	SetXValue TargetCount
+	TargetBattleOpponent
+	IfTarget OnStage
+	{
+		If Compare TargetCardsLevel X OrLess
+		{
+			Question Put the battle opponent to bottom of deck?
+			If Yes
+			{
+				MoveCardToBottom OpponentDeck
+			}
+		}
+	}
+}
+Text Auto: When this card becomes reversed in battle, put up to 3 cards from the top of your deck into your waiting room, and if the level of this card's battle opponent is X or lower, you may put that card on the bottom of your opponent's deck. X is equal to the number of "Rescue Tiger, Taiga" in your waiting room.
+EndCard
+
+Character: GRI/S112-089
+Name "Mihama Academy" Tohka
+Color B
+Level 1
+Cost 0
+Power 3000
+Trait1 Grisaia
+Trait2 Weapon
+Combo Taiyaki and Cat
+*PowerOnMyTurn(4000)
+Auto: OnAttack
+{
+	If Climax Taiyaki and Cat &&& StageContains 1 Other && NameContains Mihama Academy
+	{
+		PayCost Discard 1 Any
+		{
+			Peek Deck 4
+			ChooseCardsFromTargets 0 2 NameEquals Girls Go To War || IsCharacter && NameContains Mihama Academy
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+		}
+	}
+}
+Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this attacks, if "Taiyaki and Cat" is in your climax area, and you have another character with either "Mihama Academy" in it's card name, you may pay cost. If so, look at up to 4 cards from top of your deck and search for up to 2 cards that are either character with "Mihama Academy" in it's card name or "Girls Go To War", reveal them, put them in your hand, and put the rest in the Waiting Room.
+EndCard 
+
+Character: GRI/S112-090
+Name "Mihama Academy" Gumi
+Color B
+Level 1
+Cost 0
+Power 4000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnAttack
+{
+	TargetLocation Stage
+	NarrowTargets HasTrait Grisaia
+	SetXValue TargetCount
+	MultiplyXValue 500
+	AIChoice GainPower X
+	ChooseCharacterFromTargets Choose a character to give +X power.
+	GainPower X
+}
+Text Auto: When this card attacks, choose 1 of your <Grisaia> character, it gets +X power until the end of turn. X is equal to the number of <Grisaia> characters you have x500.
+Auto: OnAttack
+{
+	PayCost Discard 1 Any
+	{
+		TargetLocation Stage
+		NarrowTargets Other && HasTrait Grisaia
+		ChooseCharacterFromTargets Choose a character to return to hand.
+		MoveCard Hand
+	}	
+}
+Text Auto: [Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, choose 1 of your other <Grisaia> characters, and return it to your hand.
+EndCard
+
+Character: GRI/S112-091
+Name Rappel, Chris
+Color B
+Level 1
+Cost 0
+Power 5000
+Trait1 Grisaia
+Trait2 Cooking
+Auto: OnReverseOpponent
+{
+	TargetLocation Climax
+	If HasTarget
+	{
+		*OptionalBlindStock
+	}
+}
+Text Auto: When this card's battle opponent is reversed, if you have a CX in your CX area, you may put the top card of your deck into stock.
+EndCard
+
+Character: GRI/S112-092
+Name "Mihama Academy" Maki
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 2500
+Trait1 Grisaia
+Trait2 Weapon
+*PowerOnMyTurn(10000)
+*HandEncore
+EndCard
+
+Character: GRI/S112-093
+Name Independent Decisions, Chris
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Grisaia
+Trait2 Cooking
+*GainPowerWithEnoughCharacters(6000,4,Grisaia)
+Auto: OnPlay
+{
+	If LocationContains Memory 1 NameEquals Thanatos．System
+	{
+		TargetLocation OpponentStage
+		NarrowTargets Compare ThatCardsLevel 1 OrMore
+		ChooseCharacterFromTargets_Optional Choose up to 1 character to downgrade.
+		Reveal
+		SaveTargets
+		SetXValue TargetCardsLevel
+		RememberSlot
+		PlaceOnRememberedSlot
+		Message Choose a character in waiting room to exchange.
+		OpponentSearchLocationForTargets WaitingRoom 1 1 IsCharacter && Compare ThatCardsLevel X LessThan
+		If HasTarget
+		{
+			RememberTargets
+			LoadTargets
+			MoveCard OpponentWaitingRoom
+			TargetRemembered
+			PlaceOnRememberedSlot
+		}
+	}
+}
+Text Auto: When this card is placed on the stage from your hand, if "Thanatos．System" in your memory, you may choose 1 of your opponent's level 1 or higher characters. If you do, your opponent chooses 1 level X or lower character in their waiting room, and exchanges them. X is equal to the level of the character you chose -1.
+EndCard
+
+Character: GRI/S112-094
+Name "Mihama Academy" Chris
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 10000
+Soul 2
+Trait1 Grisaia
+Trait2 Cooking
+Combo Rose and Girl
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Clock 1
+		MoveCard Hand
+	}
+}
+Text Auto: [Put a card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost, put the top card of your clock into your hand.
+Auto: OnAttack
+{
+	If Climax Rose and Girl
+	{
+		PayCost Discard 2 Any
+		{
+			Burn 4
+		}
+	}
+}
+Text Auto: CxCombo [Put 2 cards from your hand to the waiting room] When this card attacks, if "Rose and Girl" is in your climax area, you may pay cost. If you do, deal 4 damage to your opponent.
+EndCard
+
+Event: GRI/S112-095
+Name SORD
+Color B
+Level 2
+Cost 4
+Counter
+Effect:
+{
+	TargetLocation OpponentStage
+	ChooseCharacterFromTargets Choose an opponent's character to rest.
+	Rest
+}
+Text COUNTER Choose 1 of your opponent's characters and rest it.
+EndCard
+
+Event: GRI/S112-096
+Name Prayer
+Color B
+Level 3
+Cost 4
+Counter
+Effect:
+{
+	If StageContains 5 HasTrait Grisaia
+	{
+		SearchLocationForTargets Clock 0 2 HasTrait Grisaia
+		MoveCard Hand
+	}
+	TargetSelf
+	MoveCard Memory
+}
+Text COUNTER IF you have 5 or more <Grisaia> characters, choose up to 2 <Grisaia> characters in your clock and return it to your hand. Send this card to your memory.
+EndCard
+
+Climax: GRI/S112-097
+Name Ode in Reply
+*GateClimax
+EndCard
+
+Climax: GRI/S112-098
+Name Value of Life
+*GateClimax
+EndCard
+
+Climax: GRI/S112-099
+Name Rose and Girl
+Color B
+Trigger Book
+Auto: OnPlay
+{
+	Question Draw a card?
+	If Yes
+	{
+		DrawCard
+	}
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 of your characters, and they gain +1 soul
+	GainSoul 1
+}
+Text When this card is triggered draw up to 1 card.
+Text Auto: When this is placed from hand to the climax zone, you may draw a card, choose up to 2 of your characters, and they gain +1 soul until end of turn.
+EndCard
+
+Climax: GRI/S112-100
+Name Taiyaki and Cat
+Color B
+Trigger Book
+Auto: OnPlay
+{
+	Question Draw a card?
+	If Yes
+	{
+		DrawCard
+	}
+	TargetLocation Stage
+	ChooseCharactersFromTargets 0 2 Choose up to 2 of your characters, and they gain +1 soul
+	GainSoul 1
+}
+Text When this card is triggered draw up to 1 card.
+Text Auto: When this is placed from hand to the climax zone, you may draw a card, choose up to 2 of your characters, and they gain +1 soul until end of turn.
+EndCard
+
+Character: GRI/S112-P01
+Name Glutton Girl, Rena
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost Discard 1 Any
+	{
+		TargetTop Deck 1
+		Reveal
+		SetXValue TargetCardsLevel
+		SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLower
+	}
+}
+Text Auto: [Put a card from your hand to the waiting room] When this card is placed on the stage from your hand, you may pay the cost, reveal the top card of your deck, choose a level X or lower character in your waiting room and return it to your hand. X is equal to the level of the revealed card.
+EndCard
+
+Character: GRI/S112-P02
+Name New Teacher, Arisaka
+Color G
+Level 0
+Cost 0
+Power 1000
+Trait1 Grisaia
+Trait2 Teacher
+*GreenLevel0Bomb
+Act: 1
+{
+	MillOpponent 1
+	Message Choose a card to put on top of your opponent's deck
+	SearchLocationForTargets OpponentWaitingRoom 1 1 Any
+	MoveCard OpponentDeck
+}
+Text Act: [(1)] Put the top card of your opponent's deck into the waiting room, choose a card in your opponent's waiting room, and put it on top of your opponent's deck.
+EndCard
+
+Character: GRI/S112-P03
+Name Tsundere Girl, Tohka
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Weapon
+*MoveOtherWithTraitToBackstageOnReverse(Grisaia)
+EndCard
+
+Character: GRI/S112-P04
+Name Serious girl, Maki
+Color G
+Level 0
+Cost 0
+Power 2500
+Trait1 Grisaia
+Trait2 Weapon
+Auto: OnPlay
+{
+	PayCost 1 Clock
+	{
+		SearchWaitingRoom HasTrait Grisaia
+	}
+}
+Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 <Grisaia> character in your waiting room, and return it to your hand.
+EndCard
+
+Character: GRI/S112-P05
+Name Elusive Girl, Murasaki
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Ninja
+*DropSalvage
+*FreeRunner
+EndCard
+
+Character: GRI/S112-P06
+Name Principal, Ichiru Sengoku
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Medical Care
+*GainPowerWithEnoughCharacters(1000,2,Grisaia)
+*ClimaxExchange
+EndCard
+
+Character: GRI/S112-P07
+Name Master of Swordsmanship, Haruto
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 Grisaia
+Trait2 Handler
+Auto: OnPlay
+{
+	TargetTop Deck 2
+	Reorder
+}
+Text Auto: When this card is placed on the stage from your hand, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+*ClimaxExchange
+EndCard
+
+Character: GRI/S112-P08
+Name A Caring Girl, Chris
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Grisaia
+Trait2 Cooking
+Auto: OnPlay
+{
+	PayCost HandClock HasTrait Grisaia
+	{
+		*CheckAndAdd(3)
+	}
+}
+Text Auto: [Put 1 <Grisaia> character from your hand into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 1 card from among them, put it into your hand, and put the rest into your waiting room.
+EndCard
