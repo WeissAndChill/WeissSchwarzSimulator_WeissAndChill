@@ -19,7 +19,7 @@ Auto: OnAttack
 Text Auto: When this card attacks, this character gets +X power until end of turn. X is equal to 1500 multiplied by the number of "Summer, Swimsuits, Bikes, and Car Washes" in your waiting room.
 Auto: OnAttack
 {
-	If Climax Taste of food &&& StageContains 3 Other && HasTrait Grisaia
+	If Climax Taste of Food &&& StageContains 3 Other && HasTrait Grisaia
 	{
 		RevealUpTo Deck 3
 		AIChoice AddToHand
@@ -557,7 +557,7 @@ Auto: OnReverseOpponent
 		}
 	}
 }
-Text Auto: During your turn, when this card's level 2 or higher battle opponent becomes reversed, reveal the top card of your deck. If that card is <Grisaia> character or "Summer, Swimsuits, Bikes, And Car Washes", you may choose 1 of your opponent's characters, and return it to their hand.
+Text Auto: During your turn, when this card's level 2 or higher battle opponent becomes reversed, reveal the top card of your deck. If that card is <Grisaia> character or "Summer, swimsuits, bikes, and car washes", you may choose 1 of your opponent's characters, and return it to their hand.
 EndCard
 
 Event: GRI/S112-018
@@ -581,7 +581,7 @@ Level 2
 Cost 0
 Effect: 
 {
-	MultipleChoiceQuestion Choose one \n1. Choose up to 1 <Grisaia> character in your waiting room and return it to your hand.\n2. [(1)] You may pay the cost. If you do, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand.|Choice 1|Choice 2
+	MultipleChoiceQuestion Choose one \n1. Search your waiting room for up to 1 <Grisaia> character and return it to your hand.\n2. [(1)] You may pay the cost. If you do, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand.|Choice 1|Choice 2
 	If Answer 0
 	{
 		SearchWaitingRoom HasTrait Grisaia
@@ -606,7 +606,7 @@ Effect:
 		}
 	}
 }
-Text Choose 1 of the following 2 effects and perform it.\n"Choose up to 1 <Grisaia> character in your waiting toom and return it to your hand."\n"[(1)] You may pay the cost. If you do, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand."
+Text Choose 1 of the following 2 effects and perform it.\n"Search your waiting room for up to 1 <Grisaia> character and return it to your hand."\n"[(1)] You may pay the cost. If you do, look at up to 3 cards from the top of your deck, put them on the top of your deck in any order, choose up to 1 of your opponent's characters, and return it to their hand."
 EndCard
 
 Climax: GRI/S112-020
@@ -893,7 +893,7 @@ Auto: OnPlay
 		}
 	}
 }
-Text Auto: [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, if "Promise from Long Ago" in your memory, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
+Text Auto: MEMORY [Put a card from your hand into your waiting room] When this card is placed on the stage from your hand, if "Promise from Long Ago" in your memory, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card to add to your hand and, put the rest into the waiting room.
 EndCard
 
 Character: GRI/S112-030
@@ -946,7 +946,7 @@ Auto: OnAttack
 		}
 	}
 }
-Text Auto: When this card attacks, if "Thanatos．System" in your memory, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
+Text Auto: MEMORY When this card attacks, if "Thanatos．System" in your memory, reveal the top card of your deck. If that card is level 1 or higher, put it into your stock.
 EndCard
 
 Character: GRI/S112-032
@@ -1176,7 +1176,7 @@ Auto: OnReverseOpponent
 		SearchWaitingRoom IsCharacter
 	}
 }
-Text Auto: When this card's battle opponent becomes reversed, if there is a CX in your CX area, choose up to 1 character in your waiting room, and return it to your hand.
+Text Auto: When this card's battle opponent becomes reversed, if there is a CX in your CX area, chooseup to 1 character in your waiting room, and return it to your hand.
 EndCard
 
 Event: GRI/S112-039
