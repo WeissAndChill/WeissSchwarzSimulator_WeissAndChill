@@ -1,0 +1,4 @@
+Series: Laid-Back Camp
+Folder: Yuru Camp/W116
+Prefix: YRC/W116
+SetName: Laid-Back Camp (W116)

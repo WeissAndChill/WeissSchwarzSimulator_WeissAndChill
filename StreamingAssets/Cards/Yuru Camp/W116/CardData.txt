@@ -1,0 +1,400 @@
+//Trial Deck
+
+Character: YRC/W116-T01
+Name Let's Make an Alcohol Stove, Nadeshiko
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Yuru Camp△
+Trait2 Cooking
+
+	*SacrificeToSave(HasTrait Yuru Camp△)
+	Text Auto: [Put this card into your waiting room] When your other <Yuru Camp△> characters is put into the waiting room from your stage, if this card in backstage, you may pay the cost. If you do, return that character to its previous position rested.
+	
+	*Bond1(Big Stretch\, Rin)
+
+EndCard
+
+Character: YRC/W116-T02
+Name Going Home, Ena
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Yuru Camp△
+Trait2 My Pace
+
+	Auto: OnClimaxPlay
+	{
+		*GiveCharacterPower(1500,Yuru Camp△)
+	}
+	Text Auto: When a climax is placed on your climax area, choose 1 of your <Yuru Camp△> characters, it gets +1500 power until end of turn.
+
+	*Act1RestSelfDrawBrainstorm5
+
+EndCard
+
+Character: YRC/W116-T03
+Name Morning Greeting Attire, Ena
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Yuru Camp△
+Trait2 My Pace
+
+	*500Assist
+	
+	*RestGivePower(1000,Any)
+
+EndCard
+
+Character: YRC/W116-T04
+Name Rin Shima
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Yuru Camp△
+Trait2 Bike
+
+	Auto: OnPlay
+	{
+		PayCost 1
+		{
+			Message Choose up to 1 CX in your deck to exchange with 1 CX in your hand.
+			SearchLocationForTargets Deck 0 1 IsClimax
+			SaveTargets
+			If HasTarget
+			{
+				Message Choose up to 1 CX in your hand to exchange with the selected CX in deck.
+				SearchLocationForTargets Hand 1 1 IsClimax
+				AddSavedToCurrentTargets
+				Exchange
+				ShuffleLocation Deck
+			}
+			Else
+			{
+				ShuffleLocation Deck
+			}
+		}
+	}
+	Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose up to 1 CX in your deck, reveal it to your opponent, choose 1 CX in your hand, exchange them, and shuffle your deck.
+	
+	Auto: StartOpponentAttackPhase
+	{
+		If LocationContainsOrLess CenterStage 2 Any
+		{
+			TargetFacing
+			If HasTarget
+			{
+				TargetSelf
+				Question Move "Rin Shima" to another position?
+				If Yes
+				{
+					MoveToOpenPosition True False
+				}
+			}
+		}
+	}
+	Text Auto: At the beginning of your opponent's attack phase, if there is a character facing this card, you may move this card to an open position of your center stage.
+
+EndCard
+
+Character: YRC/W116-T05
+Name Outdoor Activities Club Advisor, Toba-sensei
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Yuru Camp△
+Trait2 TBC
+
+	Cont: GiveSelf
+	{
+		TargetLocation OpponentBackstage
+		SetXValue TargetCount
+		MultiplyXValue 1500
+		GainPower X
+	}
+	Text Cont: This card gets +1500 power for each character in your opponent's back stage.
+
+EndCard
+
+Character: YRC/W116-T06
+Name Enjoying Camping! Nadeshiko
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Yuru Camp△
+Trait2 Cooking
+Combo There's Still More Fun
+
+	Cont: GiveSelf
+	{
+		If StageContains 2 Other && HasTrait Yuru Camp△
+		{
+			GainPower 1000
+		}
+	}
+	Text Cont: If you have 2 or more other <Yuru Camp△> characters, this card gets +2000 power.
+	Auto: OnAttack
+	{
+		If Climax There's Still More Fun && StageContains 1 Other && HasTrait Yuru Camp△
+		{
+			Mill 2
+			SetXValue TotalLevel
+			SearchWaitingRoom HasTrait Yuru Camp△ && Compare ThatCardsLevel X OrLess
+		}
+	}	
+	Text Auto: CxCombo When this card attacks, if "There's Still More Fun" is in your CX area, and you have another <Yuru Camp△> character, put the top 2 cards of your deck into your waiting room, choose up to 1 level X or lower <Yuru Camp△> character in your waiting room, and return it to your hand. X is equal to the total level of the cards put into your waiting room by this effect.
+
+EndCard
+
+Character: YRC/W116-T07
+Name Big Stretch, Rin
+Color G
+Level 0
+Cost 0
+Power 5500
+Trait1 Yuru Camp△
+Trait2 Bike
+
+EndCard
+
+Character: YRC/W116-T08
+Name Ena Saitou
+Color G
+Level 2
+Cost 0
+Power 4000
+Trait1 Yuru Camp△
+Trait2 My Pace
+Trigger Soul
+
+	*1000Assist
+
+EndCard
+
+Character: YRC/W116-T09
+Name Making Fire, Rin
+Color G
+Level 3
+Cost 2
+Soul 2
+Power 10000
+Trait1 Yuru Camp△
+Trait2 Bike
+Trigger Soul
+Combo Solo Camping
+
+	*OnPlayCheckX(Yuru Camp△)
+	
+	Auto: OnAttack
+	{
+		If Climax Solo Camping
+		{
+			PayCost Discard 2 Any
+			{
+				Burn 3
+			}
+		}
+	}
+	Text Auto: CxCombo [Put 2 cards from your hand into your wating room] When this card attacks, if "Solo Camping" is in your CX area, you may pay the cost. If you do, deal 3 damage to your opponent.
+
+EndCard
+
+Climax: YRC/W116-T10
+Name There's Still More Fun
+	
+	*BarClimax
+	
+EndCard
+
+Climax: YRC/W116-T11
+Name Solo Camping
+	
+	*BarClimax
+	
+EndCard
+
+Character: YRC/W116-T12
+Name Let's Make an Alcohol Stove, Chiaki
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Yuru Camp△
+Trait2 Glasses
+
+	Cont: GiveSelf
+	{
+		If Compare CardsInStock 3 OrLess
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: If your stock has 3 or less cards, this card gets +2000 power.
+
+EndCard
+
+Character: YRC/W116-T13
+Name Let's Make an Alcohol Stove, Aoi
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Yuru Camp△
+Trait2 Kansai Dialect
+
+		Auto: OnPlay|OnSentFromStageToWaitingRoom
+	{
+		PayCost 1 Discard 1 Any
+		{
+			SearchDeck IsCharacter && HasTrait Yuru Camp△
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand or put into waiting room from your stage, you may pay the cost. If you do, search your deck for up to 1 <Yuru Camp△> character, reveal it to your opponent, put it into your hand and shuffle your deck.
+
+EndCard
+
+Character: YRC/W116-T14
+Name Nadeshiko Kagamihara
+Color R
+Level 1
+Cost 0
+Power 2000
+Trait1 Yuru Camp△
+Trait2 Cooking
+
+	Auto: OnPlay
+		{
+			PayCost Discard 1 Any
+			{
+				TargetTop Deck 1
+				Reveal
+				SetXValue TargetCardsLevel
+				SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+			}
+		}
+		Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck, choose 1 level X or lower character in your waiting room, and return it to your hand. X is equal to the level of the revealed card.
+		
+	*RedLevel1Bomb
+	
+EndCard
+
+Character: YRC/W116-T15
+Name Aoi Inuyama
+Color R
+Level 2
+Cost 1
+Power 2000
+Trait1 Yuru Camp△
+Trait2 Kansai Dialect
+Trigger Soul
+
+	Backup 3500
+
+EndCard
+
+Character: YRC/W116-T16
+Name Chiaki Oogaki
+Color R
+Level 2
+Cost 1
+Power 2000
+Trait1 Yuru Camp△
+Trait2 Glasses
+Trigger Soul
+
+	*OnAttackGainPowerForEachOther(1000,Yuru Camp△)
+	
+	*HandEncoreTrait(Yuru Camp△)
+
+EndCard
+
+Character: YRC/W116-T17
+Name Garden Day Camp, Aoi
+Color R
+Level 3
+Cost 2
+Soul 2
+Power 7500
+Trait1 Yuru Camp△
+Trait2 Kansai Dialect
+Trigger Soul
+
+	Cont: GiveAll
+	{
+		IfOwner InLocation MiddleCenterStage
+		{
+			If HasTrait Yuru Camp△
+			{
+				GainPower 2000
+			}
+		}
+	}
+	Text Cont: If this card is in the middle position of your center stage, all of your <Yuru Camp△> characters get +2000 power.
+	
+	*Healer
+
+EndCard
+
+Character: YRC/W116-T18
+Name Fresh Cut, Chiaki
+Color R
+Level 3
+Cost 2
+Soul 2
+Power 9500
+Trait1 Yuru Camp△
+Trait2 Glasses
+Trigger Soul
+
+	Auto: OnPlay
+	{
+		SetXToNumberOfCharacters HasTrait Yuru Camp△
+		MultiplyXValue 1000
+		GainPower X
+	}
+	Quick
+	Text Auto: When this card is placed on the stage from your hand, this card gets +X power until end of turn. X is equal to the number of <Yuru Camp△> characters you have x1000.
+	
+	Auto: OnPlay
+	{
+		PayCost 1 Discard 1 Any
+		{
+			Burn 2
+		}
+	}
+	Text Auto: [(1) Discard 1 card] When this card is placed on the stage from your hand, you may pay the cost. If you do, deal 2 damage to your opponent.
+
+EndCard
+
+Event: YRC/W116-T19
+Name Chikuwa
+Color R
+Level 1
+Cost 1
+
+	Effect:
+	{
+		SearchDeck HasTrait Yuru Camp△
+		
+		*GiveCharacterPower(3000,Yuru Camp△)
+	}
+	Text Search your deck for up to 1 <Yuru Camp△> character, reveal it to your opponent, put it into your hand, and shuffle your deck.\nChoose 1 of your <Yuru Camp△> characters, and it gets +3000 power until end of turn.
+	
+EndCard
+
+Climax: YRC/W116-T20
+Name Playing with Chikuwa
+Color R
+
+	*2SoulClimax
+	
+EndCard
+
+//Booster Pack
