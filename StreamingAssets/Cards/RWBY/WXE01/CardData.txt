@@ -1533,6 +1533,7 @@ Name A Trustworthy Partner
 EndCard
 
 Character: RWBY/WXE01-P02
+Name Weiss: Let's Just Live
 Color B
 Level 1
 Cost 0
