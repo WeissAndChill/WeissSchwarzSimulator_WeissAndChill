@@ -1,0 +1,1546 @@
+Character: RWBY/WXE01-01
+Name Jaune: Unsure
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Remnant
+Trait2 JNPR
+
+	Auto: OnClimaxPlay
+	{
+		TargetLocation Stage
+		ChooseCharactersFromTargets 1 1 Choose a character to give the ability to.
+		GainEffect
+		{
+			*OnAttackCheck2ChooseTrigger
+		}
+		
+	}
+	Text Auto: When your climax is placed on your climax area, choose 1 of your characters, and that character gets the following ability until end of turn. "Auto: When this card attacks, look at up to 2 cards from the top of your deck, choose 1 card from among them, put it on the top of your deck, and put the rest into your waiting room."
+
+	*Act1RestSelfCheck3Add1Brainstorm
+
+EndCard
+
+Character: RWBY/WXE01-02
+Name Yang: Waking up From a Nightmare
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 Remnant
+Trait2 RWBY
+	
+	Cont: GiveSelf
+	{
+		If StageContains 1 NameEquals Taiyang & Yang: Rehabilitation Training
+		{
+			GainPower 3000
+		}
+	}
+	Text Cont: If you have another "Taiyang & Yang: Rehabilitation Training", this card gets +3000 power.
+	
+	Auto: OnReverseOpponent
+	{
+		If StageContains 1 Other && HasTrait Remnant
+		{
+			TargetLocation OpponentCenterStage
+			NarrowTargets CanBeChosen && Compare ThatCardsLevel 0 OrLess
+			ChooseCharacterFromTargets_Optional Choose a character to send to your opponent's waiting room
+			MoveCard OpponentWaitingRoom
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, if you have another <Remnant> character, you may choose 1 level 0 or lower character in your opponent's center stage, and put it into your opponent's waiting room.
+	
+EndCard
+
+Character: RWBY/WXE01-03
+Name Taiyang & Yang: Rehabilitation Training
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 Remnant
+Trait2 RWBY
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Remnant
+		{
+			SearchDeck NameEquals Yang: Waking up from a Nightmare
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Yang: Waking up from a Nightmare", reveal it to your opponent, put it into your hand, and shuffle your deck.
+
+	Auto: OnDirectAttack
+	{
+		TargetSelf
+		GainSoul 1
+	}
+	Text Auto: When this card direct attacks, this card gets +1 soul until end of turn.
+
+EndCard
+
+Character: RWBY/WXE01-04
+Name Yang: Determined
+Color Y
+Level 1
+Cost 0
+Power 3500
+Trait1 Remnant
+Trait2 RWBY
+	
+	*GainPowerWithEnoughCharacters(2000,2,Remnant)
+	
+	*OnAttackPay1ToDoubleTrigger
+	
+EndCard
+
+Character: RWBY/WXE01-05
+Name Jaune: Fighting the Nuckelavee Remnant
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Remnant
+Trait2 JNPR
+
+	Cont: GiveSelf
+	{
+		If LocationContains Memory 1 NameEquals Pyrrha: Video Message
+		{
+			GainPower 3000
+		}
+	}
+	Text Cont: MEMORY If "Pyrrha: Video Message" is in your memory, this card gets +3000 power.
+
+EndCard
+
+Character: RWBY/WXE01-06
+Name Sun: Raring to Go
+Color Y
+Level 1
+Cost 0
+Power 4000
+Trait1 Remnant
+Trait2 SSSN
+	
+	*GainPowerWithEnoughCharacters(2000,2,Remnant)
+	
+	Auto: OnOtherFrontalAttacked
+	{
+		IfOther HasTrait Remnant
+		{
+			PayCost SendSelf WaitingRoom
+			{
+				TargetMyCharacterInBattle
+				GainPower 1500
+			}
+		}
+	}
+	Text Auto: [Put this card into your waiting room] When your other <Remnant> character is frontal attacked, you may pay the cost. If you do, choose 1 of your characters in battle, and that character gets +1500 power until end of turn.
+	
+EndCard
+
+Character: RWBY/WXE01-07
+Name Taiyang: Curious
+Color Y
+Level 1
+Cost 0
+Power 4500
+Trait1 Remnant
+Trait2 STRQ
+
+	*CannotSideAttack
+	
+	*GainPowerForEachOther(500,Remnant)
+	
+	*EncoreStepIfNoneRestedPayToRest
+	
+EndCard
+
+Character: RWBY/WXE01-08
+Name Sun: Activating Semblence
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 1500
+Trait1 Remnant
+Trait2 SSSN
+
+	Auto: OnUseThisCardsBackup
+	{
+		PayCost 1
+		{
+			SearchWaitingRoom NameEquals Sun: Activating Semblence
+		}
+	}
+	Text Auto: [(1)] When you use this card's "BACKUP" you may pay the cost. If you do, choose 1 "Sun: Activating Semblence" in your waiting room, and return it to your hand.
+	
+	Backup 2500
+	
+EndCard
+
+Character: RWBY/WXE01-09
+Name Sun: Awkward Smile
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6000
+Trait1 Remnant
+Trait2 SSSN
+
+	Cont: GiveSelf
+	{
+		If OpponentsTurn
+		{
+			SetXToNumberOfCharacters Other && HasTrait Remnant
+			MultiplyXValue 500
+			GainPower X
+		}
+	}
+	Text Cont: During your opponent's turn, this card gets +500 power for each of your other <Remnant> characters.
+	
+	Cont: GiveSelf
+	{   
+		If StageContains 2 Other && HasTrait Remnant
+		{
+			TargetSelf
+			GainSpecialEffect FreeSideAttack
+		}
+	}
+	Text Cont: If you have 2 or more other <Remnant> characters, this card's soul does not decrease by side attacking.
+	
+	Auto: StartOpponentAttackPhase
+	{
+		TargetLocation Stage
+		NarrowTargets Other && NameEquals Blake: Letting Go
+		ChooseCharacterFromTargets
+		If HasTarget
+		{
+			AddSelfToTargets
+			Exchange
+			Stand
+		}
+	}
+	Text Auto: At the beginning of your opponent's attack phase, you may choose this card and 1 "Blake: Letting Go" on your stage, and exchange them as standing. (ERRATA'D)
+
+EndCard
+
+Character: RWBY/WXE01-10
+Name Jaune: Working Together
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Remnant
+Trait2 JNPR
+Combo Moment of Peace
+
+	*Healer
+	
+	Auto: OnSpecificClimaxPlay Moment of Peace
+	{
+		If StageContains 4 Other && HasTrait Remnant
+		{
+			PayCost Discard 1 HasTrait Remnant
+			{
+				GainEffect
+				{
+					Auto: OnFrontalAttack|OnSideAttack
+					{
+						Burn 2
+						GainPower 1000
+					}
+					Text Auto: When this card frontal or side attacks, deal 2 damage to your opponent, and this card gets +1000 power until end of turn.
+				}
+				GainEffect
+				{
+					Auto: OnDirectAttack
+					{
+						Burn 3
+					}
+					Text Auto: When this card direct attacks, deal 3 damage to your opponent.
+				}
+			}
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When "Moment of Peace" is placed on your climax area, if you have 4 or more other <Remnant> characters, you may pay the cost. If you do, this card gets the following abilities until end of turn. "Auto: When this card frontal or side attacks, deal 2 damage to your opponent, and this card gets +1000 power until end of turn." "Auto: When this card direct attacks, deal 3 damage to your opponent."
+	
+EndCard
+
+Climax: RWBY/WXE01-11
+Name Moment of Peace
+*ChoiceClimax
+EndCard
+
+Character: RWBY/WXE01-12
+Name Ilia: Overflowing Sadness
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Remnant
+
+	*EncoreStepIfNoneRestedPayToRest
+	
+	*GreenLevel0Bomb
+	
+EndCard
+
+Character: RWBY/WXE01-13
+Name Emerald & Mercury: Training
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Remnant
+
+	*GlobalPower(500,Remnant)
+	
+	Act: RestSelf
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect to.
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				If Compare CardsInOpponentsClock 1 OrMore
+				{
+					Question Put the top card of opponent's clock into waiting room to put the battle opponent into clock?
+					If Yes
+					{
+						TargetTop OpponentClock 1
+						MoveCard OpponentWaitingRoom
+						TargetBattleOpponent
+						IfTarget OnStage
+						{
+							MoveCard OpponentClock
+						}
+					}
+				}
+			}
+			Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock.
+		}
+	}
+	Text Act: [Rest this card] Choose 1 of your characters, it gets the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may put the top card of your opponent's clock into the waiting room, if you do, put that character into your opponent's clock."
+	
+EndCard
+
+Character: RWBY/WXE01-14
+Name Ren: Semblence Awakened
+Color G
+Level 0
+Cost 0
+Power 2000
+Trait1 Remnant
+Trait2 JNPR
+
+	*PowerOnMyTurn(1000)
+	
+	Auto: OnReverseOpponent
+	{
+		If OnStage
+		{
+			Question Put "Ren: Semblence Awakened" into your memory?
+			If Yes
+			{
+				MoveCard Memory
+				ScheduleEffect StartDrawPhase
+				{
+					Effect:
+					{
+						TargetLocation Memory
+						NarrowTargets NameEquals Ren: Semblence Awakened
+						FirstTarget
+						PlaceOnStage False True True False
+					}
+					Text "Ren: Semblence Awakened" returns from memory.
+				}
+			}
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, you may put this card into your memory. If you do, at the beginning of your next draw phase, choose 1 "Ren: Semblence Awakened" in your memory, and put it in any position of your stage.
+	
+EndCard
+
+Character: RWBY/WXE01-15
+Name An Ren
+Color G
+Level 0
+Cost 0
+Power 4000
+Trait1 Remnant
+
+	Cont: GiveSelf
+	{
+		GainSpecialEffect CannotUseEvents
+		GainSpecialEffect CannotUseBackup
+	}
+	Text Cont: You cannot play event cards or "Backup" from hand.
+	
+EndCard
+
+Character: RWBY/WXE01-16
+Name Corsac & Fennec Albain
+Color G
+Level 1
+Cost 0
+Power 3000
+Trait1 Remnant
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Remnant
+		{
+			SearchDeck NameEquals Ilia Amitola
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Ilia Amitola", reveal it to your opponent, put it into your hand, and shuffle your deck.
+	
+	*GreenCost0Bomb
+	
+EndCard
+
+Character: RWBY/WXE01-17
+Name Ren: Working Together
+Color G
+Level 1
+Cost 0
+Power 4000
+Trait1 Remnant
+Trait2 JNPR
+
+	Cont: GiveSelf
+	{
+		If MyTurn && Compare CardsInMemory 1 OrMore
+		{
+			GainPower 1500
+		}
+	}
+	Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +1500 power.
+	
+	Auto: OnPlay
+	{
+		PayCost 1
+		{
+			SearchLocationForTargets WaitingRoom 1 1 HasTrait Remnant && Compare ThatCardsCost 0 OrLower
+			PlaceOnStage False True True False
+			ScheduleEffectForTargets EndOfTurn
+			{
+				Effect:
+				{
+					If OnStage
+					{
+						MoveCard Memory
+					}
+				}
+				Text At the end of this turn, put that character into your memory.
+			}
+		}
+	}
+	Text Auto: [(1)] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose a cost 0 or lower <Remnant> character in your waiting room, put it on any position of your stage, and at ehd of turn, put that character into your memory.
+	
+EndCard
+
+Character: RWBY/WXE01-18
+Name Ilia Amitola
+Color G
+Level 1
+Cost 0
+Power 4500
+Trait1 Remnant
+Combo Spotted Under Moonlight
+
+	*GainPowerWithEnoughCharacters(1000,2,Remnant)
+
+	Auto: OnAttack
+	{
+		If Climax Spotted Under Moonlight
+		{
+			If StageContains 1 Other && HasTrait Remnant
+			{
+				PayCost Discard 1 Any
+				{
+					SearchWaitingRoom HasTrait Remnant
+					TargetSelf
+					*GainBounceWhenFrontalAttacked
+				}
+			}
+		}
+	}
+	Text Auto: CxCombo [Put 1 card from your hand into your waiting room] When this card attacks, if "Spotted Under Moonlight" is in your climax area, and you have another <Remnant> character, you may pay the cost. If you do, choose 1 <Remnant> character in your waiting room, return it to your hand, and this card gets the following ability until the end of your opponent's next turn. "Auto: When this card is frontal attacked, you may return this card to your hand."
+
+EndCard
+
+Character: RWBY/WXE01-19
+Name Oscar: Inherited Cane
+Color G
+Level 1
+Cost 0
+Power 5500
+Trait1 Remnant
+	
+	Cont: GiveSelf
+	{
+		LoseLevel 1
+	}
+	Text Cont: This card gets -1 level while on the stage.
+	
+	Auto: OnReverseOpponent
+	{
+		TargetLocation Climax
+		If HasTarget
+		{
+			*OptionalBlindStock
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reverse, if there is a climax in your climax area, you may put the top card of your deck into stock.
+	
+EndCard
+
+Character: RWBY/WXE01-20
+Name Ren: Fighting the Nuckelavee
+Color G
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Remnant
+Trait2 JNPR
+Combo For All Who Have Fallen
+
+	*EarlyPlay4OrMore(Remnant)
+
+	Cont: GiveSelf
+	{
+		TargetLocation OpponentBackstage
+		SetXValue TargetCount
+		MultiplyXValue 1000
+		GainPower X
+	}
+	Text Cont: This card gets +1000 power for each character in your opponent's back stage.
+
+	Auto: OnEndOfAttack
+	{
+		If Climax For All Who Have Fallen
+		{
+			If StageContains 4 Other && HasTrait Remnant
+			{
+				PayCost SendClimax WaitingRoom
+				{
+					Peek Deck 3
+					Message Choose cards to add to your hand.
+					ChooseCardsFromTargets 0 3 HasTrait Remnant || IsEvent
+					MoveCard Hand
+					PutTheRestIntoTheWaitingRoom
+				}
+			}
+			
+		}
+	}
+	Text Auto: CxCombo [Put 1 "For All Who Have Fallen" from your climax area into your waiting room] At the end of this card's attack, if you have 4 or more other <Remnant> characters, you may pay the cost. If you do, look at up to 3 cards from the top of your deck, choose up to 3 events or <Remnant> characters, reveal them to your opponent, put them into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: RWBY/WXE01-21
+Name Oscar: Buying Tickets
+Color G
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 Remnant
+
+	*GreenEarlyPlayBomb
+	
+	Auto: StartMainPhase
+	{
+		If LocationContains WaitingRoom 1 IsCharacter
+		{
+			Question Exchange this card with a card in your waiting room?
+			If Yes
+			{
+				SearchLocationForTargets WaitingRoom 1 1 IsCharacter
+				If HasTarget
+				{
+					AddSelfToTargets
+					Exchange
+				}
+			}
+		}
+	}
+	Alarm
+	Text Auto: If this card is the top card of your clock, at the beginning of your main phase, you may choose this card and 1 character in your waiting room, and exchange them.
+	
+EndCard
+
+Character: RWBY/WXE01-22
+Name Li Ren
+Color G
+Level 2
+Cost 1
+Power 7500
+Trigger Soul
+Trait1 Remnant
+Trait2 JNPR
+	
+	*CannotSideAttack
+	
+	Auto: StartOpponentAttackPhase
+	{
+		If StageContains 1 Other && HasTrait Remnant
+		{
+			PayCost 1 Discard 1 Any
+			{
+				GainPower 3000
+				GainEffect
+				{
+					Auto: OnOpponentReverse
+					{
+						SearchWaitingRoom IsCharacter
+					}   
+					Text Auto: When this card's battle opponent becomes reversed, you may choose 1 <Remnant> character in your waiting room, and return it to your hand.
+				}
+			}
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] At the beginning of your opponent's climax phase, if you have another <Remnant> character, you may pay the cost. If you do, this card gets +3000 power and the following ability until end of turn. "[AUTO] When this card's battle opponent becomes reversed, you may choose 1 <Remnant> character in your waiting room, and return it to your hand."
+	
+	Act: SendSelf WaitingRoom
+	{
+		SearchLocationForTargets WaitingRoom 1 1  NameEquals Ren: Fighting the Nuckelavee
+		SaveTargets
+		Change
+	}
+	Text Act: [Put this card into your waiting room] Choose 1 "Ren: Fighting the Nuckelavee" in your waiting room, and put it in the stage position this card was in.
+	
+EndCard
+
+Character: RWBY/WXE01-23
+Name Ren: Childhood
+Color G
+Level 3
+Cost 2
+Power 7500
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 JNPR
+
+	*EarlyPlay4OrMore(Remnant)
+	
+	Cont: GiveSelf
+	{
+		SetXValue MarkersUnderThis
+		MultiplyXValue 1000
+		GainPower X
+	}
+	Text Cont: This card gets +1500 power for each marker underneath this card.
+	
+	*Healer
+	
+	Auto: OnAttack
+	{
+		If Not HasMarker
+		{
+			Message Choose up to 1 "Li Ren"
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals Li Ren
+			Marker_FaceUp
+			Message Choose up to 1 "An Ren"
+			SearchLocationForTargets WaitingRoom 0 1 NameEquals An Ren
+			Marker_FaceUp
+		}
+	}
+	Text Auto: When this card attacks, if there are no markers underneath this card, you may choose up to 1 "Li Ren" and up to 1 "An Ren" in your waiting room, and put them face up underneath this card in any order as markers.
+	
+EndCard
+
+Character: RWBY/WXE01-24
+Name Oscar Pine
+Color G
+Level 3
+Cost 2
+Power 8500
+Trigger Soul
+Soul 2
+Trait1 Remnant
+
+	*EarlyPlay2OrLessClimax
+	
+	Auto: OnPlay
+	{
+		*OptionalHeal
+		GainPower 1500
+	}
+	Quick
+	Text Auto: When this card is placed on the stage from your hand, put up to 1 card from the top of your clock into your waiting room, and this card gets +1500 power until end of turn.
+	
+	Auto: StartOpponentAttackPhase
+	{
+		PayCost 1 SendFromWaitingRoomToBottom 1 Clock HasTrait Remnant
+		{
+			TargetLocation OpponentStage
+			ChooseCharacterFromTargets Choose a character to get -2 soul
+			LoseSoul 2
+		}
+	}
+	Text Auto: ACCELERATE [(1) Put 1 <Remnant> character from your waiting room at the bottom of your clock] At the beginning of your opponent's attack phase, you may pay the cost. If you do, choose 1 of your opponent's characters, and that character gets -2 soul until end of turn.
+	
+EndCard
+
+Climax: RWBY/WXE01-25
+Name Spotted Under Moonlight
+*BarClimax
+EndCard
+
+Climax: RWBY/WXE01-26
+Name For All Who Have Fallen
+*BarClimax
+EndCard
+
+Character: RWBY/WXE01-27
+Name Pyrrha: Video Message
+Color R
+Level 0
+Cost 0
+Power 500
+Trait1 Remnant
+Trait2 JNPR
+	
+	*OnPlayGiveOtherPower(2000,Remnant)
+	
+	Auto: OnReversed
+	{
+		PayCost 1 Discard 1 Any SendSelf Memory
+		{
+			SearchDeck HasTrait Remnant
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room & Put this card into your memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for up to 1 <Remnant> character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+	
+EndCard
+
+Character: RWBY/WXE01-28
+Name Nora: Working Together
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Remnant
+Trait2 JNPR
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Remnant && IsCharacter
+		{
+			DrawCard
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When this card is placed on stage from your hand, you may pay the cost. If you do, draw a card.
+	
+	Auto: OnPlay
+	{
+		PayCost 1 Clock
+		{
+			SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
+		}
+	}
+	Text Auto: [(1) Put the top card of your deck into your clock] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it to your opponent, put it into your hand, and shuffle your deck.
+	
+EndCard
+
+Character: RWBY/WXE01-29
+Name Ruby: Fighting the Nuckelavee
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Remnant
+Trait2 RWBY
+
+	Cont: GiveSelf
+	{
+		If LocationContains Hand 5 Any
+		{
+			GainPower 2000
+		}
+	}
+	Text Cont: If there are 5 or more cards in your hand, this card gets +2000 power.
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom NameEquals Jaune: School Dance
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into the waiting room from the stage, you may pay the cost. If you do, choose 1 "Jaune: School Dance" in your waiting room, and return it to your hand.
+	
+EndCard
+
+Character: RWBY/WXE01-30
+Name Raven: Sarcastic Remark
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 Remnant
+Trait2 STRQ
+
+	Auto: OnPlay
+	{
+		TargetTop Deck 1
+		Reveal
+		IfThatCard HasTrait Remnant
+		{
+			MoveCard Hand
+			Discard 1 Any
+		}
+	}
+
+	Text Auto: When this card is placed on the stage from your hand, reveal the top card of your deck. If that card is a <Remnant> character, put it into your hand, choose 1 card in your hand, and put it into your waiting room.
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Remnant
+		{
+			DrawCard
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, draw 1 card.
+	
+EndCard
+
+Character: RWBY/WXE01-31
+Name Qrow: Feeling Lucky
+Color R
+Level 0
+Cost 0
+Power 2000
+Trait1 Remnant
+Trait2 STRQ
+
+	*OnPlayScry
+	
+	Auto: OnClimaxPlay
+	{
+		PayCost SendSelf Hand
+		{
+			TargetLocation Stage
+			ChooseCharacterFromTargets Choose a character to give +1 soul.
+			GainSoul 1
+		}
+	}
+	Text Auto: [Return this card to your hand] When a climax is placed on your climax area, you may pay the cost. If you do, choose 1 of your characters, and that character gets +1 soul until end of turn.
+	
+EndCard
+
+Character: RWBY/WXE01-32
+Name Arthur: Inner Circle
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Remnant
+
+	Auto: OnClimaxPlay
+	{
+		IfOther HasTrigger Door
+		{
+			TargetLocation Stage
+			NarrowTargets HasTrait Remnant
+			ChooseCharacterFromTargets Choose a character to give +1 soul.
+			GainSoul 1
+		}
+	}
+	Text Auto: When your climax with Door in its trigger icon is placed on your climax area, choose 1 of your <Remnant> characters, it gets +1 soul until end of turn.
+	
+	Auto: OnOtherOpponentReversed
+	{
+		*GiveCharacterPower(1000,Remnant)
+	}
+	Text Auto: When your other character's battle opponent becomes reversed, choose 1 of your <Remnant> characters, it gets +1000 power until end of turn.
+	
+	Act: 1 RestSelf
+	{
+		TargetLocation Stage
+		NarrowTargets HasTrait Remnant
+		ChooseCharacterFromTargets Choose a <Remnant> character to get the following effect. "When this card's battle opponent becomes reversed, choose 1 character in your waiting room, return it to your hand."
+		GainEffect
+		{
+			Auto: OnReverseOpponent
+			{
+				SearchLocationForTargets WaitingRoom 0 1 IsCharacter
+				MoveCard Hand
+			}
+			Text: Auto: When this card's battle opponent becomes reversed, choose 1 character in your waiting room, return it to your hand.
+		}
+	}
+	Text Act: [(1) Rest this card] Choose 1 of your <Remnant> characters, it gets the following effect until end of turn. "Auto: When this card's battle opponent becomes reversed, choose 1 character in your waiting room, return it to your hand."
+
+EndCard
+
+Character: RWBY/WXE01-33
+Name Salem: Inner Circle
+Color R
+Level 1
+Cost 0
+Power 3000
+Trait1 Remnant
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Remnant
+		{
+			SearchDeck NameEquals Tyrian: Inner Circle
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 "Tyrian: Inner Circle", reveal it to your opponent, put it into your hand, and shuffle your deck.
+	
+	*RedLevel1Bomb
+	
+EndCard
+
+Character: RWBY/WXE01-34
+Name Hazel: Inner Circle
+Color R
+Level 1
+Cost 0
+Power 5000
+Trait1 Remnant
+
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		RevealUpTo Deck 4
+		AIChoice AddToHand
+		ChooseCardsFromTargets 0 1 IsClimax && HasTrigger Door
+		If HasTarget
+		{
+			RevealTargets
+			MoveCard Hand
+			PutTheRestIntoTheWaitingRoom
+			CheckForEmptyDeck
+			Discard 1 Any
+		}
+		PutTheRestIntoTheWaitingRoom
+		
+	}
+	Text Auto: When this card is put into the waiting room from the stage, look at up to 4 cards from the top of your deck, choose up to 1 climax from among them, add it to your hand, and put the rest into the waiting room. If you added a climax to your hand, choose 1 card in your hand, and put it into your waiting room.
+	
+EndCard
+
+Character: RWBY/WXE01-35
+Name Tyrian: Amused
+Color R
+Level 1
+Cost 1
+Power 4500
+Trait1 Remnant
+
+	*PowerOnMyTurn(2000)
+	
+	*CannotBeReversedByCost0
+	
+EndCard
+
+Character: RWBY/WXE01-36
+Name Nora: Childhood
+Color R
+Level 2
+Cost 1
+Power 4000
+Trigger Soul
+Trait1 Remnant
+Trait2 JNPR
+	
+	Cont: GiveSelf
+	{
+		If StageContains 4 Other && HasTrait Remnant
+		{
+			GainPower 6000
+		}
+	}
+	Text Cont: If you have 4 or more other <Remnant> characters, this card gains +6000 power.
+	
+	Auto: OnPlay
+	{
+		If StageContains 2 Other && HasTrait Remnant
+		{
+			Question Draw 2 cards then discard 2 cards?
+			If Yes
+			{
+				DrawCard
+				DrawCard
+				Discard 2 Any
+			}
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 2 or more other <Remnant> characters, you may draw 2 cards. If you do, choose 2 cards in your hand, and put them into your waiting room.
+	
+	Auto: OnPlay
+	{
+		If StageContains 4 Other && HasTrait Remnant
+		{
+			SearchLocationForTargets WaitingRoom 0 1 HasTrait Remnant
+			MoveCard Stock
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Remnant> characters, you may choose 1 <Remnant> character in your waiting room, and put it into your stock.
+	
+EndCard
+
+Character: RWBY/WXE01-37
+Name Tyrian: Evenly Matched
+Color R
+Level 2
+Cost 1
+Power 7000
+Trigger Soul
+Trait1 Remnant
+
+	*GainPowerWhenAttackingLevel3(6000)
+	
+	Auto: OnReverseOpponent
+	{
+		TargetBattleOpponent
+		If Compare TargetCardsLevel 2 OrMore
+		{
+			TargetTop Deck 1
+			Reveal
+			IfTarget HasTrait Remnant
+			{
+				SearchWaitingRoom HasTrait Remnant
+			}
+		}
+	}
+	Text Auto: When this card's level 2 or higher battle opponent becomes reversed, reveal the top card of your deck. If that card is a <Remnant> character, you may choose 1 <Remnant> character in your waiting room, and return it to your hand.
+	
+EndCard
+
+Character: RWBY/WXE01-38
+Name Ruby: Working Together
+Color R
+Level 2
+Cost 2
+Power 6500
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 RWBY
+
+	*GainPowerForEachOther(1000,Remnant)
+	
+	Auto: OnReverseOpponent
+	{
+		TargetTop Deck 2
+		If Compare TargetCount 2 OrMore
+		{
+			Reorder
+		}
+		Else
+		{
+			View
+		}
+	}
+	Text Auto: When this card's battle opponent becomes reversed, look at up to 2 cards from the top of your deck, and put them on the top of your deck in any order.
+	
+EndCard
+
+Character: RWBY/WXE01-39
+Name Qrow: Evenly Matched
+Color R
+Level 2
+Cost 2
+Power 7000
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 STRQ
+Combo The Coolest Landing Strategy
+
+	Cont: GiveSelf
+	{
+		If AllYourCharacters HasTrait Remnant
+		{
+			GainEffect
+			{
+				*HandEncore
+			}
+			GainEffect
+			{
+				Cont: GiveSelf
+				{
+					If MyTurn
+					{
+						GainPower 5000
+					}
+				}
+				Text Cont: During your turn, this card gets +5000 power.
+			}
+		}
+	}
+	Text Cont: If all of your characters are <Remnant>, this card gets the following 2 abilities. "Cont: During your turn, this card gets +5000 power." "Auto: ENCORE [Put 1 <Remnant> character from your hand into your waiting room]"
+	
+	Auto: StartAttackPhase
+	{
+		If Climax The Coolest Landing Strategy
+		{
+			If StageContains 2 Other && HasTrait Remnant
+			{
+				PayCost SendClimax WaitingRoom
+				{
+					Stand
+					UntilEndOfOpponentsTurn
+					GainPower 1000
+				}
+			}
+		}
+	}
+	Text Auto: CxCombo [Put 1 "The Coolest Landing Strategy" from your climax area into your waiting room] At the beginning of your attack phase, if you have 2 or more other <Remnant> characters, you may pay the cost. If you do, stand this card, and this card gets +1000 power until the end of your opponent's next turn.
+	
+EndCard
+
+Character: RWBY/WXE01-40
+Name Nora: Fighting the Nuckelavee
+Color R
+Level 3
+Cost 2
+Power 8000
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 JNPR
+
+	Cont: GiveAll
+	{
+		If Other && HasTrait Remnant
+		{
+			GainPower 1500
+		}
+	}
+	Text Cont: All of your other <Remnant> characters get +1500 power.
+	
+	Auto: OnPlay
+	{
+		Message Choose a character to place on stage
+		SearchLocationForTargets Hand 0 1 IsCharacter && Compare ThatCardsLevel MyLevel OrLower
+		PlaceOnStage False True True False
+		GainPower 2000
+	}
+	Text Auto: When this card is placed on the stage from your hand, choose up to 1 character with level equal to or lower than your level in your hand, put it in any position of your stage, and that character gets +2000 power until end of turn.
+	
+EndCard
+
+Character: RWBY/WXE01-41
+Name Tyrian: Inner Circle
+Color R
+Level 3
+Cost 2
+Power 8500
+Trigger Soul
+Soul 2
+Trait1 Remnant
+
+	*EarlyPlay4OrMore(Remnant)
+	
+	Cont: GiveSelf
+	{
+		If MyTurn && StageContains 1 Other && HasTrait Remnant
+		{
+			GainPower 2500
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					Question Put the battle opponent into your opponent's memory?
+					If Yes
+					{
+						TargetBattleOpponent
+						MoveCard OpponentMemory
+					}
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory.
+			}
+		}
+	}
+	Text Cont: During your turn, if you have another <Remnant> character, this card gets +2500 power and the following ability, "Auto: When this card's battle opponent becomes reversed, you may put that character into your opponent's memory."
+	
+	*StockHealer
+	
+EndCard
+
+Character: RWBY/WXE01-42
+Name Cinder: Inner Circle
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Remnant
+
+	Auto: OnPlay
+	{
+		PayCost Discard 1 Any
+		{
+			Refresh
+			OpponentRefresh
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, all players return all cards from their waiting rooms to their decks, and shuffle their decks.
+	
+	Auto: OnDamageCancel
+	{
+		If PlayedThisTurn
+		{
+			*OptionalBurn(1)
+		}
+	}
+	TimesPerTurn 1
+	Text Auto: This ability activates up to 1 time per turn. During the turn that this card is placed on the stage from your hand, when damage dealt by this card is canceled, you may deal 1 damage to your opponent.
+	
+EndCard
+
+Character: RWBY/WXE01-43
+Name Qrow: Fist Fight
+Color R
+Level 3
+Cost 2
+Power 1000
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 STRQ
+
+	Auto: OnAttack
+	{
+		PayCost 1 Discard 1 Any
+		{
+			GainPower 2000
+			GainEffect
+			{
+				Auto: OnReverseOpponent
+				{
+					*OptionalBurn(1)
+				}
+				Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent.
+			}
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent."
+	
+	*Give4000PowerAtStartOfOpponentsTurn
+	
+EndCard
+
+Character: RWBY/WXE01-44
+Name Ruby: Determined
+Color R
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 RWBY
+Combo Ruby's Awakening
+
+	*Healer
+	
+	Auto: StartAttackPhase
+	{
+		If Climax Ruby's Awakening
+		{
+			If InLocation CenterStage &&& StageContains 2 Other && HasTrait Remnant
+			{
+				MultipleChoiceQuestion Choose an effect. \n1. Choose 1 of your other <Remnant> characters, stand it, choose up to 2 of your characters, and those characters get +1 soul until end of turn.\n2. Deal 1 damage to your opponent, and this card gets +1000 power until end of turn. |Stand and Soul|Burn 1
+				If Answer 0
+				{
+					TargetLocation Stage
+					NarrowTargets HasTrait Remnant && Other
+					ChooseCharacterFromTargets Choose a character to stand.
+					Stand
+					TargetLocation Stage
+					ChooseCharactersFromTargets 0 2 Choose up to two of your characters to get +1 soul.
+					GainSoul 1
+				}
+				If Answer 1
+				{
+					Burn 1
+					GainPower 1000
+				}
+			}
+		}
+	}
+	Text Auto: At the beginning of your attack phase, if "Ruby's Awakening" is in your climax area, this card is in your center stage, and you have 2 or more other <Remnant> characters, choose 1 of the following effects and perform it. "Choose 1 of your other <Remnant> characters, Stand it, choose up to 2 of your characters, and those characters get +1 soul until end of turn." "Deal 1 damage to your opponent, and this card gets +1000 power until end of turn." (Damage may be canceled)
+	
+EndCard
+
+Climax: RWBY/WXE01-45
+Name The Coolest Landing Strategy
+*StandbyClimax
+EndCard
+
+Character: RWBY/WXE01-46
+Name Kali & Ghira Belladonna
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Remnant
+	
+	*500Assist
+	
+	*SacrificeToSave(Any)
+	Text Auto: [Put this card into your waiting room] When your other character is put into your waiting room from the stage, if this card is in your back stage, you may pay the cost. If you do, put that character on the stage position it was on as rest.
+	
+EndCard
+
+Character: RWBY/WXE01-47
+Name Klein Sieben
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Remnant
+
+	*OnPlayTradeClimaxForCharacter(Remnant)
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost Discard 1 Any
+		{
+			SearchWaitingRoom NameEquals Weiss: Determined|Weiss Schnee 
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, choose 1 "Weiss: Determined" or "Weiss Schnee" in your waiting room, and return it to your hand.
+	
+EndCard
+
+Character: RWBY/WXE01-48
+Name Weiss: Feeling Trapped
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Remnant
+Trait2 RWBY
+	
+	*OnAttackGivePower(1000,Any)
+	
+	Auto: OnSentFromStageToWaitingRoom
+	{
+		PayCost Discard 1 Any
+		{
+			*Check4Add1Level1OrHigher
+		}
+	}
+	Text Auto: [Put 1 card from your hand into your waiting room] When this card is put into your waiting room from the stage, you may pay the cost. If you do, look at up to 4 cards from the top of your deck, choose up to 1 level 1 or higher card from among them, reveal it to your opponent, put it into your hand, and put the rest into your waiting room.
+	
+EndCard
+
+Character: RWBY/WXE01-49
+Name Whitley Schnee
+Color B
+Level 1
+Cost 0
+Power 2000
+Trait1 Remnant
+
+	Act: Discard 1 Any SendSelf WaitingRoom
+	{
+		SearchWaitingRoom IsCharacter
+	}
+	Text Act: [Put 1 card from your hand into your waiting room & Put this card into your waiting room] Choose 1 character in your waiting room, and return it to your hand.
+	
+	*RestGivePower(1000,Any)
+	
+EndCard
+
+Character: RWBY/WXE01-50
+Name Jacques & Whitley: Listening to the Contract
+Color B
+Level 1
+Cost 1
+Power 4500
+Trigger Soul
+Trait1 Remnant
+
+	Auto: OnPlay
+	{
+		If StageContains 1 Other && HasTrait Remnant
+		{
+			GainPower 4000
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have another <Remnant> character, this card gets +4000 power until end of turn.
+	
+	Auto: OnPlay
+	{
+		If StageContains 4 Other && HasTrait Remnant
+		{
+			*PutCardFromWaitingRoomIntoStock(HasTrait Remnant)
+		}
+	}
+	Text Auto: When this card is placed on the stage from your hand, if you have 4 or more other <Remnant> characters, you may choose 1 <Remnant> character in your waiting room, and put it into your stock.
+	
+EndCard
+
+Character: RWBY/WXE01-51
+Name Blake: Letting Go
+Color B
+Level 2
+Cost 1
+Power 5500
+Trigger Soul
+Trait1 Remnant
+Trait2 RWBY
+
+	Cont: GiveSelf
+	{
+		If MyTurn
+		{
+			SetXToNumberOfCharacters Other && HasTrait Remnant
+			MultiplyXValue 1000
+			GainPower X
+		}
+	}
+	Text Cont: During your turn, this card gets +1000 power for each of your other <Remnant> characters.
+	
+	Auto: OnPlay
+	{
+		PayCost Discard 1 HasTrait Remnant
+		{
+			SearchLocationForTargets WaitingRoom 1 1 NameEquals Sun: Awkward Smile
+			PlaceOnStage False True True False
+		}
+	}
+	Text Auto: [Put 1 <Remnant> character from your hand into your waiting room] When this card is placed on the stage from your hand, you may pay the cost. If you do, choose 1 "Sun: Awkward Smile" in your waiting room, and put it in any position of your stage.
+	
+	Auto: OnOtherAttacks 
+	{
+		GainPower 1500
+	}
+	Quick
+	Text Auto: When your other <Remnant> character attacks, this card gets +1500 power until end of turn.
+	
+EndCard
+
+Character: RWBY/WXE01-52
+Name James: Making a Point
+Color B
+Level 2
+Cost 1
+Power 2500
+Trigger Soul
+Trait1 Remnant
+
+	Auto: OnUseThisCardsBackup
+	{
+		SetXToNumberOfCharacters HasTrait Remnant
+		MillOpponentBottom X
+	}
+	Text Auto: When you use this card's "BACKUP", put the bottom X cards of your opponent's deck into their waiting room. X is equal to the number of <Remnant> characters you have.
+	
+	Backup 3000
+	
+EndCard
+
+Character: RWBY/WXE01-53
+Name Weiss: Determined
+Color B
+Level 3
+Cost 2
+Power 9000
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 RWBY
+
+	Auto: OnPlay
+	{
+		*OptionalHeal
+		GainPower 1500
+	}
+	Quick
+	Text Auto: When this card is placed on the stage from your hand, put up to 1 card from the top of your clock into your waiting room, and this card gets +1500 power until end of turn.
+	
+	Auto: OnAttack
+	{
+		If StageContains 1 Other && HasTrait Remnant
+		{
+			PayCost 1 Discard 1 Any
+			{
+				Peek OpponentDeck 2
+				*ChooseCardsToPutIntoWaitingRoomReturnTheRestInAnyOrder(0,2)
+			}
+		}
+	}
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, if you have another <Remnant> character, you may pay the cost. If you do, look at up to 2 cards from the top of your opponent's deck, choose up to 2 cards from among them, put them on the top of their deck in any order, and put the rest into their waiting room.
+	
+EndCard
+
+Character: RWBY/WXE01-54
+Name Blake: Determined
+Color B
+Level 3
+Cost 2
+Power 9500
+Trigger Soul
+Soul 2
+Trait1 Remnant
+Trait2 RWBY
+Combo A Trustworthy Partner
+
+	Auto: OnPlay|OnPlacedOnStageFromDeck
+	{
+		PayCost 1
+		{
+			*SearchDeckToPlaceOnStage(NameEquals Blake: Determined, False)
+		}
+	}
+	Text Auto: [(1)] During your main phase, when this card is placed on the stage from your hand or deck, you may pay the cost. If you do, search your deck for up to 1 "Blake: Determined", put it on any position of your stage, and shuffle your deck.
+	
+	Auto: OnSpecificClimaxPlay A Trustworthy Partner
+	{
+		TargetLocation Stage
+		ChooseCharacterFromTargets Choose a character to give the effect and +1 soul to.
+		GainSoul 1
+		GainEffect
+		{
+			Auto: OnDamageCancel
+			{
+				*OptionalBurn(2)
+			}
+			TimesPerTurn 1
+			Text Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 2 damage to your opponent.
+		}
+	}
+	Text Auto: When "A Trustworthy Partner" is placed on your climax area, if this card is in your center stage, choose 1 of your characters, and that character gets +1 soul and the following ability until end of turn. "Auto: This ability activates up to 1 time per turn. When damage dealt by this card is canceled, you may deal 2 damage to your opponent."
+	
+EndCard
+
+Climax: RWBY/WXE01-55
+Name A Trustworthy Partner
+*GateClimax
+EndCard
+
+Character: RWBY/WXE01-P02
+Color B
+Level 1
+Cost 0
+Power 5000
+Soul 1
+Trait1 Remnant
+Trait2 RWBY
+
+	*DropSearch(Remnant)
+	
+EndCard

@@ -1,0 +1,9 @@
+Series: RWBY
+Folder: RWBY/WX03
+Prefix: RWBY/WX03
+SetName: RWBY Volume 1
+
+Series: RWBY
+Folder: RWBY/WXE01
+Prefix: RWBY/WXE01
+SetName: RWBY Premium Booster
