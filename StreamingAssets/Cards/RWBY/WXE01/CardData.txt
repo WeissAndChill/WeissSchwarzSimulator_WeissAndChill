@@ -696,12 +696,12 @@ Trait1 Remnant
 EndCard
 
 Climax: RWBY/WXE01-25
-Name Spotted Under Moonlight
+Name For All Who Have Fallen
 *BarClimax
 EndCard
 
 Climax: RWBY/WXE01-26
-Name For All Who Have Fallen
+Name Spotted Under Moonlight
 *BarClimax
 EndCard
 
