@@ -934,7 +934,7 @@ Auto: OnReversed
 Text Auto: When this card becomes reversed in battle, you may reveal up to 3 cards from the top of your deck. If you revealed 1 or more cards, choose up to 1 《Remnant》 character from among them, put it into your hand, put the rest into your waiting room, choose 1 card in your hand, and put it into your waiting room.
 Auto: OnReversed
 {
-	If LocationContainsOrLess Memory 2 Any
+	If LocationContainsOrLess Memory 2 Any &&& InLocation Stage
 	{
 		Question Put this card into your memory?
 		If Yes
