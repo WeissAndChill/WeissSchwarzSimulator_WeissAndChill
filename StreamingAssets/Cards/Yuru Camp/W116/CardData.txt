@@ -139,7 +139,7 @@ Combo There's Still More Fun
 			GainPower 1000
 		}
 	}
-	Text Cont: If you have 2 or more other <Yuru Camp△> characters, this card gets +2000 power.
+	Text Cont: If you have 2 or more other <Yuru Camp△> characters, this card gets +1000 power.
 	Auto: OnAttack
 	{
 		If Climax There's Still More Fun && StageContains 1 Other && HasTrait Yuru Camp△
@@ -156,7 +156,7 @@ EndCard
 Character: YRC/W116-T07
 Name Big Stretch, Rin
 Color G
-Level 0
+Level 1
 Cost 0
 Power 5500
 Trait1 Yuru Camp△
@@ -265,7 +265,7 @@ Name Nadeshiko Kagamihara
 Color R
 Level 1
 Cost 0
-Power 2000
+Power 1500
 Trait1 Yuru Camp△
 Trait2 Cooking
 
@@ -290,7 +290,7 @@ Name Aoi Inuyama
 Color R
 Level 2
 Cost 1
-Power 2000
+Power 1500
 Trait1 Yuru Camp△
 Trait2 Kansai Dialect
 Trigger Soul
@@ -304,7 +304,7 @@ Name Chiaki Oogaki
 Color R
 Level 2
 Cost 1
-Power 2000
+Power 7000
 Trait1 Yuru Camp△
 Trait2 Glasses
 Trigger Soul

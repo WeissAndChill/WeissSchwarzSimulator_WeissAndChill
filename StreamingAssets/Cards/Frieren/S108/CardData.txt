@@ -70,7 +70,7 @@ Trait2 Magic
 			}
 		}
 	}
-	Text Cont: During your turn, if you have another <Adventurer> or <Magic> characters, this card gets +2000 power and the following ability. "Auto: [(3) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 4 damage to your opponent." <i>(Damage may be canceled)</i>
+	Text Cont: During your turn, if you have another <Adventurer> or <Magic> characters, this card gets +2000 power and the following ability. "Auto: [(3) Put 2 cards from your hand into your waiting room] When this card attacks, you may pay the cost. If you do, deal 4 damage to your opponent."
 	
 	*Healer
 	
@@ -115,7 +115,7 @@ Combo Eternal Love
 			}
 		}
 	}
-	Text Auto: <b>CxCombo</b> When this card attacks, if <b>"Eternal Love"</b> is in your climax area, your hand has 5 or less cards, and you have 2 or more other <Adventurer> or <Magic> characters, put the bottom 3 cards of your opponent's deck into their waiting room, and deal 2 damage X times to your opponent. X is equal to the of climax among those cards. <i>(Damage may be canceled)</i>
+	Text Auto: CxCombo When this card attacks, if "Eternal Love" is in your climax area, your hand has 5 or less cards, and you have 2 or more other <Adventurer> or <Magic> characters, put the bottom 3 cards of your opponent's deck into their waiting room, and deal 2 damage X times to your opponent. X is equal to the of climax among those cards.
 
 EndCard
 
@@ -230,7 +230,7 @@ Trait2 Magic
 			MoveCard OpponentStock
 		}
 	}
-	Text Auto:[(1) Put 1 card from your hand into your waiting room] When you use this card's <b>"Backup"</b>, you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it into their stock.
+	Text Auto:[(1) Put 1 card from your hand into your waiting room] When you use this card's "Backup", you may pay the cost. If you do, choose 1 of your opponent's characters whose level is higher than your opponent's level and put it into their stock.
 	
 	Backup 2500
 	
@@ -393,14 +393,27 @@ Trait1 Adventurer
 Trait2 Magic
 Combo Just 10 Years of Adventure
 
-	Cont: GiveSelf
+	//Cont: GiveSelf
+	//{
+	//	If Climax Just 10 Years of Adventure &&& StageContains 2 Other && HasTrait Adventurer|Magic
+	//	{
+	//		AddToOtherCardsTriggerIcon Choice NameEquals "Hometown Flower" Frieren & Himmel|"Group of Heroes" Heiter|"Group of Heroes" Eisen
+	//	}
+	//}
+	Cont: GiveAllYourCards
 	{
-		If Climax Just 10 Years of Adventure &&& StageContains 2 Other && HasTrait Adventurer|Magic
+		If Climax Just 10 Years of Adventure
 		{
-			AddToOtherCardsTriggerIcon Choice NameEquals "Hometown Flower" Frieren & Himmel|"Group of Heroes" Heiter|"Group of Heroes" Eisen
+			If PrintedNameEquals "Hometown Flower" Frieren & Himmel|"Group of Heroes" Heiter|"Group of Heroes" Eisen
+			{
+				IfOwner StageContains 2 Other && HasTrait Adventurer|Magic
+				{
+					GainTriggerIcon Choice
+				}
+			}
 		}
 	}
-	Text Cont: <b>CxCombo</b> If <b>"Just 10 Years of Adventure"</b> is in your climax area, if you have 2 or more other <Adventurer> or <Magic> characters, your other ""Hometown Flower" Frieren & Himmel", ""Group of Heroes" Heiter" and ""Group of Heroes" Eisen" in all of your zones get CHOICE in the trigger icon.
+	Text Cont: CxCombo If "Just 10 Years of Adventure" is in your climax area, if you have 2 or more other <Adventurer> or <Magic> characters, your other ""Hometown Flower" Frieren & Himmel", ""Group of Heroes" Heiter" and ""Group of Heroes" Eisen" in all of your zones get choice in the trigger icon.
 	
 	Act: RestSelf
 	{
@@ -516,7 +529,7 @@ Trait2 Magic
 			}
 		}
 	}
-	Text Cont: <b>Memory</b> During your turn, if there is a card in your memory, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
+	Text Cont: MEMORY During your turn, if there is a card in your memory, this card gets +2500 power and the following ability. "Auto: When this card attacks, if the character facing this card is level 2, this card gets +6000 power until end of turn."
 
 EndCard
 
@@ -542,7 +555,7 @@ Trait2 Magic
 			ChangeCost -1
 		}
 	}
-	Text Cont: <b>Memory</b> If this card is in your memory, and you have not played "The Reason for Starting the Journey, Himmel" this turn, your "The Reason for Starting the Journey, Himmel" in your hand gets -1 cost.
+	Text Cont: MEMORY If this card is in your memory, and you have not played "The Reason for Starting the Journey, Himmel" this turn, your "The Reason for Starting the Journey, Himmel" in your hand gets -1 cost.
 	
 	Act: 1 SendSelf Memory
 	{
@@ -585,7 +598,7 @@ Combo Regret
 			ShuffleLocation OpponentDeck
 		}
 	}
-	Text Auto: <b>CxCombo</b> When this card attacks, if <b>"Regret"</b> is in your climax area, choose up to 2 cards in your opponent's waiting room, return them to their deck, and your opponent shuffles their deck.
+	Text Auto: CxCombo When this card attacks, if "Regret" is in your climax area, choose up to 2 cards in your opponent's waiting room, return them to their deck, and your opponent shuffles their deck.
 
 EndCard
 
@@ -737,7 +750,7 @@ Combo Scales of Obedience
 			}
 		}
 	}
-	Text Auto: <b>CxCombo</b> When <b>"Scales of Obedience"</b> is placed on your climax area, if this card is in your center stage, and you have 4 or more other <Adventurer> or <Magic> characters, choose 1 character facing this card, if this card's power is greater than that character's power, put that character into your opponent's clock, if this card's power is less than that character's power, put this card into your clock.
+	Text Auto: CxCombo When "Scales of Obedience" is placed on your climax area, if this card is in your center stage, and you have 4 or more other <Adventurer> or <Magic> characters, choose 1 character facing this card, if this card's power is greater than that character's power, put that character into your opponent's clock, if this card's power is less than that character's power, put this card into your clock.
 
 EndCard	
 
@@ -784,7 +797,7 @@ Combo Cowardly and Worst Way to Fight
 			}
 		}
 	}
-	Text Auto: <b>CxCombo</b> [Put <b>"Cowardly and Worst Way to Fight"</b> from your climax area to waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Adventurer> or <Magic> characters or events from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room, choose up to 1 of your pppponent's level 0 or lower characters and put it in their waiting room.
+	Text Auto: CxCombo [Put "Cowardly and Worst Way to Fight" from your climax area to waiting room] When this card's battle opponent becomes reversed, you may pay the cost. If you do, look at up to 2 cards from the top of your deck, choose up to 2 <Adventurer> or <Magic> characters or events from among them, reveal them to your opponent, put them into your hand, and put the rest into your waiting room, choose up to 1 of your pppponent's level 0 or lower characters and put it in their waiting room.
 	
 EndCard
 
@@ -957,7 +970,7 @@ Trait2 Mazoku
 			Burn 3
 		}
 	}
-	Text Auto: [(3) Put 2 cards from your hand into your waiting room] At the end of this card's attack, you may pay the cost. If you do, deal 3 damage to your opponent. <i>(Damage may be canceled)</i>
+	Text Auto: [(3) Put 2 cards from your hand into your waiting room] At the end of this card's attack, you may pay the cost. If you do, deal 3 damage to your opponent.
 
 EndCard
 
@@ -1261,7 +1274,7 @@ Cost 1
 		MoveCard Memory
 	}
 	ActivationRequirement StageContains 1 HasTrait Adventurer|Magic
-	Text If you do not have <Adventurer> or <Magic> character, this cannot be played from hand. \nChoose up to 3 characters in your opponent's center stage, they get the +2000 power until end of turn. Put this card into your memory.
+	Text If you do not have <Adventurer> or <Magic> character, this cannot be played from hand. \nChoose up to 3 characters in your opponent's center stage, they get the -2000 power until end of turn. Put this card into your memory.
 	
 EndCard
 
@@ -1345,7 +1358,7 @@ Combo Independence of Young People
 			}
 		}
 	}
-	Text Auto: <b>CxCombo</b> [Put 1 card from your hand into your waiting room & Put <b>"Independence of Young People"</b> from your climax area to waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card, choose up to 1 "Clumsy Birthday, Fern" from your waitingroom, and put it on any position of your stage, choose 1 of the following 2 effects and perform it. "This card gains "Cont: GREAT PERFORMANCE" until end of your opponent's turn." "Choose 1 card in your waiting room, and put it into your stock."
+	Text Auto: CxCombo [Put 1 card from your hand into your waiting room & Put "Independence of Young People" from your climax area to waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card, choose up to 1 "Clumsy Birthday, Fern" from your waitingroom, and put it on any position of your stage, choose 1 of the following 2 effects and perform it. "This card gains "Cont: GREAT PERFORMANCE" until end of your opponent's turn." "Choose 1 card in your waiting room, and put it into your stock."
 	EndCard
 
 Character: SFN/S108-048
@@ -1438,7 +1451,7 @@ Combo Believe The Words
 			ShuffleLocation Stock
 		}
 	}
-	Text Auto: <b>CxCombo</b> At the beginning of your encore step, if <b>"Believe The Words"</b> is in your climax area, this card is on your center stage, you have 2 or more other <Adventurer> or <Magic> characters, and there is either no character facing this card or the character facing this card is reversed, you may put the top card of your deck into stock, and search 1 card in your stock, put it into your hand and shuffle your stock.
+	Text Auto: CxCombo At the beginning of your encore step, if "Believe The Words" is in your climax area, this card is on your center stage, you have 2 or more other <Adventurer> or <Magic> characters, and there is either no character facing this card or the character facing this card is reversed, you may put the top card of your deck into stock, and search 1 card in your stock, put it into your hand and shuffle your stock.
 
 EndCard
 
@@ -1492,7 +1505,7 @@ Combo Master's Teachings
 			}
 		}
 	}
-	Text Auto: <b>CxCombo</b> [Put <b>"Master's Teachings"</b> from your climax area into your waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card.
+	Text Auto: CxCombo [Put "Master's Teachings" from your climax area into your waiting room] At the start of your attack phase, you may pay the cost. If you do, stand this card.
 
 EndCard
 
@@ -1517,7 +1530,7 @@ Trait2 Magic
 		Marker_FaceUp
 		Burn 2
 	}
-	Text Act: [(3) Put 1 "Birthday Present" from your hand face-up underneath this card as a marker, RestSelf] Deal 2 damage to your opponent. <i>(Damage may be canceled)</i>
+	Text Act: [(3) Put 1 "Birthday Present" from your hand face-up underneath this card as a marker, RestSelf] Deal 2 damage to your opponent.
 	
 EndCard
 
@@ -1542,7 +1555,7 @@ Combo The Middle of a Journey
 			*OptionalBurn(1)
 		}
 	}
-	Text Auto: <b>CxCombo</b> When this card attacks, if <b>"The Middle of a Journey"</b> is in your climax area, you may deal 1 damage to your opponent. <i>(Damage may be canceled)</i>
+	Text Auto: CxCombo When this card attacks, if "The Middle of a Journey" is in your climax area, you may deal 1 damage to your opponent.
 	
 EndCard
 
@@ -1797,7 +1810,7 @@ Trait2 Magic
 			}
 		}
 	}
-	Text Auto: When you use this card's <b>Backup</b>, if you have <Adventurer> or <Magic> characters 3 or more, choose 1 of the following effects, and perform it. "Search your deck for up to 1 "Birthday Present", reveal it to your opponent, put it into your memory, and shuffle your deck." " "Choose a "Birthday Present" in your waiting room and put it into your memory."
+	Text Auto: When you use this card's Backup, if you have <Adventurer> or <Magic> characters 3 or more, choose 1 of the following effects, and perform it. "Search your deck for up to 1 "Birthday Present", reveal it to your opponent, put it into your memory, and shuffle your deck." " "Choose a "Birthday Present" in your waiting room and put it into your memory."
 	
 	Backup 2000
 	
@@ -1875,7 +1888,7 @@ Cost 1
 		}
 	}
 	InMemory
-	Text Auto: <b>Memory</b> [Put 1 card from your hand into your waiting room] When you level up, if this card is in your memory, you may pay the cost. If you do, return this card to your hand.
+	Text Auto: MEMORY [Put 1 card from your hand into your waiting room] When you level up, if this card is in your memory, you may pay the cost. If you do, return this card to your hand.
 
 EndCard
 
@@ -2002,7 +2015,7 @@ Combo Battle on a Moonlit Night
 			GainPower 1000
 		}
 	}
-	Text Auto: <b>CxCombo</b> When <b>"Battle on a Moonlit Night"</b> is placed on your climax area, if this card is in your center stage, and you have other 2 or more <Adventurer> or <Magic> character, choose up to 1 "Magic to Find Lost Accessories" or "Flight Magic" in your waiting room, and return it to your hand, this card gets +1000 power until the end of turn.
+	Text Auto: CxCombo When "Battle on a Moonlit Night" is placed on your climax area, if this card is in your center stage, and you have other 2 or more <Adventurer> or <Magic> character, choose up to 1 "Magic to Find Lost Accessories" or "Flight Magic" in your waiting room, and return it to your hand, this card gets +1000 power until the end of turn.
 	
 EndCard
 
@@ -2045,7 +2058,7 @@ Combo The Brave
 			}
 		}
 	}			
-	Text Auto: <b>CxCombo</b> When this card attacks, if <b>"The Brave"</b> is in your climax area, and there are 3 or more events with either "Magic" in it's card name in your waiting room, choose 1 of the following 3 effects and perform it. "Your opponent puts the top 12 cards of their deck into their waiting room, and this card gets +1500 power until the end of turn." "Look at up to 2 cards from the top of your opponent's deck, choose up to 1 card from among them, put it to waiting room, and put the rest on top of your opponent's deck in any order." "[Put 2 cards from your hand into your waiting room] You may pay the cost. If you do, deal 3 damage to your opponent." <i>(Damage may be canceled)</i>
+	Text Auto: CxCombo When this card attacks, if "The Brave" is in your climax area, and there are 3 or more events with either "Magic" in it's card name in your waiting room, choose 1 of the following 3 effects and perform it. "Your opponent puts the top 12 cards of their deck into their waiting room, and this card gets +1500 power until the end of turn." "Look at up to 2 cards from the top of your opponent's deck, choose up to 1 card from among them, put it to waiting room, and put the rest on top of your opponent's deck in any order." "[Put 2 cards from your hand into your waiting room] You may pay the cost. If you do, deal 3 damage to your opponent."
 	
 EndCard
 
@@ -2115,7 +2128,7 @@ Power 1500
 Trait1 Adventurer
 Trait2 Magic
 
-	Auto: OnCardSentFromAToB Deck Hand
+	Auto: OnDrawCard
 	{
 		If MyTurn && Phase Main || Phase Attack
 		{
@@ -2132,7 +2145,7 @@ Trait2 Magic
 			*OptionalDraw
 		}
 	}
-	Text Auto: At the start of your encore step, if there is a climax with DOOR in its trigger icon in your climax area, and you do not have another "Days in the Northern Countries, Fern", you may draw 1 card.
+	Text Auto: At the start of your encore step, if there is a climax with Book in its trigger icon in your climax area, and you do not have another "Days in the Northern Countries, Fern", you may draw 1 card.
 	
 EndCard
 
@@ -2208,7 +2221,7 @@ Combo Scenery that I Couldn't See Alone
 			SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess && HasTrait Adventurer|Magic
 		}
 	}
-	Text Auto: <b>CxCombo</b> When this card attacks, if <b>"Scenery that I Couldn't See Alone"</b> is in your climax area and you have another <Adventurer> or <Magic> character, put the top 2 cards of your deck into the waiting room, choose up to 1 level X or lower <Adventurer> or <Magic> character in your waiting room, return it to your hand. X equals the sum of the levels of the cards placed into the waiting room by this card effect.
+	Text Auto: CxCombo When this card attacks, if "Scenery that I Couldn't See Alone" is in your climax area and you have another <Adventurer> or <Magic> character, put the top 2 cards of your deck into the waiting room, choose up to 1 level X or lower <Adventurer> or <Magic> character in your waiting room, return it to your hand. X equals the sum of the levels of the cards placed into the waiting room by this card effect.
 	
 EndCard
 
@@ -2349,7 +2362,7 @@ Combo Full-Fledged Magician
 			Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card's attack, you may pay the cost. If you do, deal 2 damage to your opponent. 
 		}
 	}
-	Text Auto: <b>CxCombo</b> When <b>"Full-Fledged Magician"</b> is placed on your climax area, this card gets the 2 following abilities until end of turn. "Cont: During this card’s battle, your opponent cannot play events or <b>"Backup"</b> from hand." "Auto: [(1) Put 1 card from your hand into your waiting room] When this cards attacks, you may pay the cost. If you do, deal 2 damage to your opponent." <i>(Damage may be canceled)</i>
+	Text Auto: CxCombo When "Full-Fledged Magician" is placed on your climax area, this card gets the 2 following abilities until end of turn. "Cont: During this card’s battle, your opponent cannot play events or "Backup" from hand." "Auto: [(1) Put 1 card from your hand into your waiting room] When this cards attacks, you may pay the cost. If you do, deal 2 damage to your opponent."
 	
 EndCard
 
@@ -2421,7 +2434,7 @@ Trait2 Magic
 		SetXValue TargetCount
 		MillOpponentBottom X
 	}
-	Text Auto: When you use this card's <b>"Backup"</b>, put X cards from the bottom of your opponent's deck into their waiting room. X is equal to the number of <Adventurer> or <Magic> characters you have.
+	Text Auto: When you use this card's "Backup", put X cards from the bottom of your opponent's deck into their waiting room. X is equal to the number of <Adventurer> or <Magic> characters you have.
 	
 	Backup 2000
 	
@@ -2498,10 +2511,10 @@ Trait2 Magic
 					GainSpecialEffect CannotUseEvents
 				}
 			}
-			Text Cont: During this card's battle, you cannot use events or <b>"Backup"</b>.
+			Text Cont: During this card's battle, you cannot use events or "Backup".
 		}
 	}
-	Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose up to 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: During this card's battle, you cannot play events or <b>"Backup"</b> from your hand."
+	Text Auto: When this card is placed on the stage from your hand, draw up to 1 card, choose up to 1 of your opponent's characters, it gets the following ability until end of turn. "Cont: During this card's battle, you cannot play events or "Backup" from your hand."
 	
 	Auto: OnPlay
 	{
@@ -2752,7 +2765,7 @@ Trait2 Magic
 	}
 	Quick
 	ActivationRequirement Compare MyLevel 1 OrHigher
-	Text Act: <b>Backup</b> 1500, Level 1 [Reveal this card in your hand & Put this card at the bottom of your deck]
+	Text Act: Backup 1500, Level 1 [Reveal this card in your hand & Put this card at the bottom of your deck]
 	Backup 1500
 	
 EndCard
@@ -2907,7 +2920,7 @@ Trait2 Magic
 			GainSpecialEffect OpponentCannotUseEvents
 		}
 	}
-	Text Cont: During this card's battle, all players cannot play events and <b>"Backup"</b> from their hands.
+	Text Cont: During this card's battle, all players cannot play events and "Backup" from their hands.
 	
 	*GainPowerWhenAttackingLevel3(6000)
 	
@@ -2999,7 +3012,7 @@ Cost 4
 	{
 		Burn 3
 	}
-	Text: Deal 3 damage to your opponent. <i>(Damage may be canceled)</i>
+	Text: Deal 3 damage to your opponent.
 	
 EndCard
 
@@ -3058,7 +3071,7 @@ Trait2 Magic
 			}
 		}
 	}
-	Text Act: <b>Memory</b> [Put this card into the waiting room] If you are level 3 or higher, and you have "Blue Moon Grass, Himmel" in your memory, choose up to 1 "Frieren the Slayer" in your hand and place it in the stage position this card was on, and that gets the following abilities until the end of your opponent's next turn. "Cont: This card cannot be chosen by your opponent's effects."
+	Text Act: MEMORY [Put this card into the waiting room] If you are level 3 or higher, and you have "Blue Moon Grass, Himmel" in your memory, choose up to 1 "Frieren the Slayer" in your hand and place it in the stage position this card was on, and that gets the following abilities until the end of your opponent's next turn. "Cont: This card cannot be chosen by your opponent's effects."
 	
 EndCard
 
@@ -3114,7 +3127,7 @@ Combo Our Adventure
 			*Check4Add1(Adventurer|Magic)
 		}
 	}
-	Text Auto: <b>CxCombo</b> When this card attacks, if <b>"Our Adventure"</b> is in your climax area, and you have another <Adventurer> or <Magic> character，look at up to 4 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character to add to your hand, and put the rest into the waiting room.
+	Text Auto: CxCombo When this card attacks, if "Our Adventure" is in your climax area, and you have another <Adventurer> or <Magic> character，look at up to 4 cards from the top of your deck, choose up to 1 <Adventurer> or <Magic> character to add to your hand, and put the rest into the waiting room.
 	
 EndCard
 
@@ -3364,7 +3377,7 @@ Combo The Promised Blue Moon Grass
 			}
 		}
 	}			
-	Text Auto: <b>CxCombo</b> [Put 2 cards from your hand into your waiting room] When this card attacks, if <b>"The Promised Blue Moon Grass"</b> is in your climax area, and you have 2 or more <Adventurer> or <Magic> characters, you may pay the cost. If you do, deal 4 damage to your opponent, choose 1 of your <Adventurer> or <Magic> characters and that character gains +2000 power until end of turn. <i>(Damage may be canceled)</i>
+	Text Auto: CxCombo [Put 2 cards from your hand into your waiting room] When this card attacks, if "The Promised Blue Moon Grass" is in your climax area, and you have 2 or more <Adventurer> or <Magic> characters, you may pay the cost. If you do, deal 4 damage to your opponent, choose 1 of your <Adventurer> or <Magic> characters and that character gains +2000 power until end of turn.
 EndCard
 
 Character: SFN/S108-T18
@@ -3395,7 +3408,7 @@ Trait2 Magic
 			}
 		}
 	}
-	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent." <i>(Damage may be canceled)</i>
+	Text Auto: [(1) Put 1 card from your hand into your waiting room] When this card attacks, you may pay the cost, this card gets +2000 power and the following ability until end of turn. "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent."
 	
 EndCard
 
